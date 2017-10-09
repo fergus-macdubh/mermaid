@@ -7,6 +7,10 @@ import javax.persistence.*;
 @Data
 @Entity
 public class StorageAction {
+
+    public enum Type {
+        PURCHASE, EXTRACT
+    }
     @Id
     @GeneratedValue(generator="optimized-sequence")
     private Long id;
@@ -25,7 +29,11 @@ public class StorageAction {
 
     private String manager;
 
-    public enum Type {
-        PURCHASE, EXTRACT
+    public StorageAction(int quantity, double price, Type type, Item item, String manager) {
+        this.quantity = quantity;
+        this.price = price;
+        this.type = type;
+        this.item = item;
+        this.manager = manager;
     }
 }

@@ -12,7 +12,6 @@ public class Item {
     @GeneratedValue(generator="optimized-sequence")
     private Long id;
     private int quantity;
-    private Double price;
     private String name;
 
     @Enumerated(EnumType.STRING)

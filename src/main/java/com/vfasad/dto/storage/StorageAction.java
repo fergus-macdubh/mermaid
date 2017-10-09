@@ -8,11 +8,13 @@ import javax.persistence.*;
 @Entity
 public class StorageAction {
     @Id
-    @GeneratedValue
+    @GeneratedValue(generator="optimized-sequence")
     private Long id;
 
     private int quantity;
     private double price;
+
+    @Enumerated(EnumType.STRING)
     private Type type;
 
     @ManyToOne
@@ -20,6 +22,8 @@ public class StorageAction {
 
 //    @OneToMany
 //    private Order order;
+
+    private String manager;
 
     public enum Type {
         PURCHASE, EXTRACT

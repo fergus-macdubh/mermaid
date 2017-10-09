@@ -9,11 +9,13 @@ import javax.persistence.*;
 @Entity(name = "item")
 public class Item {
     @Id
-    @GeneratedValue
+    @GeneratedValue(generator="optimized-sequence")
     private Long id;
     private int quantity;
     private Double price;
     private String name;
+
+    @Enumerated(EnumType.STRING)
     private Unit unit;
     private String producer;
     private String supplier;

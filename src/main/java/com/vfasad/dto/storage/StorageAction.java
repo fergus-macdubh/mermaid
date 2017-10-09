@@ -1,15 +1,17 @@
 package com.vfasad.dto.storage;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
 @Data
 @Entity
+@NoArgsConstructor
 public class StorageAction {
 
     public enum Type {
-        PURCHASE, EXTRACT
+        PURCHASE, SPEND, INVENTORYING
     }
     @Id
     @GeneratedValue(generator="optimized-sequence")

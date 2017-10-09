@@ -1,7 +1,7 @@
 <#include "header.ftl">
 <h1>Закупка товара</h1>
 
-<form method="post" action="/storage/item">
+<form method="post" action="/storage/item/purchase">
     <table class="responsive-table" style="width: 20em">
         <tr>
             <th>Товар</th>

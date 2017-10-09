@@ -9,12 +9,12 @@
         <td>Количество</td>
     </tr>
     </thead>
-    <#list items as item>
-        <tr>
-            <td>${item.id}</td>
-            <td><a href="/storage/item/${item.id}/action">${item.name}</a></td>
-            <td>${item.quantity} ${item.unit.abbr}</td>
-        </tr>
-    </#list>
+<#list items as item>
+    <tr>
+        <td>${item.id}</td>
+        <td><a href="/storage/item/${item.id?c}/action">${item.name}</a></td>
+        <td>${item.quantity} ${item.unit.abbr}</td>
+    </tr>
+</#list>
 </table>
 <#include "footer.ftl">

@@ -9,7 +9,7 @@
     <script src="/js/jquery-3.2.1.min.js"></script>
 </head>
 <body>
-<header>
+<header class="container-fluid">
     <img id="logo" src="/img/mermaid.png"/>
     | <a href="/storage">Склад</a>
     | <a href="/storage/product/purchase">Пополнить склад</a>
@@ -17,5 +17,7 @@
     | <a href="/product/add">Новый товар</a>
     | <a href="/order">Заказы</a>
     | <a href="/order/add">Новый заказ</a>
+    | <a href="/kanban">KANBAN</a>
     |
 </header>
+<div class="container-fluid">

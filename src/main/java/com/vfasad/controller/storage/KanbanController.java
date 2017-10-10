@@ -4,7 +4,6 @@ import com.vfasad.dto.Order;
 import com.vfasad.repo.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -27,49 +26,12 @@ public class KanbanController {
     @RequestMapping(value = "/kanban", method = RequestMethod.POST)
     public String moveOrder(@RequestParam Long orderId) {
         Order order = orderRepository.findOne(orderId);
-        order.setStatus(Order.Status.IN_PROGRESS);
+        if (order.getStatus() == Order.Status.IN_PROGRESS) {
+            order.setStatus(Order.Status.COMPLETED);
+        } else if (order.getStatus() == Order.Status.CREATED) {
+            order.setStatus(Order.Status.IN_PROGRESS);
+        }
         orderRepository.save(order);
         return "redirect:/kanban";
     }
-
-//    @RequestMapping(value = "/order/add", method = RequestMethod.GET)
-//    public ModelAndView addProductForm() {
-//        ModelAndView model = new ModelAndView("order/order-form");
-//        model.addObject("orders", orderRepository.findAll());
-//        return model;
-//    }
-
-//    @RequestMapping(value = "/order/add", method = RequestMethod.POST)
-//    public String addProduct(
-//            @RequestParam int area,
-//            @RequestParam String client,
-//            @RequestParam double price) {
-//        orderRepository.save(new Order(
-//                null, // todo: get this from credentials
-//                area,
-//                client,
-//                price));
-//        return "redirect:/order";
-//    }
-//
-//    @RequestMapping(value = "/order/{id}/edit", method = RequestMethod.GET)
-//    public ModelAndView editProductForm(@PathVariable Long id) {
-//        ModelAndView model = new ModelAndView("order/order-form");
-//        model.addObject("order", orderRepository.findOne(id));
-//        return model;
-//    }
-//
-//    @RequestMapping(value = "/order/{id}/edit", method = RequestMethod.POST)
-//    public String updateProduct(
-//            @PathVariable Long id,
-//            @RequestParam int area,
-//            @RequestParam String client,
-//            @RequestParam double price) {
-//        Order order = orderRepository.findOne(id);
-//        order.setArea(area);
-//        order.setClient(client);
-//        order.setPrice(price);
-//        orderRepository.save(order);
-//        return "redirect:/order";
-//    }
 }

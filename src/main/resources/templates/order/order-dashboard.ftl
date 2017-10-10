@@ -14,10 +14,10 @@
     </thead>
 <#list orders as order>
     <tr>
-        <td>${order.id}</td>
+        <td><a href="/order/${order.id?c}/edit">${order.id}</a></td>
         <td>${order.status}</td>
         <td>${order.manager!}</td>
-        <td><a href="/order/${order.id?c}/edit">${order.area}</a></td>
+        <td>${order.area}</td>
         <td>${order.client!}</td>
         <td>${order.price}</td>
     </tr>

@@ -1,8 +1,8 @@
 <#include "../header.ftl">
 <#if order??>
-<h1>Новый заказ</h1>
-<#else>
 <h1>Изменение заказа</h1>
+<#else>
+<h1>Новый заказ</h1>
 </#if>
 
 <form method="post">

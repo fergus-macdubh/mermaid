@@ -1,0 +1,36 @@
+.kanban-column {
+    float: left;
+    width: 100%;
+    margin: 0 .2em;
+    padding: .5em;
+    background-color: aliceblue;
+}
+
+.kanban-column-head {
+    font-weight: bold;
+    font-size: 2em;
+}
+
+.kanban-order {
+    border: solid #5e5d52 1px;
+    background-color: beige;
+    padding: 1em;
+    margin: .5em 0;
+}
+
+.kanban-order-id {
+    color: darkblue;
+}
+
+.kanban-order-client {
+}
+
+.kanban-order-manager {
+}
+
+.kanban-selected-order {
+    border: solid black 1px;
+    background-color: #e8e8e8;
+    padding: 1em;
+    margin: .5em 0;
+}

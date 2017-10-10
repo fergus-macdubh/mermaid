@@ -1,10 +1,9 @@
 package com.vfasad.controller.storage;
 
-import com.vfasad.dto.dictionary.Unit;
-import com.vfasad.dto.storage.Item;
-import com.vfasad.dto.storage.StorageAction;
-import com.vfasad.repo.ItemRepository;
-import com.vfasad.repo.StorageActionRepository;
+import com.vfasad.dto.Product;
+import com.vfasad.dto.ProductAction;
+import com.vfasad.repo.ProductActionRepository;
+import com.vfasad.repo.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,77 +15,49 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class StorageController {
     @Autowired
-    private ItemRepository itemRepository;
+    private ProductRepository productRepository;
 
     @Autowired
-    private StorageActionRepository storageActionRepository;
+    private ProductActionRepository productActionRepository;
 
     @RequestMapping(value = "/storage", method = RequestMethod.GET)
     public ModelAndView dashboard() {
-        ModelAndView model = new ModelAndView("storage-dashboard");
-        model.addObject("items", itemRepository.findAll());
+        ModelAndView model = new ModelAndView("storage/storage-dashboard");
+        model.addObject("products", productRepository.findAll());
         return model;
     }
 
-    @RequestMapping(value = "/storage/item/{id}/action", method = RequestMethod.GET)
-    public ModelAndView itemActions(@PathVariable Long id) {
-        ModelAndView model = new ModelAndView("item-actions");
-        model.addObject("actions", storageActionRepository.findByItemId(id));
+    @RequestMapping(value = "/storage/product/{id}/action", method = RequestMethod.GET)
+    public ModelAndView productActions(@PathVariable Long id) {
+        ModelAndView model = new ModelAndView("storage/product-actions");
+        model.addObject("actions", productActionRepository.findByproductId(id));
         return model;
     }
 
-    @RequestMapping(value = "/storage/item/purchase", method = RequestMethod.GET)
-    public ModelAndView purchaseItemForm() {
-        ModelAndView model = new ModelAndView("purchase-item-form");
-        model.addObject("items", itemRepository.findAll());
+    @RequestMapping(value = "/storage/product/purchase", method = RequestMethod.GET)
+    public ModelAndView purchaseproductForm() {
+        ModelAndView model = new ModelAndView("storage/purchase-product-form");
+        model.addObject("products", productRepository.findAll());
         return model;
     }
 
-    @RequestMapping(value = "/storage/item/purchase", method = RequestMethod.POST)
-    public String purchaseItem(
-            @RequestParam Long itemId,
+    @RequestMapping(value = "/storage/product/purchase", method = RequestMethod.POST)
+    public String purchaseproduct(
+            @RequestParam Long productId,
             @RequestParam int quantity,
             @RequestParam double price) {
-        Item item = itemRepository.findOne(itemId);
+        Product product = productRepository.findOne(productId);
 
-        storageActionRepository.save(new StorageAction(
+        productActionRepository.save(new ProductAction(
                 quantity,
                 price,
-                StorageAction.Type.PURCHASE,
-                item,
+                ProductAction.Type.PURCHASE,
+                product,
                 null // todo: fill this from credentials
         ));
 
-        item.setQuantity(item.getQuantity() + quantity);
-        itemRepository.save(item);
+        product.setQuantity(product.getQuantity() + quantity);
+        productRepository.save(product);
         return "redirect:/storage";
-    }
-
-    @RequestMapping(value = "/item")
-    public ModelAndView items() {
-        ModelAndView model = new ModelAndView("item-dashboard");
-        model.addObject("items", itemRepository.findAll());
-        return model;
-    }
-
-    @RequestMapping(value = "/storage/item/add", method = RequestMethod.GET)
-    public ModelAndView addItemForm() {
-        ModelAndView model = new ModelAndView("add-item-form");
-        model.addObject("items", itemRepository.findAll());
-        return model;
-    }
-
-    @RequestMapping(value = "/storage/item/add", method = RequestMethod.POST)
-    public String addItem(
-            @RequestParam String name,
-            @RequestParam String producer,
-            @RequestParam String supplier,
-            @RequestParam Unit unit) {
-        itemRepository.save(new Item(
-                name,
-                unit,
-                producer,
-                supplier));
-        return "redirect:/item";
     }
 }

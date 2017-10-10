@@ -1,4 +1,4 @@
-package com.vfasad.dto.storage;
+package com.vfasad.dto;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -8,7 +8,7 @@ import javax.persistence.*;
 @Data
 @Entity
 @NoArgsConstructor
-public class StorageAction {
+public class ProductAction {
 
     public enum Type {
         PURCHASE, SPEND, INVENTORYING
@@ -24,18 +24,18 @@ public class StorageAction {
     private Type type;
 
     @ManyToOne
-    private Item item;
+    private Product product;
 
 //    @OneToMany
 //    private Order order;
 
     private String manager;
 
-    public StorageAction(int quantity, double price, Type type, Item item, String manager) {
+    public ProductAction(int quantity, double price, Type type, Product product, String manager) {
         this.quantity = quantity;
         this.price = price;
         this.type = type;
-        this.item = item;
+        this.product = product;
         this.manager = manager;
     }
 }

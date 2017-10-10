@@ -1,14 +1,14 @@
-<#include "header.ftl">
+<#include "../header.ftl">
 <h1>Закупка товара</h1>
 
-<form method="post" action="/storage/item/purchase">
+<form method="post" action="/storage/product/purchase">
     <table class="responsive-table" style="width: 20em">
         <tr>
             <th>Товар</th>
             <td>
-                <select name="itemId">
-                <#list items as item>
-                    <option value="${item.id?c}">${item.name}</option>
+                <select name="productId">
+                <#list products as product>
+                    <option value="${product.id?c}">${product.name}</option>
                 </#list>
                 </select>
             </td>
@@ -32,4 +32,4 @@
         </tr>
     </table>
 </form>
-<#include "footer.ftl">
+<#include "../footer.ftl">

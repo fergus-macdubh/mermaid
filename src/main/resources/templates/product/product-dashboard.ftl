@@ -1,4 +1,4 @@
-<#include "header.ftl">
+<#include "../header.ftl">
 <h1>Товары</h1>
 
 <table class="responsive-table">
@@ -11,14 +11,14 @@
         <td>Единицы измерения</td>
     </tr>
     </thead>
-<#list items as item>
+<#list products as product>
     <tr>
-        <td>${item.id}</td>
-        <td><a href="/storage/item/${item.id?c}/edit">${item.name}</a></td>
-        <td>${item.producer!}</td>
-        <td>${item.supplier!}</td>
-        <td>${item.unit.abbr}</td>
+        <td>${product.id}</td>
+        <td><a href="/product/${product.id?c}/edit">${product.name}</a></td>
+        <td>${product.producer!}</td>
+        <td>${product.supplier!}</td>
+        <td>${product.unit.abbr}</td>
     </tr>
 </#list>
 </table>
-<#include "footer.ftl">
+<#include "../footer.ftl">

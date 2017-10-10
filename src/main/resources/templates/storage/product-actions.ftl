@@ -1,4 +1,4 @@
-<#include "header.ftl">
+<#include "../header.ftl">
 <h1>Действия по товару</h1>
 
 <table class="responsive-table">
@@ -21,4 +21,4 @@
     </tr>
 </#list>
 </table>
-<#include "footer.ftl">
+<#include "../footer.ftl">

@@ -1,4 +1,10 @@
 <#include "../header.ftl">
+<script type="application/javascript">
+    function addRow() {
+        $('#consumes-table')
+                .append($('#consumes-row-source').clone());
+    }
+</script>
 <#if order??>
 <h1>Изменение заказа</h1>
 <#else>
@@ -11,13 +17,13 @@
         <tr>
             <th>ID</th>
             <td>
-                ${(order.id)!}
+            ${(order.id)!}
             </td>
         </tr>
         <tr>
             <th>Статус</th>
             <td>
-                ${(order.status)!}
+            ${(order.status)!}
             </td>
         </tr>
     </#if>
@@ -39,11 +45,49 @@
                 <input name="price" value="${(order.price?c)!}"/>
             </td>
         </tr>
-        <tr>
-            <td colspan="2">
-                <input type="submit" value="Отправить"/>
+    </table>
+
+    <table id="consumes-table" class="responsive-table">
+        <thead>
+        <th>Расходный материал</th>
+        <th>Количество</th>
+        <th></th>
+        </thead>
+        <tr class="consume-form-row">
+            <td>
+                <select name="orderConsume">
+                <#list products as product>
+                    <option value="${product.id?c}">${product.name}</option>
+                </#list>
+                </select>
+            </td>
+            <td>
+                <input name="quantity"/>
+            </td>
+            <td>
+                <button class="btn btn-warning">Удалить</button>
             </td>
         </tr>
     </table>
+
+    <div class="btn btn-default" onclick="addRow()">Добавить расходный материал</div>
+
+    <input type="submit" value="Отправить" class="btn btn-info"/>
 </form>
+
+<tr class="consume-form-row" id="consumes-row-source">
+    <td>
+        <select name="orderConsume">
+        <#list products as product>
+            <option value="${product.id?c}">${product.name}</option>
+        </#list>
+        </select>
+    </td>
+    <td>
+        <input name="quantity"/>
+    </td>
+    <td>
+        <button class="btn btn-warning">Удалить</button>
+    </td>
+</tr>
 <#include "../footer.ftl">

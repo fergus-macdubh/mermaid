@@ -4,8 +4,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.time.Instant;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @Entity(name = "paint_order")
@@ -19,6 +19,10 @@ public class Order {
     private String client;
     private double price;
     private LocalDateTime created = LocalDateTime.now();
+
+    @OneToMany
+    @JoinColumn(name = "order_fk")
+    private List<OrderConsume> consumes;
 
     @Enumerated(EnumType.STRING)
     private Status status = Status.CREATED;

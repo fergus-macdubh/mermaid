@@ -1,7 +1,6 @@
-package com.vfasad.controller.storage;
+package com.vfasad.controller;
 
 import com.vfasad.dto.Order;
-import com.vfasad.dto.Product;
 import com.vfasad.repo.OrderRepository;
 import com.vfasad.repo.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +16,9 @@ public class OrderController {
     @Autowired
     private OrderRepository orderRepository;
 
+    @Autowired
+    private ProductRepository productRepository;
+
     @RequestMapping(value = "/order", method = RequestMethod.GET)
     public ModelAndView products() {
         ModelAndView model = new ModelAndView("order/order-dashboard");
@@ -28,6 +30,7 @@ public class OrderController {
     public ModelAndView addProductForm() {
         ModelAndView model = new ModelAndView("order/order-form");
         model.addObject("orders", orderRepository.findAll());
+        model.addObject("products", productRepository.findAll());
         return model;
     }
 

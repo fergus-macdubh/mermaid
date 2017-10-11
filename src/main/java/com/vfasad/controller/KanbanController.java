@@ -1,4 +1,4 @@
-package com.vfasad.controller.storage;
+package com.vfasad.controller;
 
 import com.vfasad.dto.Order;
 import com.vfasad.repo.OrderRepository;

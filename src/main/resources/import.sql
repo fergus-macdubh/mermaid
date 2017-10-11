@@ -9,3 +9,11 @@ INSERT INTO paint_order (id, area, client, created, manager, price, status) VALU
 INSERT INTO paint_order (id, area, client, created, manager, price, status) VALUES (nextval('paint_order_seq'), 50, 'Коля клиент', CURRENT_TIMESTAMP, 'Васильев', 100500, 'IN_PROGRESS');
 INSERT INTO paint_order (id, area, client, created, manager, price, status) VALUES (nextval('paint_order_seq'), 50, 'Петя клиент', CURRENT_TIMESTAMP, 'Хомяков', 100500, 'CREATED');
 INSERT INTO paint_order (id, area, client, created, manager, price, status) VALUES (nextval('paint_order_seq'), 50, 'Вася клиент', CURRENT_TIMESTAMP, 'Петренко', 100500, 'COMPLETED');
+
+INSERT INTO paint_order_consume (id, actual_used_quantity, calculated_quantity, product_id, order_fk) VALUES (nextval('paint_order_consume_seq'), 0, 12, 1, 1);
+INSERT INTO paint_order_consume (id, actual_used_quantity, calculated_quantity, product_id, order_fk) VALUES (nextval('paint_order_consume_seq'), 0, 2, 2, 1);
+INSERT INTO paint_order_consume (id, actual_used_quantity, calculated_quantity, product_id, order_fk) VALUES (nextval('paint_order_consume_seq'), 0, 122, 1, 2);
+INSERT INTO paint_order_consume (id, actual_used_quantity, calculated_quantity, product_id, order_fk) VALUES (nextval('paint_order_consume_seq'), 0, 2, 1, 3);
+INSERT INTO paint_order_consume (id, actual_used_quantity, calculated_quantity, product_id, order_fk) VALUES (nextval('paint_order_consume_seq'), 0, 32, 1, 4);
+INSERT INTO paint_order_consume (id, actual_used_quantity, calculated_quantity, product_id, order_fk) VALUES (nextval('paint_order_consume_seq'), 0, 5, 1, 5);
+INSERT INTO paint_order_consume (id, actual_used_quantity, calculated_quantity, product_id, order_fk) VALUES (nextval('paint_order_consume_seq'), 0, 15, 2, 5);

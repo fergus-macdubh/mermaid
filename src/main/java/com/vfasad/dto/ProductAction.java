@@ -11,7 +11,7 @@ import javax.persistence.*;
 public class ProductAction {
 
     public enum Type {
-        PURCHASE, SPEND, INVENTORYING
+        PURCHASE, SPEND, INVENTORYING, RETURN
     }
     @Id
     @GeneratedValue(generator="optimized-sequence")

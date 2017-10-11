@@ -2,7 +2,11 @@ package com.vfasad.controller;
 
 import com.google.gson.Gson;
 import com.vfasad.dto.Order;
+import com.vfasad.dto.Product;
+import com.vfasad.dto.ProductAction;
 import com.vfasad.repo.OrderRepository;
+import com.vfasad.repo.ProductActionRepository;
+import com.vfasad.repo.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,6 +22,10 @@ import static java.util.stream.Collectors.toMap;
 public class KanbanController {
     @Autowired
     private OrderRepository orderRepository;
+    @Autowired
+    private ProductRepository productRepository;
+    @Autowired
+    private ProductActionRepository productActionRepository;
 
     @Autowired
     private Gson gson;
@@ -33,11 +41,30 @@ public class KanbanController {
     }
 
     @RequestMapping(value = "/kanban", method = RequestMethod.POST)
-    public String moveOrder(@RequestParam Long orderId) {
+    public String moveOrder(
+            @RequestParam Long orderId,
+            @RequestParam(required = false) long[] productIds,
+            @RequestParam(required = false) int[] remains) {
         Order order = orderRepository.findOne(orderId);
         if (order.getStatus() == Order.Status.IN_PROGRESS) {
+            for (int i = 0; i < productIds.length; i++) {
+                Product product = productRepository.findOne(productIds[i]);
+                productActionRepository.save(new ProductAction(
+                        remains[i],
+                        0,
+                        ProductAction.Type.RETURN,
+                        product,
+                        null // todo: fill from creds
+                ));
+                product.setQuantity(product.getQuantity() + remains[i]);
+                productRepository.save(product);
+            }
             order.setStatus(Order.Status.COMPLETED);
         } else if (order.getStatus() == Order.Status.CREATED) {
+            order.getConsumes().forEach(c -> {
+                c.getProduct().setQuantity(c.getProduct().getQuantity() - c.getCalculatedQuantity());
+                productRepository.save(c.getProduct());
+            });
             order.setStatus(Order.Status.IN_PROGRESS);
         }
         orderRepository.save(order);

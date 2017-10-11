@@ -1,5 +1,6 @@
 package com.vfasad.controller;
 
+import com.google.gson.Gson;
 import com.vfasad.dto.Order;
 import com.vfasad.repo.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,10 +10,17 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.function.Function;
+
+import static java.util.stream.Collectors.toMap;
+
 @Controller
 public class KanbanController {
     @Autowired
     private OrderRepository orderRepository;
+
+    @Autowired
+    private Gson gson;
 
     @RequestMapping(value = "/kanban", method = RequestMethod.GET)
     public ModelAndView kanbanBoard() {
@@ -20,6 +28,7 @@ public class KanbanController {
         model.addObject("createdOrders", orderRepository.findByStatus(Order.Status.CREATED));
         model.addObject("inProgressOrders", orderRepository.findByStatus(Order.Status.IN_PROGRESS));
         model.addObject("completedOrders", orderRepository.findByStatus(Order.Status.COMPLETED));
+        model.addObject("ordersJson", gson.toJson(orderRepository.findAll().stream().collect(toMap(Order::getId, Function.identity()))));
         return model;
     }
 

@@ -1,8 +1,18 @@
 <#include "../header.ftl">
 <script type="application/javascript">
+    <#if order??>
+    var consumesCount = ${order.consumes?size + 1};
+    <#else>
+    var consumesCount = 1;
+    </#if>
     function addRow() {
         $('#consumes-table')
-                .append($('#consumes-row-source').clone());
+                .append('<tr class="consume-form-row" id="consumes-row' + consumesCount + '"><td><select name="productIds"><#list products as product><option value="${product.id?c}">${product.name}</option></#list>    </select>    </td>    <td>    <input name="quantities"/>                </td>                <td>                <div class="btn btn-warning" onclick="removeConsumesRow(' + consumesCount + ')">Удалить</div> </td> </tr>');
+        consumesCount++;
+    }
+
+    function removeConsumesRow(i) {
+        $('#consumes-row' + i).remove();
     }
 </script>
 <#if order??>
@@ -12,7 +22,7 @@
 </#if>
 
 <form method="post">
-    <table class="responsive-table" style="width: 20em">
+    <table class="responsive-table" style="width:20em">
     <#if order??>
         <tr>
             <th>ID</th>
@@ -47,47 +57,57 @@
         </tr>
     </table>
 
-    <table id="consumes-table" class="responsive-table">
-        <thead>
-        <th>Расходный материал</th>
-        <th>Количество</th>
-        <th></th>
-        </thead>
-        <tr class="consume-form-row">
+<#if order?? >
+<table id="consumes-table" class="responsive-table" style="width: 20em">
+    <thead>
+    <th>Расходный материал</th>
+    <th>Количество</th>
+    <th></th>
+    </thead>
+    <#list order.consumes as consume>
+        <tr class="consume-form-row" id="consumes-row${consume?index}">
             <td>
-                <select name="orderConsume">
-                <#list products as product>
-                    <option value="${product.id?c}">${product.name}</option>
-                </#list>
+                <select name="productIds">
+                    <#list products as product>
+                            <option value="${product.id?c}"
+                                    <#if consume.product.id == product.id>selected</#if>>${product.name}</option>
+                    </#list>
                 </select>
             </td>
             <td>
-                <input name="quantity"/>
+                <input name="quantities" value="${consume.calculatedQuantity?c}"/>
             </td>
             <td>
-                <button class="btn btn-warning">Удалить</button>
+                <#if consume?index == 0>
+                    <div class="btn" style="opacity: 0">Удалить</div>
+                <#else>
+                    <div class="btn btn-warning" onclick="removeConsumesRow(${consume?index})">Удалить</div>
+                </#if>
+
             </td>
         </tr>
-    </table>
+    </#list>
+<#else>
+    <tr class="consume-form-row">
+        <td>
+            <select name="productIds">
+                <#list products as product>
+                    <option value="${product.id?c}">${product.name}</option>
+                </#list>
+            </select>
+        </td>
+        <td>
+            <input name="quantities"/>
+        </td>
+        <td>
+            <div class="btn" style="opacity: 0">Удалить</div>
+        </td>
+    </tr>
+</#if>
+</table>
 
     <div class="btn btn-default" onclick="addRow()">Добавить расходный материал</div>
 
     <input type="submit" value="Отправить" class="btn btn-info"/>
 </form>
-
-<tr class="consume-form-row" id="consumes-row-source">
-    <td>
-        <select name="orderConsume">
-        <#list products as product>
-            <option value="${product.id?c}">${product.name}</option>
-        </#list>
-        </select>
-    </td>
-    <td>
-        <input name="quantity"/>
-    </td>
-    <td>
-        <button class="btn btn-warning">Удалить</button>
-    </td>
-</tr>
 <#include "../footer.ftl">

@@ -20,7 +20,7 @@ public class Order {
     private double price;
     private LocalDateTime created = LocalDateTime.now();
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "order_fk")
     private List<OrderConsume> consumes;
 
@@ -31,10 +31,11 @@ public class Order {
         CREATED, IN_PROGRESS, COMPLETED
     }
 
-    public Order(String manager, int area, String client, double price) {
+    public Order(String manager, int area, String client, double price, List<OrderConsume> consumes) {
         this.manager = manager;
         this.area = area;
         this.client = client;
         this.price = price;
+        this.consumes = consumes;
     }
 }

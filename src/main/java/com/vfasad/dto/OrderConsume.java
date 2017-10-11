@@ -19,4 +19,9 @@ public class OrderConsume {
     private Product product;
     private int calculatedQuantity;
     private int actualUsedQuantity;
+
+    public OrderConsume(Product product, int calculatedQuantity) {
+        this.product = product;
+        this.calculatedQuantity = calculatedQuantity;
+    }
 }

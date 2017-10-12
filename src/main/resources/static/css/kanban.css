@@ -34,6 +34,10 @@
     float: right;
 }
 
+.kanban-order-manager {
+    font-style: italic;
+}
+
 .kanban-order-consumes {
     overflow: hidden;
     clear: both;
@@ -44,4 +48,10 @@
     background-color: #e8e8e8;
     padding: 1em;
     margin: .5em 0;
+}
+
+.warning-icon {
+    width: 20px;
+    float: left;
+    margin-right: 2px;
 }

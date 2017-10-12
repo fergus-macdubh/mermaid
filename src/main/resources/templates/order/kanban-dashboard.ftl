@@ -139,7 +139,10 @@
                 <div class="alert alert-warning"><strong>Расходные материалы будут списаны со склада!</strong></div>
                 <form method="post">
                     <input id="modal-inProgress-order-id-input" type="hidden" name="orderId"/>
-                    <input type="submit" class="btn btn-info" value="В работу">
+                    <div class="modal-footer">
+                        <input type="submit" class="btn btn-info" value="В работу">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Отмена</button>
+                    </div>
                 </form>
             </div>
         </div>
@@ -177,7 +180,10 @@
                     </table>
                     <div class="alert alert-warning"><strong>Остатки материалов будут возвращены на склад</strong></div>
                     <input id="modal-completed-order-id-input" type="hidden" name="orderId"/>
-                    <input type="submit" class="btn btn-info" value="Готово">
+                    <div class="modal-footer">
+                        <input type="submit" class="btn btn-info" value="Готово">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Отмена</button>
+                    </div>
                 </form>
             </div>
         </div>

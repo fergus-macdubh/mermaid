@@ -57,54 +57,54 @@
         </tr>
     </table>
 
-<#if order?? >
-<table id="consumes-table" class="responsive-table" style="width: 20em">
-    <thead>
-    <th>Расходный материал</th>
-    <th>Количество</th>
-    <th></th>
-    </thead>
-    <#list order.consumes as consume>
-        <tr class="consume-form-row" id="consumes-row${consume?index}">
+    <table id="consumes-table" class="responsive-table" style="width: 20em">
+        <thead>
+        <th>Расходный материал</th>
+        <th>Количество</th>
+        <th></th>
+        </thead>
+    <#if order?? >
+        <#list order.consumes as consume>
+            <tr class="consume-form-row" id="consumes-row${consume?index}">
+                <td>
+                    <select name="productIds">
+                        <#list products as product>
+                            <option value="${product.id?c}"
+                                    <#if consume.product.id == product.id>selected</#if>>${product.name}</option>
+                        </#list>
+                    </select>
+                </td>
+                <td>
+                    <input name="quantities" value="${consume.calculatedQuantity?c}"/>
+                </td>
+                <td>
+                    <#if consume?index == 0>
+                        <div class="btn" style="opacity: 0">Удалить</div>
+                    <#else>
+                        <div class="btn btn-warning" onclick="removeConsumesRow(${consume?index})">Удалить</div>
+                    </#if>
+
+                </td>
+            </tr>
+        </#list>
+    <#else>
+        <tr class="consume-form-row">
             <td>
                 <select name="productIds">
                     <#list products as product>
-                            <option value="${product.id?c}"
-                                    <#if consume.product.id == product.id>selected</#if>>${product.name}</option>
+                        <option value="${product.id?c}">${product.name}</option>
                     </#list>
                 </select>
             </td>
             <td>
-                <input name="quantities" value="${consume.calculatedQuantity?c}"/>
+                <input name="quantities"/>
             </td>
             <td>
-                <#if consume?index == 0>
-                    <div class="btn" style="opacity: 0">Удалить</div>
-                <#else>
-                    <div class="btn btn-warning" onclick="removeConsumesRow(${consume?index})">Удалить</div>
-                </#if>
-
+                <div class="btn" style="opacity: 0">Удалить</div>
             </td>
         </tr>
-    </#list>
-<#else>
-    <tr class="consume-form-row">
-        <td>
-            <select name="productIds">
-                <#list products as product>
-                    <option value="${product.id?c}">${product.name}</option>
-                </#list>
-            </select>
-        </td>
-        <td>
-            <input name="quantities"/>
-        </td>
-        <td>
-            <div class="btn" style="opacity: 0">Удалить</div>
-        </td>
-    </tr>
-</#if>
-</table>
+    </#if>
+    </table>
 
     <div class="btn btn-default" onclick="addRow()">Добавить расходный материал</div>
 

@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.math.BigInteger;
+import java.util.List;
 import java.util.function.Function;
 
 import static java.util.stream.Collectors.toMap;
@@ -34,10 +36,17 @@ public class KanbanController {
     @RequestMapping(value = "/kanban", method = RequestMethod.GET)
     public ModelAndView kanbanBoard() {
         ModelAndView model = new ModelAndView("order/kanban-dashboard");
-        model.addObject("createdOrders", orderRepository.findByStatus(Order.Status.CREATED));
-        model.addObject("inProgressOrders", orderRepository.findByStatus(Order.Status.IN_PROGRESS));
-        model.addObject("shippingOrders", orderRepository.findByStatus(Order.Status.SHIPPING));
-        model.addObject("ordersJson", gson.toJson(orderRepository.findAll().stream().collect(toMap(Order::getId, Function.identity()))));
+        List<Order> createdOrders =  orderRepository.findByStatusIn(Order.Status.CREATED);
+        List<BigInteger> blockedIds = orderRepository.findBlockedOrdersIds();
+        createdOrders.forEach(o -> {
+            if (blockedIds.contains(new BigInteger(String.valueOf(o.getId())))) o.setStatus(Order.Status.BLOCKED);
+        });
+        model.addObject("createdOrders",createdOrders);
+        model.addObject("inProgressOrders", orderRepository.findByStatusIn(Order.Status.IN_PROGRESS));
+        model.addObject("shippingOrders", orderRepository.findByStatusIn(Order.Status.SHIPPING));
+        model.addObject("ordersJson", gson.toJson(
+                orderRepository.findByStatusIn(Order.Status.CREATED, Order.Status.IN_PROGRESS, Order.Status.SHIPPING).stream()
+                        .collect(toMap(Order::getId, Function.identity()))));
         return model;
     }
 

@@ -17,6 +17,13 @@
     margin: .5em 0;
 }
 
+.kanban-order-blocked {
+    border: solid darkred 1px;
+    background-color: #ebccd1;
+    padding: 1em;
+    margin: .5em 0;
+}
+
 .kanban-order-id {
     color: darkblue;
     float: left;

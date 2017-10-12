@@ -16,7 +16,7 @@
     <tr>
         <td>${action.id}</td>
         <td>${action.price} грн</a></td>
-        <td>${action.quantity}</td>
+        <td>${action.quantity} ${action.product.unit.abbr}</td>
         <td>${action.price / action.quantity} грн / ${action.product.unit.abbr}</a></td>
         <td>${action.type}</td>
         <td>${action.manager!}</td>

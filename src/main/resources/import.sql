@@ -1,5 +1,8 @@
 INSERT INTO product (id, name, producer, quantity, supplier, price, unit) VALUES (nextval('product_seq'), 'Pulver 7024 mat', 'Pulver', 20, null, 26, 'KILOGRAM');
 INSERT INTO product (id, name, producer, quantity, supplier, price, unit) VALUES (nextval('product_seq'), 'Pulver 2012 mat', 'Pulver', 150, null, 30, 'KILOGRAM');
+INSERT INTO product (id, name, producer, quantity, supplier, price, unit) VALUES (nextval('product_seq'), 'Pulver 1002 mat', 'Pulver', 0, null, 0, 'KILOGRAM');
+INSERT INTO product (id, name, producer, quantity, supplier, price, unit) VALUES (nextval('product_seq'), 'Shmulver 5145 mat', 'Shmulver', 0, null, 0, 'KILOGRAM');
+INSERT INTO product (id, name, producer, quantity, supplier, price, unit) VALUES (nextval('product_seq'), 'Shmulver 1012 mat', 'Shmulver', 0, null, 0, 'KILOGRAM');
 
 INSERT INTO product_action (id, price, quantity, type, product_id, manager, created) VALUES (nextval('product_action_seq'), 540, 20, 'PURCHASE', 1, 'Петренко', current_timestamp);
 INSERT INTO product_action (id, price, quantity, type, product_id, manager, created) VALUES (nextval('product_action_seq'), 260, 10, 'PURCHASE', 1, 'Петренко',current_timestamp);

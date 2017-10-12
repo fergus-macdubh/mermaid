@@ -1,4 +1,4 @@
-package com.vfasad.dto;
+package com.vfasad.entity;
 
 import lombok.Data;
 import lombok.Getter;
@@ -20,6 +20,7 @@ public class Product {
     private Unit unit;
     private String producer;
     private String supplier;
+    private double price;
 
     public Product(String name, Unit unit, String producer, String supplier) {
         this.name = name;

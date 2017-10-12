@@ -1,4 +1,4 @@
-package com.vfasad.dto;
+package com.vfasad.entity;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -28,7 +28,7 @@ public class Order {
     private Status status = Status.CREATED;
 
     public enum Status {
-        CREATED, IN_PROGRESS, COMPLETED, CLOSED
+        CREATED, IN_PROGRESS, SHIPPING, CLOSED
     }
 
     public Order(String manager, int area, String client, double price, List<OrderConsume> consumes) {

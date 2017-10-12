@@ -7,6 +7,7 @@
         <td>ID</td>
         <td>Цена</td>
         <td>Количество</td>
+        <td>Цена за единицу</td>
         <td>Тип</td>
         <td>Менеджер</td>
     </tr>
@@ -14,8 +15,9 @@
 <#list actions as action>
     <tr>
         <td>${action.id}</td>
-        <td>${action.price}</a></td>
+        <td>${action.price} грн</a></td>
         <td>${action.quantity}</td>
+        <td>${action.price / action.quantity} грн / ${action.product.unit.abbr}</a></td>
         <td>${action.type}</td>
         <td>${action.manager!}</td>
     </tr>

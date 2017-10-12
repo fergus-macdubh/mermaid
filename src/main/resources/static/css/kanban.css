@@ -19,12 +19,17 @@
 
 .kanban-order-id {
     color: darkblue;
+    float: left;
 }
 
-.kanban-order-client {
+.kanban-order-area {
+    font-weight: bold;
+    float: right;
 }
 
-.kanban-order-manager {
+.kanban-order-consumes {
+    overflow: hidden;
+    clear: both;
 }
 
 .kanban-selected-order {

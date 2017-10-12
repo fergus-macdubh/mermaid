@@ -1,18 +1,23 @@
-package com.vfasad.dto;
+package com.vfasad.entity;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Data
 @Entity
 @NoArgsConstructor
+@Table(indexes = {
+        @Index(columnList = "type"),
+        @Index(columnList = "created")
+})
 public class ProductAction {
-
     public enum Type {
         PURCHASE, SPEND, INVENTORYING, RETURN
     }
+
     @Id
     @GeneratedValue(generator="optimized-sequence")
     private Long id;
@@ -30,6 +35,7 @@ public class ProductAction {
 //    private Order order;
 
     private String manager;
+    private LocalDateTime created = LocalDateTime.now();
 
     public ProductAction(int quantity, double price, Type type, Product product, String manager) {
         this.quantity = quantity;

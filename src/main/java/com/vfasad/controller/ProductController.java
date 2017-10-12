@@ -1,6 +1,6 @@
 package com.vfasad.controller;
 
-import com.vfasad.dto.Product;
+import com.vfasad.entity.Product;
 import com.vfasad.repo.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

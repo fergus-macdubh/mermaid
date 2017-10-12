@@ -19,7 +19,7 @@
                         .removeClass('disabled')
                         .attr('data-target', '#modal-inProgress');
                 break;
-            case 'COMPLETED':
+            case 'SHIPPING':
                 $('#moveSubmit')
                         .text('Закрыть')
                         .attr('data-target', '#modal-done')
@@ -28,7 +28,7 @@
             case 'IN_PROGRESS':
                 $('#moveSubmit')
                         .text('Готово')
-                        .attr('data-target', '#modal-completed')
+                        .attr('data-target', '#modal-shipping')
                         .removeClass('disabled');
         }
 
@@ -38,11 +38,11 @@
         $('.modal-order-id-input').attr('value', selectedOrderId);
         $('.modal-order-status').text(orders[selectedOrderId].status);
         $('#modal-inProgress-consumes-table > tr').remove();
-        $('#modal-completed-consumes-table > tr').remove();
+        $('#modal-shipping-consumes-table > tr').remove();
         $('#modal-done-consumes-table > tr').remove();
         for (i = 0; i < orders[selectedOrderId].consumes.length; i++) {
             $('#modal-inProgress-consumes-table').append('<tr><td>' + orders[selectedOrderId].consumes[i].product.name + '</td><td>' + orders[selectedOrderId].consumes[i].calculatedQuantity + ' ' + getUnitAbbr(orders[selectedOrderId].consumes[i].product.unit) + '</td><td></td></tr>');
-            $('#modal-completed-consumes-table').append('<tr><td>' + orders[selectedOrderId].consumes[i].product.name + ' (' + getUnitAbbr(orders[selectedOrderId].consumes[i].product.unit) + ')'
+            $('#modal-shipping-consumes-table').append('<tr><td>' + orders[selectedOrderId].consumes[i].product.name + ' (' + getUnitAbbr(orders[selectedOrderId].consumes[i].product.unit) + ')'
                     + '<input type="hidden" name="productIds" value="' + orders[selectedOrderId].consumes[i].product.id + '"></td><td><input name="actualQuantities" value="'+ orders[selectedOrderId].consumes[i].calculatedQuantity +'"></td><td></td></tr>');
             $('#modal-done-consumes-table').append('<tr><td>' + orders[selectedOrderId].consumes[i].product.name + '</td><td>' + orders[selectedOrderId].consumes[i].calculatedQuantity + ' ' + getUnitAbbr(orders[selectedOrderId].consumes[i].product.unit) + '</td><td>' + orders[selectedOrderId].consumes[i].actualUsedQuantity + ' ' + getUnitAbbr(orders[selectedOrderId].consumes[i].product.unit) + '</td></tr>');
         }
@@ -70,9 +70,10 @@
             <div class="kanban-column-head">Новые</div>
         <#list createdOrders as order>
             <div id="order_${order.id}" class="kanban-order" onclick="selectOrder(${order.id}, '${order.status}')">
-                <div class="kanban-order-id">${order.id}</div>
+                <div class="kanban-order-id">${order.id} &gt; ${order.client!}</div>
+                <div class="kanban-order-area">${order.area} м<sup>2</sup></div>
+                <div class="kanban-order-consumes">|<#list order.consumes as consume> ${consume.product.name!} |</#list></div>
                 <div class="kanban-order-manager">${order.manager!}</div>
-                <div class="kanban-order-client">${order.client!}</div>
             </div>
         </#list>
         </div>
@@ -82,9 +83,10 @@
             <div class="kanban-column-head">В работе</div>
         <#list inProgressOrders as order>
             <div id="order_${order.id}" class="kanban-order" onclick="selectOrder(${order.id}, '${order.status}')">
-                <div class="kanban-order-id">${order.id}</div>
+                <div class="kanban-order-id">${order.id} &gt; ${order.client!}</div>
+                <div class="kanban-order-area">${order.area} м<sup>2</sup></div>
+                <div class="kanban-order-consumes">|<#list order.consumes as consume> ${consume.product.name!} |</#list></div>
                 <div class="kanban-order-manager">${order.manager!}</div>
-                <div class="kanban-order-client">${order.client!}</div>
             </div>
         </#list>
         </div>
@@ -92,11 +94,12 @@
     <div class="col-sm-4">
         <div class="kanban-column">
             <div class="kanban-column-head">К отгрузке</div>
-        <#list completedOrders as order>
+        <#list shippingOrders as order>
             <div id="order_${order.id}" class="kanban-order" onclick="selectOrder(${order.id}, '${order.status}')">
-                <div class="kanban-order-id">${order.id}</div>
+                <div class="kanban-order-id">${order.id} &gt; ${order.client!}</div>
+                <div class="kanban-order-area">${order.area} м<sup>2</sup></div>
+                <div class="kanban-order-consumes">|<#list order.consumes as consume> ${consume.product.name!} |</#list></div>
                 <div class="kanban-order-manager">${order.manager!}</div>
-                <div class="kanban-order-client">${order.client!}</div>
             </div>
         </#list>
         </div>
@@ -144,7 +147,7 @@
         </div>
     </div>
 </div>
-<div id="modal-completed" class="modal fade" role="dialog">
+<div id="modal-shipping" class="modal fade" role="dialog">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header"><strong>Закончить работу над заказом</strong></div>
@@ -168,7 +171,7 @@
                     </tr>
                 </table>
                 <form method="post">
-                    <table id="modal-completed-consumes-table" class="responsive-table" style="width: 100%">
+                    <table id="modal-shipping-consumes-table" class="responsive-table" style="width: 100%">
                         <thead>
                         <th>Расходный материал</th>
                         <th>Фактичский расход</th>

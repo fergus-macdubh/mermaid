@@ -6,6 +6,7 @@
     <tr>
         <td>ID</td>
         <td>Наименование</td>
+        <td>Цена последней закупки</td>
         <td>Количество</td>
     </tr>
     </thead>
@@ -13,6 +14,7 @@
     <tr>
         <td>${product.id}</td>
         <td><a href="/storage/product/${product.id?c}/action">${product.name}</a></td>
+        <td>${product.price} грн / ${product.unit.abbr}</td>
         <td>${product.quantity} ${product.unit.abbr}</td>
     </tr>
 </#list>

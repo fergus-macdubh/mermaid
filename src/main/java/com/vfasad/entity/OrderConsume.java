@@ -1,4 +1,4 @@
-package com.vfasad.dto;
+package com.vfasad.entity;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;

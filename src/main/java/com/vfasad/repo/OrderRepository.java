@@ -1,7 +1,6 @@
 package com.vfasad.repo;
 
-import com.vfasad.dto.Order;
-import com.vfasad.dto.Product;
+import com.vfasad.entity.Order;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

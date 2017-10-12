@@ -1,10 +1,10 @@
 package com.vfasad.controller;
 
 import com.google.gson.Gson;
-import com.vfasad.dto.Order;
-import com.vfasad.dto.OrderConsume;
-import com.vfasad.dto.Product;
-import com.vfasad.dto.ProductAction;
+import com.vfasad.entity.Order;
+import com.vfasad.entity.OrderConsume;
+import com.vfasad.entity.Product;
+import com.vfasad.entity.ProductAction;
 import com.vfasad.repo.OrderRepository;
 import com.vfasad.repo.ProductActionRepository;
 import com.vfasad.repo.ProductRepository;
@@ -36,7 +36,7 @@ public class KanbanController {
         ModelAndView model = new ModelAndView("order/kanban-dashboard");
         model.addObject("createdOrders", orderRepository.findByStatus(Order.Status.CREATED));
         model.addObject("inProgressOrders", orderRepository.findByStatus(Order.Status.IN_PROGRESS));
-        model.addObject("completedOrders", orderRepository.findByStatus(Order.Status.COMPLETED));
+        model.addObject("shippingOrders", orderRepository.findByStatus(Order.Status.SHIPPING));
         model.addObject("ordersJson", gson.toJson(orderRepository.findAll().stream().collect(toMap(Order::getId, Function.identity()))));
         return model;
     }
@@ -63,7 +63,7 @@ public class KanbanController {
                 product.setQuantity(product.getQuantity() + remain);
                 productRepository.save(product);
             }
-            order.setStatus(Order.Status.COMPLETED);
+            order.setStatus(Order.Status.SHIPPING);
         } else if (order.getStatus() == Order.Status.CREATED) {
             order.getConsumes().forEach(c -> {
                 productActionRepository.save(new ProductAction(
@@ -77,7 +77,7 @@ public class KanbanController {
                 productRepository.save(c.getProduct());
             });
             order.setStatus(Order.Status.IN_PROGRESS);
-        } else if (order.getStatus() == Order.Status.COMPLETED) {
+        } else if (order.getStatus() == Order.Status.SHIPPING) {
             order.setStatus(Order.Status.CLOSED);
         }
         orderRepository.save(order);

@@ -1,8 +1,8 @@
 package com.vfasad.controller;
 
-import com.vfasad.dto.Order;
-import com.vfasad.dto.OrderConsume;
-import com.vfasad.dto.Product;
+import com.vfasad.entity.Order;
+import com.vfasad.entity.OrderConsume;
+import com.vfasad.entity.Product;
 import com.vfasad.repo.OrderRepository;
 import com.vfasad.repo.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;

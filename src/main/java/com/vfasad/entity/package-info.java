@@ -5,7 +5,7 @@
                 @Parameter(name="prefer_sequence_per_entity", value="true"),
                 @Parameter(name="optimizer", value="hilo"),
                 @Parameter(name="increment_size", value="50")})
-package com.vfasad.dto;
+package com.vfasad.entity;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;

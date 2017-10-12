@@ -1,7 +1,7 @@
 package com.vfasad.controller;
 
-import com.vfasad.dto.Product;
-import com.vfasad.dto.ProductAction;
+import com.vfasad.entity.Product;
+import com.vfasad.entity.ProductAction;
 import com.vfasad.repo.ProductActionRepository;
 import com.vfasad.repo.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +23,7 @@ public class StorageController {
     @RequestMapping(value = "/storage", method = RequestMethod.GET)
     public ModelAndView dashboard() {
         ModelAndView model = new ModelAndView("storage/storage-dashboard");
-        model.addObject("products", productRepository.findAll());
+        model.addObject("products", productRepository.findByQuantityGreaterThan(0));
         return model;
     }
 
@@ -57,6 +57,7 @@ public class StorageController {
         ));
 
         product.setQuantity(product.getQuantity() + quantity);
+        product.setPrice(price / quantity);
         productRepository.save(product);
         return "redirect:/storage";
     }

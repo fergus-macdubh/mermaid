@@ -2,6 +2,7 @@ package com.vfasad.controller;
 
 import com.google.gson.Gson;
 import com.vfasad.dto.Order;
+import com.vfasad.dto.OrderConsume;
 import com.vfasad.dto.Product;
 import com.vfasad.dto.ProductAction;
 import com.vfasad.repo.OrderRepository;
@@ -44,30 +45,46 @@ public class KanbanController {
     public String moveOrder(
             @RequestParam Long orderId,
             @RequestParam(required = false) long[] productIds,
-            @RequestParam(required = false) int[] remains) {
+            @RequestParam(required = false) int[] actualQuantities) {
         Order order = orderRepository.findOne(orderId);
         if (order.getStatus() == Order.Status.IN_PROGRESS) {
             for (int i = 0; i < productIds.length; i++) {
                 Product product = productRepository.findOne(productIds[i]);
+                OrderConsume consume = getConsumeByProductId(order, productIds[i]);
+                consume.setActualUsedQuantity(actualQuantities[i]);
+                int remain = consume.getCalculatedQuantity() - actualQuantities[i];
                 productActionRepository.save(new ProductAction(
-                        remains[i],
+                        remain,
                         0,
                         ProductAction.Type.RETURN,
                         product,
                         null // todo: fill from creds
                 ));
-                product.setQuantity(product.getQuantity() + remains[i]);
+                product.setQuantity(product.getQuantity() + remain);
                 productRepository.save(product);
             }
             order.setStatus(Order.Status.COMPLETED);
         } else if (order.getStatus() == Order.Status.CREATED) {
             order.getConsumes().forEach(c -> {
+                productActionRepository.save(new ProductAction(
+                        c.getCalculatedQuantity(),
+                        0,
+                        ProductAction.Type.SPEND,
+                        c.getProduct(),
+                        null // todo: fill from creds
+                ));
                 c.getProduct().setQuantity(c.getProduct().getQuantity() - c.getCalculatedQuantity());
                 productRepository.save(c.getProduct());
             });
             order.setStatus(Order.Status.IN_PROGRESS);
+        } else if (order.getStatus() == Order.Status.COMPLETED) {
+            order.setStatus(Order.Status.CLOSED);
         }
         orderRepository.save(order);
         return "redirect:/kanban";
+    }
+
+    private OrderConsume getConsumeByProductId(Order order, long productId) {
+        return order.getConsumes().stream().filter(c -> c.getProduct().getId() == productId).findAny().get();
     }
 }

@@ -28,7 +28,7 @@ public class Order {
     private Status status = Status.CREATED;
 
     public enum Status {
-        CREATED, IN_PROGRESS, COMPLETED
+        CREATED, IN_PROGRESS, COMPLETED, CLOSED
     }
 
     public Order(String manager, int area, String client, double price, List<OrderConsume> consumes) {

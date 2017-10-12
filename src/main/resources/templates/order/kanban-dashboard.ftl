@@ -21,9 +21,9 @@
                 break;
             case 'COMPLETED':
                 $('#moveSubmit')
-                        .text('Недоступно')
-                        .attr('data-target', '')
-                        .addClass('disabled');
+                        .text('Закрыть')
+                        .attr('data-target', '#modal-done')
+                        .removeClass('disabled');
                 break;
             case 'IN_PROGRESS':
                 $('#moveSubmit')
@@ -32,22 +32,19 @@
                         .removeClass('disabled');
         }
 
-        $('#modal-inProgress-order-id').text(selectedOrderId);
-        $('#modal-inProgress-order-area').text(orders[selectedOrderId].area);
-        $('#modal-inProgress-order-client').text(orders[selectedOrderId].client);
-        $('#modal-inProgress-order-id-input').attr('value', selectedOrderId);
-        $('#modal-inProgress-order-status').text(orders[selectedOrderId].status);
-        $('#modal-completed-order-id').text(selectedOrderId);
-        $('#modal-completed-order-area').text(orders[selectedOrderId].area);
-        $('#modal-completed-order-client').text(orders[selectedOrderId].client);
-        $('#modal-completed-order-id-input').attr('value', selectedOrderId);
-        $('#modal-completed-order-status').text(orders[selectedOrderId].status);
+        $('.modal-order-id').text(selectedOrderId);
+        $('.modal-order-area').text(orders[selectedOrderId].area);
+        $('.modal-order-client').text(orders[selectedOrderId].client);
+        $('.modal-order-id-input').attr('value', selectedOrderId);
+        $('.modal-order-status').text(orders[selectedOrderId].status);
         $('#modal-inProgress-consumes-table > tr').remove();
         $('#modal-completed-consumes-table > tr').remove();
+        $('#modal-done-consumes-table > tr').remove();
         for (i = 0; i < orders[selectedOrderId].consumes.length; i++) {
             $('#modal-inProgress-consumes-table').append('<tr><td>' + orders[selectedOrderId].consumes[i].product.name + '</td><td>' + orders[selectedOrderId].consumes[i].calculatedQuantity + ' ' + getUnitAbbr(orders[selectedOrderId].consumes[i].product.unit) + '</td><td></td></tr>');
             $('#modal-completed-consumes-table').append('<tr><td>' + orders[selectedOrderId].consumes[i].product.name + ' (' + getUnitAbbr(orders[selectedOrderId].consumes[i].product.unit) + ')'
-                    + '<input type="hidden" name="productIds" value="' + orders[selectedOrderId].consumes[i].product.id + '"></td><td><input name="remains" value="0"></td><td></td></tr>');
+                    + '<input type="hidden" name="productIds" value="' + orders[selectedOrderId].consumes[i].product.id + '"></td><td><input name="actualQuantities" value="'+ orders[selectedOrderId].consumes[i].calculatedQuantity +'"></td><td></td></tr>');
+            $('#modal-done-consumes-table').append('<tr><td>' + orders[selectedOrderId].consumes[i].product.name + '</td><td>' + orders[selectedOrderId].consumes[i].calculatedQuantity + ' ' + getUnitAbbr(orders[selectedOrderId].consumes[i].product.unit) + '</td><td>' + orders[selectedOrderId].consumes[i].actualUsedQuantity + ' ' + getUnitAbbr(orders[selectedOrderId].consumes[i].product.unit) + '</td></tr>');
         }
     }
 
@@ -62,8 +59,7 @@
 <h1>Заказы</h1>
 <div class="container-fluid">
     <div class="col-sm-12">
-        <button id="moveSubmit" class="btn btn-info disabled" data-toggle="modal" data-target="#modal">Заказ не выбран
-        </button>
+        <button id="moveSubmit" class="btn btn-info disabled" data-toggle="modal" data-target="#modal">Заказ не выбран</button>
         </form>
     </div>
 </div>
@@ -95,7 +91,7 @@
     </div>
     <div class="col-sm-4">
         <div class="kanban-column">
-            <div class="kanban-column-head">Готовы</div>
+            <div class="kanban-column-head">К отгрузке</div>
         <#list completedOrders as order>
             <div id="order_${order.id}" class="kanban-order" onclick="selectOrder(${order.id}, '${order.status}')">
                 <div class="kanban-order-id">${order.id}</div>
@@ -114,19 +110,19 @@
                 <table class="responsive-table" style="width:20em">
                     <tr>
                         <th>ID</th>
-                        <td id="modal-inProgress-order-id"></td>
+                        <td class="modal-order-id"></td>
                     </tr>
                     <tr>
                         <th>Статус</th>
-                        <td id="modal-inProgress-order-status"></td>
+                        <td class="modal-order-status"></td>
                     </tr>
                     <tr>
                         <th>Площадь</th>
-                        <td id="modal-inProgress-order-area"></td>
+                        <td class="modal-order-area"></td>
                     </tr>
                     <tr>
                         <th>Клиент</th>
-                        <td id="modal-inProgress-order-client"></td>
+                        <td class="modal-order-client"></td>
                     </tr>
                 </table>
 
@@ -138,7 +134,7 @@
                 </table>
                 <div class="alert alert-warning"><strong>Расходные материалы будут списаны со склада!</strong></div>
                 <form method="post">
-                    <input id="modal-inProgress-order-id-input" type="hidden" name="orderId"/>
+                    <input class="modal-order-id-input" type="hidden" name="orderId"/>
                     <div class="modal-footer">
                         <input type="submit" class="btn btn-info" value="В работу">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Отмена</button>
@@ -156,32 +152,73 @@
                 <table class="responsive-table" style="width:20em">
                     <tr>
                         <th>ID</th>
-                        <td id="modal-completed-order-id"></td>
+                        <td class="modal-order-id"></td>
                     </tr>
                     <tr>
                         <th>Статус</th>
-                        <td id="modal-completed-order-status"></td>
+                        <td class="modal-order-status"></td>
                     </tr>
                     <tr>
                         <th>Площадь</th>
-                        <td id="modal-completed-order-area"></td>
+                        <td class="modal-order-area"></td>
                     </tr>
                     <tr>
                         <th>Клиент</th>
-                        <td id="modal-completed-order-client"></td>
+                        <td class="modal-order-client"></td>
                     </tr>
                 </table>
                 <form method="post">
                     <table id="modal-completed-consumes-table" class="responsive-table" style="width: 100%">
                         <thead>
                         <th>Расходный материал</th>
-                        <th>Остаток</th>
+                        <th>Фактичский расход</th>
                         </thead>
                     </table>
                     <div class="alert alert-warning"><strong>Остатки материалов будут возвращены на склад</strong></div>
-                    <input id="modal-completed-order-id-input" type="hidden" name="orderId"/>
+                    <input class="modal-order-id-input" type="hidden" name="orderId"/>
                     <div class="modal-footer">
                         <input type="submit" class="btn btn-info" value="Готово">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Отмена</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="modal-done" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header"><strong>Закрыть заказ</strong></div>
+            <div class="modal-body">
+                <table class="responsive-table" style="width:20em">
+                    <tr>
+                        <th>ID</th>
+                        <td class="modal-order-id"></td>
+                    </tr>
+                    <tr>
+                        <th>Статус</th>
+                        <td class="modal-order-status"></td>
+                    </tr>
+                    <tr>
+                        <th>Площадь</th>
+                        <td class="modal-order-area"></td>
+                    </tr>
+                    <tr>
+                        <th>Клиент</th>
+                        <td class="modal-order-client"></td>
+                    </tr>
+                </table>
+                <form method="post">
+                    <table id="modal-done-consumes-table" class="responsive-table" style="width: 100%">
+                        <thead>
+                        <th>Расходный материал</th>
+                        <th>Расчетный расход</th>
+                        <th>Фактический расход</th>
+                        </thead>
+                    </table>
+                    <input class="modal-order-id-input" type="hidden" name="orderId"/>
+                    <div class="modal-footer">
+                        <input type="submit" class="btn btn-info" value="Закрыть заказ">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Отмена</button>
                     </div>
                 </form>

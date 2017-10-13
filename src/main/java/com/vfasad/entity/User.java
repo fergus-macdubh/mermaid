@@ -23,7 +23,7 @@ public class User {
     private String gender;
     private String locale;
 
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name="user_authorities", joinColumns=@JoinColumn(name="user_id"))
     private List<String> authorities = new ArrayList<>();
 

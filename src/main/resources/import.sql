@@ -21,3 +21,6 @@ INSERT INTO paint_order_consume (id, actual_used_quantity, calculated_quantity, 
 INSERT INTO paint_order_consume (id, actual_used_quantity, calculated_quantity, product_id, order_fk) VALUES (nextval('paint_order_consume_seq'), 0, 32, 1, 4);
 INSERT INTO paint_order_consume (id, actual_used_quantity, calculated_quantity, product_id, order_fk) VALUES (nextval('paint_order_consume_seq'), 0, 5, 1, 5);
 INSERT INTO paint_order_consume (id, actual_used_quantity, calculated_quantity, product_id, order_fk) VALUES (nextval('paint_order_consume_seq'), 0, 15, 2, 5);
+
+INSERT INTO user_details (id, email, family_name, gender, given_name, locale, name, picture) VALUES (nextval('user_seq'), 'fergusmacdubh@gmail.com', 'MacDubh', 'male', 'Fergus', 'en', 'Fergus MacDubh', 'https://lh5.googleusercontent.com/-JedDN0NvHv4/AAAAAAAAAAI/AAAAAAAADUs/Rw5rhJTzyZ8/photo.jpg');
+INSERT INTO user_authorities (user_id, authorities) VALUES (1, 'ROLE_ADMIN');

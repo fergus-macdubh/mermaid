@@ -17,7 +17,7 @@ import java.io.IOException;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class AutohoritiesFilter extends GenericFilterBean {
+public class AuthoritiesFilter extends GenericFilterBean {
     public static final String EMAIL = "email";
     public static final String NAME = "name";
     public static final String GIVEN_NAME = "given_name";
@@ -31,26 +31,31 @@ public class AutohoritiesFilter extends GenericFilterBean {
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        OAuth2Authentication oAuth2Authentication = (OAuth2Authentication) authentication;
 
-        if (authentication != null) {
+        if (oAuth2Authentication != null && oAuth2Authentication.getUserAuthentication().getDetails() != null) {
             SecurityContextHolder.getContext().setAuthentication(processAuthentication(authentication));
         }
 
         chain.doFilter(request, response);
     }
 
-    private UsernamePasswordAuthenticationToken processAuthentication(Authentication authentication) {
-        Map<String, String> details = (Map<String, String>) ((OAuth2Authentication) authentication).getUserAuthentication().getDetails();
+    private OAuth2Authentication processAuthentication(Authentication authentication) {
+        OAuth2Authentication oAuth2Authentication = (OAuth2Authentication) authentication;
+        Map<String, String> details = (Map<String, String>) oAuth2Authentication.getUserAuthentication().getDetails();
 
         User user = userRepository.getByEmail(details.get(EMAIL))
                 .orElse(new User());
         updateUser(user, details);
+        userRepository.save(user);
 
-
-        return new UsernamePasswordAuthenticationToken(
-                SecurityContextHolder.getContext().getAuthentication().getPrincipal(),
-                SecurityContextHolder.getContext().getAuthentication().getCredentials(),
+        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(
+                oAuth2Authentication.getPrincipal(),
+                oAuth2Authentication.getCredentials(),
                 user.getAuthorities().stream().map(SimpleGrantedAuthority::new).collect(Collectors.toList()));
+        oAuth2Authentication = new OAuth2Authentication(oAuth2Authentication.getOAuth2Request(), token);
+        oAuth2Authentication.setDetails(details);
+        return oAuth2Authentication;
     }
 
     private void updateUser(User user, Map<String, String> details) {

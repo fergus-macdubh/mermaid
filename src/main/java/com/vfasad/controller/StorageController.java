@@ -23,6 +23,7 @@ public class StorageController {
     private ProductActionRepository productActionRepository;
 
     @RequestMapping(value = "/storage", method = RequestMethod.GET)
+//    @Secured("ROLE_USER")
     public ModelAndView dashboard() {
         Authentication userDetails = SecurityContextHolder.getContext().getAuthentication();
 

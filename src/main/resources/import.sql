@@ -4,15 +4,20 @@ INSERT INTO product (id, name, producer, quantity, supplier, price, unit) VALUES
 INSERT INTO product (id, name, producer, quantity, supplier, price, unit) VALUES (nextval('product_seq'), 'Shmulver 5145 mat', 'Shmulver', 0, null, 0, 'KILOGRAM');
 INSERT INTO product (id, name, producer, quantity, supplier, price, unit) VALUES (nextval('product_seq'), 'Shmulver 1012 mat', 'Shmulver', 0, null, 0, 'KILOGRAM');
 
-INSERT INTO product_action (id, price, quantity, type, product_id, manager, created) VALUES (nextval('product_action_seq'), 540, 20, 'PURCHASE', 1, 'Петренко', current_timestamp);
-INSERT INTO product_action (id, price, quantity, type, product_id, manager, created) VALUES (nextval('product_action_seq'), 260, 10, 'PURCHASE', 1, 'Петренко',current_timestamp);
-INSERT INTO product_action (id, price, quantity, type, product_id, manager, created) VALUES (nextval('product_action_seq'), 4500, 150, 'PURCHASE', 2, null, current_timestamp);
+INSERT INTO user_details (id, email, family_name, gender, given_name, locale, name, picture) VALUES (nextval('user_seq'), 'fergusmacdubh@gmail.com', 'MacDubh', 'male', 'Fergus', 'en', 'Fergus MacDubh', 'https://lh5.googleusercontent.com/-JedDN0NvHv4/AAAAAAAAAAI/AAAAAAAADUs/Rw5rhJTzyZ8/photo.jpg');
+INSERT INTO user_details (id, email, family_name, gender, given_name, locale, name, picture) VALUES (nextval('user_seq'), 'petrenko@vfasad.com.ua', 'Петренко', 'male', 'Вася', 'en', 'Вася Петренко', '');
+INSERT INTO user_details (id, email, family_name, gender, given_name, locale, name, picture) VALUES (nextval('user_seq'), 'vasiliev@vfasad.com.ua', 'Васильев', 'male', 'Петя', 'en', 'Петя Васильев', '');
+INSERT INTO user_details (id, email, family_name, gender, given_name, locale, name, picture) VALUES (nextval('user_seq'), 'khomiakov@vfasad.com.ua', 'Хомяков', 'male', 'Коля', 'en', 'Коля Хомяков', '');
 
-INSERT INTO paint_order (id, area, client, created, manager, price, status) VALUES (nextval('paint_order_seq'), 50, 'Петя клиент', CURRENT_TIMESTAMP, 'Петренко', 100500, 'CREATED');
-INSERT INTO paint_order (id, area, client, created, manager, price, status) VALUES (nextval('paint_order_seq'), 20, 'Вася клиент', CURRENT_TIMESTAMP, 'Васильев', 100500, 'IN_PROGRESS');
-INSERT INTO paint_order (id, area, client, created, manager, price, status) VALUES (nextval('paint_order_seq'), 11, 'Коля клиент', CURRENT_TIMESTAMP, 'Васильев', 100500, 'IN_PROGRESS');
-INSERT INTO paint_order (id, area, client, created, manager, price, status) VALUES (nextval('paint_order_seq'), 24, 'Петя клиент', CURRENT_TIMESTAMP, 'Хомяков', 100500, 'CREATED');
-INSERT INTO paint_order (id, area, client, created, manager, price, status) VALUES (nextval('paint_order_seq'), 3, 'Вася клиент', CURRENT_TIMESTAMP, 'Петренко', 100500, 'SHIPPING');
+INSERT INTO product_action (id, price, quantity, type, product_id, actor_id, created) VALUES (nextval('product_action_seq'), 540, 20, 'PURCHASE', 1, 2, current_timestamp);
+INSERT INTO product_action (id, price, quantity, type, product_id, actor_id, created) VALUES (nextval('product_action_seq'), 260, 10, 'PURCHASE', 1, 3,current_timestamp);
+INSERT INTO product_action (id, price, quantity, type, product_id, actor_id, created) VALUES (nextval('product_action_seq'), 4500, 150, 'PURCHASE', 2, 4, current_timestamp);
+
+INSERT INTO paint_order (id, area, client, created, manager_id, price, status) VALUES (nextval('paint_order_seq'), 50, 'Петя клиент', CURRENT_TIMESTAMP, 2, 100500, 'CREATED');
+INSERT INTO paint_order (id, area, client, created, manager_id, price, status) VALUES (nextval('paint_order_seq'), 20, 'Вася клиент', CURRENT_TIMESTAMP, 3, 100500, 'IN_PROGRESS');
+INSERT INTO paint_order (id, area, client, created, manager_id, price, status) VALUES (nextval('paint_order_seq'), 11, 'Коля клиент', CURRENT_TIMESTAMP, 3, 100500, 'IN_PROGRESS');
+INSERT INTO paint_order (id, area, client, created, manager_id, price, status) VALUES (nextval('paint_order_seq'), 24, 'Петя клиент', CURRENT_TIMESTAMP, 4, 100500, 'CREATED');
+INSERT INTO paint_order (id, area, client, created, manager_id, price, status) VALUES (nextval('paint_order_seq'), 3, 'Вася клиент', CURRENT_TIMESTAMP, 2, 100500, 'SHIPPING');
 
 INSERT INTO paint_order_consume (id, actual_used_quantity, calculated_quantity, product_id, order_fk) VALUES (nextval('paint_order_consume_seq'), 0, 12, 1, 1);
 INSERT INTO paint_order_consume (id, actual_used_quantity, calculated_quantity, product_id, order_fk) VALUES (nextval('paint_order_consume_seq'), 0, 2, 2, 1);
@@ -21,6 +26,7 @@ INSERT INTO paint_order_consume (id, actual_used_quantity, calculated_quantity, 
 INSERT INTO paint_order_consume (id, actual_used_quantity, calculated_quantity, product_id, order_fk) VALUES (nextval('paint_order_consume_seq'), 0, 32, 1, 4);
 INSERT INTO paint_order_consume (id, actual_used_quantity, calculated_quantity, product_id, order_fk) VALUES (nextval('paint_order_consume_seq'), 0, 5, 1, 5);
 INSERT INTO paint_order_consume (id, actual_used_quantity, calculated_quantity, product_id, order_fk) VALUES (nextval('paint_order_consume_seq'), 0, 15, 2, 5);
-
-INSERT INTO user_details (id, email, family_name, gender, given_name, locale, name, picture) VALUES (nextval('user_seq'), 'fergusmacdubh@gmail.com', 'MacDubh', 'male', 'Fergus', 'en', 'Fergus MacDubh', 'https://lh5.googleusercontent.com/-JedDN0NvHv4/AAAAAAAAAAI/AAAAAAAADUs/Rw5rhJTzyZ8/photo.jpg');
 INSERT INTO user_authorities (user_id, authorities) VALUES (1, 'ROLE_ADMIN');
+INSERT INTO user_authorities (user_id, authorities) VALUES (2, 'ROLE_SALES');
+INSERT INTO user_authorities (user_id, authorities) VALUES (3, 'ROLE_SALES');
+INSERT INTO user_authorities (user_id, authorities) VALUES (4, 'ROLE_SALES');

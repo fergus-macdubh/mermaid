@@ -5,7 +5,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.List;
+import java.util.Set;
 
 @Data
 @Entity(name = "paint_order")
@@ -14,7 +14,8 @@ public class Order {
     @Id
     @GeneratedValue(generator="optimized-sequence")
     private Long id;
-    private String manager;
+    @ManyToOne
+    private User manager;
     private int area;
     private String client;
     private double price;
@@ -22,7 +23,7 @@ public class Order {
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "order_fk")
-    private List<OrderConsume> consumes;
+    private Set<OrderConsume> consumes;
 
     @Enumerated(EnumType.STRING)
     private Status status = Status.CREATED;
@@ -31,7 +32,7 @@ public class Order {
         CREATED, IN_PROGRESS, SHIPPING, CLOSED, BLOCKED
     }
 
-    public Order(String manager, int area, String client, double price, List<OrderConsume> consumes) {
+    public Order(User manager, int area, String client, double price, Set<OrderConsume> consumes) {
         this.manager = manager;
         this.area = area;
         this.client = client;

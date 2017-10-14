@@ -6,8 +6,6 @@ import com.vfasad.repo.ProductActionRepository;
 import com.vfasad.repo.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,10 +26,6 @@ public class StorageController {
     @RequestMapping(value = "/storage", method = RequestMethod.GET)
     @Secured({ROLE_ADMIN, ROLE_OPERATOR, ROLE_PAINTER})
     public ModelAndView dashboard() {
-        Authentication userDetails = SecurityContextHolder.getContext().getAuthentication();
-
-        System.out.println(userDetails);
-
         ModelAndView model = new ModelAndView("storage/storage-dashboard");
         model.addObject("products", productRepository.findByQuantityGreaterThan(0));
         return model;
@@ -61,10 +55,9 @@ public class StorageController {
             @RequestParam double price) {
         Product product = productRepository.findOne(productId);
 
-        productActionRepository.save(new ProductAction(
+        productActionRepository.save(ProductAction.createPurchaseAction(
                 quantity,
                 price,
-                ProductAction.Type.PURCHASE,
                 product,
                 null // todo: fill this from credentials
         ));

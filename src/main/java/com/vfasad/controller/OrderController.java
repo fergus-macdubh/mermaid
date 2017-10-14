@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import static com.vfasad.entity.User.*;
 
@@ -52,7 +52,7 @@ public class OrderController {
             @RequestParam double price,
             @RequestParam long[] productIds,
             @RequestParam int[] quantities) {
-        List<OrderConsume> consumes = new ArrayList<>();
+        Set<OrderConsume> consumes = new HashSet<>();
 
         for (int i = 0; i < productIds.length; i++) {
             Product product = productRepository.findOne(productIds[i]);
@@ -86,7 +86,7 @@ public class OrderController {
             @RequestParam double price,
             @RequestParam long[] productIds,
             @RequestParam int[] quantities) {
-        List<OrderConsume> consumes = new ArrayList<>();
+        Set<OrderConsume> consumes = new HashSet<>();
 
         for (int i = 0; i < productIds.length; i++) {
             Product product = productRepository.findOne(productIds[i]);

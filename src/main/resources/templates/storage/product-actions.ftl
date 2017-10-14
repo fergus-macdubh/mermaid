@@ -19,7 +19,7 @@
         <td>${action.quantity} ${action.product.unit.abbr}</td>
         <td>${action.price / action.quantity} грн / ${action.product.unit.abbr}</a></td>
         <td>${action.type}</td>
-        <td>${action.manager!}</td>
+        <td>${action.actor.name}</td>
     </tr>
 </#list>
 </table>

@@ -85,7 +85,7 @@
                 <div class="kanban-order-area">${order.area} м<sup>2</sup></div>
                 <div class="kanban-order-consumes">|<#list order.consumes as consume> ${consume.product.name!}
                     |</#list></div>
-                <div class="kanban-order-manager">${order.manager!}</div>
+                <div class="kanban-order-manager">${order.manager.familyName}</div>
             </div>
         </#list>
         </div>
@@ -99,7 +99,7 @@
                 <div class="kanban-order-area">${order.area} м<sup>2</sup></div>
                 <div class="kanban-order-consumes">|<#list order.consumes as consume> ${consume.product.name!}
                     |</#list></div>
-                <div class="kanban-order-manager">${order.manager!}</div>
+                <div class="kanban-order-manager">${order.manager.familyName}</div>
             </div>
         </#list>
         </div>
@@ -113,7 +113,7 @@
                 <div class="kanban-order-area">${order.area} м<sup>2</sup></div>
                 <div class="kanban-order-consumes">|<#list order.consumes as consume> ${consume.product.name!}
                     |</#list></div>
-                <div class="kanban-order-manager">${order.manager!}</div>
+                <div class="kanban-order-manager">${order.manager.familyName}</div>
             </div>
         </#list>
         </div>

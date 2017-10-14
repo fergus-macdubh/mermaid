@@ -30,7 +30,6 @@ public class User {
 
     @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name="user_authorities", joinColumns=@JoinColumn(name="user_id"))
-    @Enumerated(EnumType.STRING)
     private List<String> authorities = new ArrayList<>();
 
     public User(String email, String name, String givenName, String familyName, String picture, String gender, String locale) {

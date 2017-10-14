@@ -16,7 +16,7 @@
     <tr>
         <td><a href="/order/${order.id?c}/edit">${order.id}</a></td>
         <td>${order.status}</td>
-        <td>${order.manager!}</td>
+        <td>${order.manager.name}</td>
         <td>${order.area}</td>
         <td>${order.client!}</td>
         <td>${order.price}</td>

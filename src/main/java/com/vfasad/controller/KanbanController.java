@@ -10,6 +10,7 @@ import com.vfasad.repo.ProductActionRepository;
 import com.vfasad.repo.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -58,7 +59,8 @@ public class KanbanController {
     public String moveOrder(
             @RequestParam Long orderId,
             @RequestParam(required = false) long[] productIds,
-            @RequestParam(required = false) int[] actualQuantities) {
+            @RequestParam(required = false) int[] actualQuantities,
+            Authentication authentication) {
         Order order = orderRepository.findOne(orderId);
         if (order.getStatus() == Order.Status.IN_PROGRESS) {
             for (int i = 0; i < productIds.length; i++) {
@@ -66,12 +68,11 @@ public class KanbanController {
                 OrderConsume consume = getConsumeByProductId(order, productIds[i]);
                 consume.setActualUsedQuantity(actualQuantities[i]);
                 int remain = consume.getCalculatedQuantity() - actualQuantities[i];
-                productActionRepository.save(new ProductAction(
+                productActionRepository.save(ProductAction.createReturnAction(
                         remain,
-                        0,
-                        ProductAction.Type.RETURN,
                         product,
-                        null // todo: fill from creds
+                        null, // todo: fill from creds
+                        order
                 ));
                 product.setQuantity(product.getQuantity() + remain);
                 productRepository.save(product);
@@ -79,12 +80,11 @@ public class KanbanController {
             order.setStatus(Order.Status.SHIPPING);
         } else if (order.getStatus() == Order.Status.CREATED) {
             order.getConsumes().forEach(c -> {
-                productActionRepository.save(new ProductAction(
+                productActionRepository.save(ProductAction.createSpendAction(
                         c.getCalculatedQuantity(),
-                        0,
-                        ProductAction.Type.SPEND,
                         c.getProduct(),
-                        null // todo: fill from creds
+                        null, // todo: fill from creds
+                        order
                 ));
                 c.getProduct().setQuantity(c.getProduct().getQuantity() - c.getCalculatedQuantity());
                 productRepository.save(c.getProduct());

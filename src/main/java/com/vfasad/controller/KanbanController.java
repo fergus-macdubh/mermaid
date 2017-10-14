@@ -9,6 +9,7 @@ import com.vfasad.repo.OrderRepository;
 import com.vfasad.repo.ProductActionRepository;
 import com.vfasad.repo.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -19,6 +20,7 @@ import java.math.BigInteger;
 import java.util.List;
 import java.util.function.Function;
 
+import static com.vfasad.entity.User.*;
 import static java.util.stream.Collectors.toMap;
 
 @Controller
@@ -34,6 +36,7 @@ public class KanbanController {
     private Gson gson;
 
     @RequestMapping(value = "/kanban", method = RequestMethod.GET)
+    @Secured({ROLE_ADMIN, ROLE_OPERATOR, ROLE_PAINTER, ROLE_SALES})
     public ModelAndView kanbanBoard() {
         ModelAndView model = new ModelAndView("order/kanban-dashboard");
         List<Order> createdOrders =  orderRepository.findByStatusIn(Order.Status.CREATED);
@@ -51,6 +54,7 @@ public class KanbanController {
     }
 
     @RequestMapping(value = "/kanban", method = RequestMethod.POST)
+    @Secured({ROLE_ADMIN, ROLE_OPERATOR, ROLE_PAINTER})
     public String moveOrder(
             @RequestParam Long orderId,
             @RequestParam(required = false) long[] productIds,

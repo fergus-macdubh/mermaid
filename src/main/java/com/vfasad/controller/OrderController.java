@@ -6,6 +6,7 @@ import com.vfasad.entity.Product;
 import com.vfasad.repo.OrderRepository;
 import com.vfasad.repo.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,6 +17,8 @@ import org.springframework.web.servlet.ModelAndView;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.vfasad.entity.User.*;
+
 @Controller
 public class OrderController {
     @Autowired
@@ -25,6 +28,7 @@ public class OrderController {
     private ProductRepository productRepository;
 
     @RequestMapping(value = "/order", method = RequestMethod.GET)
+    @Secured({ROLE_ADMIN, ROLE_OPERATOR, ROLE_PAINTER, ROLE_SALES})
     public ModelAndView products() {
         ModelAndView model = new ModelAndView("order/order-dashboard");
         model.addObject("orders", orderRepository.findAll());
@@ -32,7 +36,8 @@ public class OrderController {
     }
 
     @RequestMapping(value = "/order/add", method = RequestMethod.GET)
-    public ModelAndView addProductForm() {
+    @Secured({ROLE_ADMIN, ROLE_OPERATOR})
+    public ModelAndView addOrderForm() {
         ModelAndView model = new ModelAndView("order/order-form");
         model.addObject("orders", orderRepository.findAll());
         model.addObject("products", productRepository.findAll());
@@ -40,6 +45,7 @@ public class OrderController {
     }
 
     @RequestMapping(value = "/order/add", method = RequestMethod.POST)
+    @Secured({ROLE_ADMIN, ROLE_OPERATOR})
     public String addProduct(
             @RequestParam int area,
             @RequestParam String client,
@@ -63,6 +69,7 @@ public class OrderController {
     }
 
     @RequestMapping(value = "/order/{id}/edit", method = RequestMethod.GET)
+    @Secured({ROLE_ADMIN, ROLE_OPERATOR})
     public ModelAndView editProductForm(@PathVariable Long id) {
         ModelAndView model = new ModelAndView("order/order-form");
         model.addObject("order", orderRepository.findOne(id));
@@ -71,6 +78,7 @@ public class OrderController {
     }
 
     @RequestMapping(value = "/order/{id}/edit", method = RequestMethod.POST)
+    @Secured({ROLE_ADMIN, ROLE_OPERATOR})
     public String updateProduct(
             @PathVariable Long id,
             @RequestParam int area,

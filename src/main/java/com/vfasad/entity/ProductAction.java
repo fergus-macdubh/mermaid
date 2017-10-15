@@ -68,4 +68,13 @@ public class ProductAction {
         pa.order = order;
         return pa;
     }
+
+    public static ProductAction createInventoryingAction(int quantity, Product product, User user) {
+        ProductAction pa = new ProductAction();
+        pa.quantity = quantity;
+        pa.type = Type.INVENTORYING;
+        pa.product = product;
+        pa.actor = user;
+        return pa;
+    }
 }

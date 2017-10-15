@@ -3,6 +3,7 @@ package com.vfasad;
 import com.vfasad.security.AuthoritiesFilter;
 import com.vfasad.security.InjectUserInterceptor;
 import com.vfasad.service.UserService;
+import no.api.freemarker.java8.Java8ObjectWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -16,6 +17,8 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+
+import javax.annotation.PostConstruct;
 
 @SpringBootApplication
 @EnableWebMvc
@@ -54,5 +57,14 @@ public class Application extends WebMvcConfigurerAdapter {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(new InjectUserInterceptor(userService));
+    }
+
+    @Autowired
+    private freemarker.template.Configuration configuration;
+
+    @PostConstruct
+    public void postConstruct() {
+        configuration.setObjectWrapper(
+                new Java8ObjectWrapper(freemarker.template.Configuration.getVersion())); // VERSION_2_3_26
     }
 }

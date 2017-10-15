@@ -4,11 +4,11 @@
 <table class="responsive-table">
     <thead>
     <tr>
-        <td>ID</td>
-        <td>Наименование</td>
-        <td>Производитель</td>
-        <td>Поставщик</td>
-        <td>Единицы измерения</td>
+        <th>ID</th>
+        <th>Наименование</th>
+        <th>Производитель</th>
+        <th>Поставщик</th>
+        <th>Единицы измерения</th>
     </tr>
     </thead>
 <#list products as product>

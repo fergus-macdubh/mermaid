@@ -39,7 +39,7 @@ public class StorageController {
     @Secured({ROLE_ADMIN, ROLE_OPERATOR, ROLE_PAINTER})
     public ModelAndView productActions(@PathVariable Long id) {
         ModelAndView model = new ModelAndView("storage/product-actions");
-        model.addObject("actions", productActionRepository.findByproductId(id));
+        model.addObject("actions", productActionRepository.findByProductId(id));
         return model;
     }
 
@@ -68,6 +68,28 @@ public class StorageController {
 
         product.setQuantity(product.getQuantity() + quantity);
         product.setPrice(price / quantity);
+        productRepository.save(product);
+        return "redirect:/storage";
+    }
+
+    @RequestMapping(value = "/storage/product/{id}/inventorying", method = RequestMethod.GET)
+    @Secured(ROLE_ADMIN)
+    public ModelAndView productInventoryingForm(@PathVariable Long id) {
+        ModelAndView model = new ModelAndView("storage/inventorying-product-form");
+        model.addObject("product", productRepository.findOne(id));
+        return model;
+    }
+
+    @RequestMapping(value = "/storage/product/{id}/inventorying", method = RequestMethod.POST)
+    @Secured(ROLE_ADMIN)
+    public String productInventorying(@PathVariable Long id, @RequestParam int quantity) {
+        Product product = productRepository.findOne(id);
+        productActionRepository.save(ProductAction.createInventoryingAction(
+                quantity - product.getQuantity(),
+                product,
+                userService.getCurrentUser()
+        ));
+        product.setQuantity(quantity);
         productRepository.save(product);
         return "redirect:/storage";
     }

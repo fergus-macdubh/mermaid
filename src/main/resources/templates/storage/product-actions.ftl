@@ -4,7 +4,7 @@
 <table class="responsive-table">
     <thead>
     <tr>
-        <td>ID</td>
+        <td>Дата</td>
         <td>Цена</td>
         <td>Количество</td>
         <td>Цена за единицу</td>
@@ -14,7 +14,7 @@
     </thead>
 <#list actions as action>
     <tr>
-        <td>${action.id}</td>
+        <td>${action.created.format('dd MMM yyyy')}</td>
         <td>${action.price} грн</a></td>
         <td>${action.quantity} ${action.product.unit.abbr}</td>
         <td>${action.price / action.quantity} грн / ${action.product.unit.abbr}</a></td>

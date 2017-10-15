@@ -4,10 +4,13 @@
 <table class="responsive-table">
     <thead>
     <tr>
-        <td>ID</td>
-        <td>Наименование</td>
-        <td>Цена последней закупки</td>
-        <td>Количество</td>
+        <th>ID</th>
+        <th>Наименование</th>
+        <th>Цена последней закупки</th>
+        <th>Количество</th>
+    <#if user.role == "ROLE_ADMIN">
+        <th>Инвентаризация</th>
+    </#if>
     </tr>
     </thead>
 <#list products as product>
@@ -16,6 +19,11 @@
         <td><a href="/storage/product/${product.id?c}/action">${product.name}</a></td>
         <td>${product.price} грн / ${product.unit.abbr}</td>
         <td>${product.quantity} ${product.unit.abbr}</td>
+        <#if user.role == "ROLE_ADMIN">
+            <td>
+                <a href="/storage/product/${product.id}/inventorying" class="btn btn-info">Инвентаризация</a>
+            </td>
+        </#if>
     </tr>
 </#list>
 </table>

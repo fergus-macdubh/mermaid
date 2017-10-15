@@ -4,12 +4,12 @@
 <table class="responsive-table">
     <thead>
     <tr>
-        <td>ID</td>
-        <td>Статус</td>
-        <td>Менеджер</td>
-        <td>Площадь</td>
-        <td>Клиент</td>
-        <td>Цена</td>
+        <th>ID</th>
+        <th>Статус</th>
+        <th>Менеджер</th>
+        <th>Площадь</th>
+        <th>Клиент</th>
+        <th>Цена</th>
     </tr>
     </thead>
 <#list orders as order>

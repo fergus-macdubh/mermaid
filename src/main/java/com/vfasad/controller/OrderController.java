@@ -56,7 +56,8 @@ public class OrderController {
             @RequestParam String client,
             @RequestParam double price,
             @RequestParam long[] productIds,
-            @RequestParam int[] quantities) {
+            @RequestParam int[] quantities,
+            @RequestParam long managerId) {
         Set<OrderConsume> consumes = new HashSet<>();
 
         for (int i = 0; i < productIds.length; i++) {
@@ -64,7 +65,7 @@ public class OrderController {
             consumes.add(new OrderConsume(product, quantities[i]));
         }
 
-        orderService.addOrder(area, client, price, consumes, userService.getCurrentUser());
+        orderService.addOrder(area, client, price, consumes, userService.getUser(managerId));
         return "redirect:/order";
     }
 

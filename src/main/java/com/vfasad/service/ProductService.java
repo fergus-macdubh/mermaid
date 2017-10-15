@@ -3,7 +3,6 @@ package com.vfasad.service;
 import com.vfasad.entity.Order;
 import com.vfasad.entity.Product;
 import com.vfasad.entity.ProductAction;
-import com.vfasad.entity.User;
 import com.vfasad.exception.NotFoundException;
 import com.vfasad.repo.ProductActionRepository;
 import com.vfasad.repo.ProductRepository;
@@ -38,14 +37,14 @@ public class ProductService {
         return productRepository.findAll(new Sort(new Sort.Order(Sort.Direction.ASC, "id")));
     }
 
-    public void purchase(Long productId, int quantity, double price, User currentUser) {
+    public void purchase(Long productId, int quantity, double price) {
         Product product = getProduct(productId);
 
         productActionRepository.save(ProductAction.createPurchaseAction(
                 quantity,
                 price,
                 product,
-                currentUser
+                userService.getCurrentUser()
         ));
 
         product.setQuantity(product.getQuantity() + quantity);
@@ -57,12 +56,12 @@ public class ProductService {
         return productRepository.findById(id).orElseThrow(() -> new NotFoundException("Product with provided id is not found."));
     }
 
-    public void performInventorying(Long id, int quantity, User currentUser) {
+    public void performInventorying(Long id, int quantity) {
         Product product = getProduct(id);
         productActionRepository.save(ProductAction.createInventoryingAction(
                 quantity - product.getQuantity(),
                 product,
-                currentUser
+                userService.getCurrentUser()
         ));
         product.setQuantity(quantity);
         productRepository.save(product);

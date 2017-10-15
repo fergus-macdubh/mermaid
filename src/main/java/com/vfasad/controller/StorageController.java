@@ -51,7 +51,7 @@ public class StorageController {
             @RequestParam Long productId,
             @RequestParam int quantity,
             @RequestParam double price) {
-        productService.purchase(productId, quantity, price, userService.getCurrentUser());
+        productService.purchase(productId, quantity, price);
         return "redirect:/storage";
     }
 
@@ -66,7 +66,7 @@ public class StorageController {
     @RequestMapping(value = "/storage/product/{id}/inventorying", method = RequestMethod.POST)
     @Secured(ROLE_ADMIN)
     public String productInventorying(@PathVariable Long id, @RequestParam int quantity) {
-        productService.performInventorying(id, quantity, userService.getCurrentUser());
+        productService.performInventorying(id, quantity);
         return "redirect:/storage";
     }
 }

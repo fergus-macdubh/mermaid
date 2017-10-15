@@ -3,8 +3,6 @@ package com.vfasad.controller;
 import com.google.gson.Gson;
 import com.vfasad.entity.Order;
 import com.vfasad.service.OrderService;
-import com.vfasad.service.ProductService;
-import com.vfasad.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
@@ -23,10 +21,6 @@ import static java.util.stream.Collectors.toMap;
 public class KanbanController {
     @Autowired
     private OrderService orderService;
-    @Autowired
-    private ProductService productService;
-    @Autowired
-    private UserService userService;
 
     @Autowired
     private Gson gson;

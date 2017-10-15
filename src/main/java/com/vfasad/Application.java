@@ -1,9 +1,8 @@
 package com.vfasad;
 
-
-import com.vfasad.repo.UserRepository;
 import com.vfasad.security.AuthoritiesFilter;
 import com.vfasad.security.InjectUserInterceptor;
+import com.vfasad.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -28,14 +27,13 @@ public class Application extends WebMvcConfigurerAdapter {
     }
 
     @Autowired
-    private UserRepository userRepository;
+    private UserService userService;
 
     @Bean
-    public FilterRegistrationBean filterRegistrationBean() {
+    @Autowired
+    public FilterRegistrationBean filterRegistrationBean(UserService userService) {
         FilterRegistrationBean registration = new FilterRegistrationBean();
-        AuthoritiesFilter filter = new AuthoritiesFilter();
-        filter.setUserRepository(userRepository);
-        registration.setFilter(filter);
+        registration.setFilter(new AuthoritiesFilter(userService));
         registration.addUrlPatterns("/*");
         registration.setName("authoritiesFilter");
         registration.setOrder(Ordered.LOWEST_PRECEDENCE);
@@ -55,6 +53,6 @@ public class Application extends WebMvcConfigurerAdapter {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(new InjectUserInterceptor(userRepository));
+        registry.addInterceptor(new InjectUserInterceptor(userService));
     }
 }

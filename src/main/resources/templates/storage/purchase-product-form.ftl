@@ -1,7 +1,7 @@
 <#include "../header.ftl">
 <h1>Закупка товара</h1>
 
-<form method="post" action="/storage/product/purchase">
+<form method="post">
     <table class="responsive-table" style="width: 20em">
         <tr>
             <th>Товар</th>
@@ -31,5 +31,8 @@
             </td>
         </tr>
     </table>
+    <input type="hidden"
+           name="${_csrf.parameterName}"
+           value="${_csrf.token}"/>
 </form>
 <#include "../footer.ftl">

@@ -4,8 +4,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 
 @Data
 @Entity
@@ -28,9 +26,8 @@ public class User {
     private String gender;
     private String locale;
 
-    @ElementCollection(fetch = FetchType.EAGER)
-    @CollectionTable(name="user_authorities", joinColumns=@JoinColumn(name="user_id"))
-    private List<String> authorities = new ArrayList<>();
+    @Column(name = "authority")
+    private String role;
 
     public User(String email, String name, String givenName, String familyName, String picture, String gender, String locale) {
         this.email = email;

@@ -4,6 +4,7 @@ import com.vfasad.entity.Product;
 import com.vfasad.entity.ProductAction;
 import com.vfasad.repo.ProductActionRepository;
 import com.vfasad.repo.ProductRepository;
+import com.vfasad.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
@@ -22,6 +23,9 @@ public class StorageController {
 
     @Autowired
     private ProductActionRepository productActionRepository;
+
+    @Autowired
+    private UserService userService;
 
     @RequestMapping(value = "/storage", method = RequestMethod.GET)
     @Secured({ROLE_ADMIN, ROLE_OPERATOR, ROLE_PAINTER})
@@ -59,7 +63,7 @@ public class StorageController {
                 quantity,
                 price,
                 product,
-                null // todo: fill this from credentials
+                userService.getCurrentUser()
         ));
 
         product.setQuantity(product.getQuantity() + quantity);

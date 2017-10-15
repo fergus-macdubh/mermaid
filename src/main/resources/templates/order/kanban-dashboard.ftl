@@ -151,6 +151,9 @@
                 </table>
                 <div class="alert alert-warning"><strong>Расходные материалы будут списаны со склада!</strong></div>
                 <form method="post">
+                    <input type="hidden"
+                           name="${_csrf.parameterName}"
+                           value="${_csrf.token}"/>
                     <input class="modal-order-id-input" type="hidden" name="orderId"/>
                     <div class="modal-footer">
                         <input type="submit" class="btn btn-info" value="В работу">
@@ -185,6 +188,9 @@
                     </tr>
                 </table>
                 <form method="post">
+                    <input type="hidden"
+                           name="${_csrf.parameterName}"
+                           value="${_csrf.token}"/>
                     <table id="modal-shipping-consumes-table" class="responsive-table" style="width: 100%">
                         <thead>
                         <th>Расходный материал</th>
@@ -226,6 +232,9 @@
                     </tr>
                 </table>
                 <form method="post">
+                    <input type="hidden"
+                           name="${_csrf.parameterName}"
+                           value="${_csrf.token}"/>
                     <table id="modal-done-consumes-table" class="responsive-table" style="width: 100%">
                         <thead>
                         <th>Расходный материал</th>

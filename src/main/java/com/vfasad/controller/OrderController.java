@@ -5,6 +5,7 @@ import com.vfasad.entity.OrderConsume;
 import com.vfasad.entity.Product;
 import com.vfasad.repo.OrderRepository;
 import com.vfasad.repo.ProductRepository;
+import com.vfasad.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
@@ -26,6 +27,9 @@ public class OrderController {
 
     @Autowired
     private ProductRepository productRepository;
+
+    @Autowired
+    private UserService userService;
 
     @RequestMapping(value = "/order", method = RequestMethod.GET)
     @Secured({ROLE_ADMIN, ROLE_OPERATOR, ROLE_PAINTER, ROLE_SALES})
@@ -60,7 +64,7 @@ public class OrderController {
         }
 
         orderRepository.save(new Order(
-                null, // todo: get this from credentials
+                userService.getCurrentUser(),
                 area,
                 client,
                 price,

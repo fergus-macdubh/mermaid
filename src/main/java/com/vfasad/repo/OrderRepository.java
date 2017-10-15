@@ -12,11 +12,11 @@ import java.util.List;
 public interface OrderRepository extends JpaRepository<Order, Long> {
     List<Order> findByStatusIn(Order.Status ...status);
 
-    @Query(value = "SELECT DISTINCT\n" +
-            "  o.id\n" +
-            "FROM paint_order o\n" +
-            "  JOIN paint_order_consume c ON c.order_fk = o.id\n" +
-            "  JOIN product p ON p.id = c.product_id\n" +
-            "WHERE o.status = 'CREATED' AND p.quantity >= c.calculated_quantity", nativeQuery = true)
+    @Query(value = "SELECT DISTINCT" +
+            "  o.id " +
+            "FROM paint_order o " +
+            "  JOIN paint_order_consume c ON c.order_fk = o.id " +
+            "  JOIN product p ON p.id = c.product_id " +
+            "WHERE o.status = 'CREATED' AND p.quantity < c.calculated_quantity", nativeQuery = true)
     List<BigInteger> findBlockedOrdersIds();
 }

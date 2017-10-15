@@ -8,9 +8,9 @@ import com.vfasad.entity.ProductAction;
 import com.vfasad.repo.OrderRepository;
 import com.vfasad.repo.ProductActionRepository;
 import com.vfasad.repo.ProductRepository;
+import com.vfasad.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -32,6 +32,8 @@ public class KanbanController {
     private ProductRepository productRepository;
     @Autowired
     private ProductActionRepository productActionRepository;
+    @Autowired
+    private UserService userService;
 
     @Autowired
     private Gson gson;
@@ -59,8 +61,7 @@ public class KanbanController {
     public String moveOrder(
             @RequestParam Long orderId,
             @RequestParam(required = false) long[] productIds,
-            @RequestParam(required = false) int[] actualQuantities,
-            Authentication authentication) {
+            @RequestParam(required = false) int[] actualQuantities) {
         Order order = orderRepository.findOne(orderId);
         if (order.getStatus() == Order.Status.IN_PROGRESS) {
             for (int i = 0; i < productIds.length; i++) {
@@ -71,7 +72,7 @@ public class KanbanController {
                 productActionRepository.save(ProductAction.createReturnAction(
                         remain,
                         product,
-                        null, // todo: fill from creds
+                        userService.getCurrentUser(),
                         order
                 ));
                 product.setQuantity(product.getQuantity() + remain);
@@ -83,7 +84,7 @@ public class KanbanController {
                 productActionRepository.save(ProductAction.createSpendAction(
                         c.getCalculatedQuantity(),
                         c.getProduct(),
-                        null, // todo: fill from creds
+                        userService.getCurrentUser(),
                         order
                 ));
                 c.getProduct().setQuantity(c.getProduct().getQuantity() - c.getCalculatedQuantity());

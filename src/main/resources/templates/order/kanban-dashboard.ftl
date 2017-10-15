@@ -53,7 +53,7 @@
         for (i = 0; i < orders[selectedOrderId].consumes.length; i++) {
             $('#modal-inProgress-consumes-table').append('<tr><td>' + orders[selectedOrderId].consumes[i].product.name + '</td><td>' + orders[selectedOrderId].consumes[i].calculatedQuantity + ' ' + getUnitAbbr(orders[selectedOrderId].consumes[i].product.unit) + '</td><td></td></tr>');
             $('#modal-shipping-consumes-table').append('<tr><td>' + orders[selectedOrderId].consumes[i].product.name + ' (' + getUnitAbbr(orders[selectedOrderId].consumes[i].product.unit) + ')'
-                    + '<input type="hidden" name="productIds" value="' + orders[selectedOrderId].consumes[i].product.id + '"></td><td><input name="actualQuantities" value="' + orders[selectedOrderId].consumes[i].calculatedQuantity + '"></td><td></td></tr>');
+                    + '<input type="hidden" name="consumeIds" value="' + orders[selectedOrderId].consumes[i].id + '"></td><td><input name="actualQuantities" value="' + orders[selectedOrderId].consumes[i].calculatedQuantity + '"></td><td></td></tr>');
             $('#modal-done-consumes-table').append('<tr><td>' + orders[selectedOrderId].consumes[i].product.name + '</td><td>' + orders[selectedOrderId].consumes[i].calculatedQuantity + ' ' + getUnitAbbr(orders[selectedOrderId].consumes[i].product.unit) + '</td><td>' + orders[selectedOrderId].consumes[i].actualUsedQuantity + ' ' + getUnitAbbr(orders[selectedOrderId].consumes[i].product.unit) + '</td></tr>');
         }
     }
@@ -82,7 +82,8 @@
     <div class="col-sm-4">
         <div class="kanban-column">
             <div class="kanban-column-head">Новые</div>
-        <#list createdOrders as order>
+        <#list orders as order>
+            <#if order.status == 'CREATED' || order.status == 'BLOCKED'>
             <div id="order_${order.id}" class="kanban-order" onclick="selectOrder(${order.id}, '${order.status}')"
                  style="background-image: url(${order.manager.picture}); ">
                 <#if order.status=='BLOCKED'><img src="/img/warning.png" class="warning-icon"
@@ -93,13 +94,15 @@
                     |</#list></div>
                 <div class="kanban-order-manager">${order.manager.familyName}</div>
             </div>
+            </#if>
         </#list>
         </div>
     </div>
     <div class="col-sm-4">
         <div class="kanban-column">
             <div class="kanban-column-head">В работе</div>
-        <#list inProgressOrders as order>
+        <#list orders as order>
+            <#if order.status == 'IN_PROGRESS'>
             <div id="order_${order.id}" class="kanban-order" onclick="selectOrder(${order.id}, '${order.status}')"
                     style="background-image: url(${order.manager.picture}); ">
                 <div class="kanban-order-id">${order.id} : ${order.client!}</div>
@@ -108,13 +111,15 @@
                     |</#list></div>
                 <div class="kanban-order-manager">${order.manager.familyName}</div>
             </div>
+            </#if>
         </#list>
         </div>
     </div>
     <div class="col-sm-4">
         <div class="kanban-column">
             <div class="kanban-column-head">К отгрузке</div>
-        <#list shippingOrders as order>
+        <#list orders as order>
+            <#if order.status == 'SHIPPING'>
             <div id="order_${order.id}" class="kanban-order" onclick="selectOrder(${order.id}, '${order.status}')"
                  style="background-image: url(${order.manager.picture}); ">
                 <div class="kanban-order-id">${order.id} : ${order.client!}</div>
@@ -123,6 +128,7 @@
                     |</#list></div>
                 <div class="kanban-order-manager">${order.manager.familyName}</div>
             </div>
+            </#if>
         </#list>
         </div>
     </div>

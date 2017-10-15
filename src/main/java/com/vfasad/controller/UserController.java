@@ -1,7 +1,6 @@
 package com.vfasad.controller;
 
-import com.vfasad.entity.User;
-import com.vfasad.repo.UserRepository;
+import com.vfasad.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
@@ -15,13 +14,13 @@ import static com.vfasad.entity.User.ROLE_ADMIN;
 @Controller
 public class UserController {
     @Autowired
-    private UserRepository userRepository;
+    private UserService userService;
 
     @RequestMapping(value = "/users", method = RequestMethod.GET)
     @Secured(ROLE_ADMIN)
     public ModelAndView products() {
         ModelAndView model = new ModelAndView("users/users");
-        model.addObject("users", userRepository.findAllByOrderByEmail());
+        model.addObject("users", userService.findAll());
         return model;
     }
 
@@ -30,9 +29,7 @@ public class UserController {
     public String updateUser(
             @RequestParam Long userId,
             @RequestParam String role) {
-        User user = userRepository.findOne(userId);
-        user.setRole(role);
-        userRepository.save(user);
+        userService.updateUserRole(userId, role);
         return "redirect:/users";
     }
 }

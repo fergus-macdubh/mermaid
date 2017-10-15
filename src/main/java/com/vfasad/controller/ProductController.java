@@ -1,7 +1,7 @@
 package com.vfasad.controller;
 
 import com.vfasad.entity.Product;
-import com.vfasad.repo.ProductRepository;
+import com.vfasad.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
@@ -17,13 +17,13 @@ import static com.vfasad.entity.User.ROLE_OPERATOR;
 @Controller
 public class ProductController {
     @Autowired
-    private ProductRepository productRepository;
+    private ProductService productService;
 
     @RequestMapping(value = "/product", method = RequestMethod.GET)
     @Secured({ROLE_ADMIN, ROLE_OPERATOR})
     public ModelAndView products() {
         ModelAndView model = new ModelAndView("product/product-dashboard");
-        model.addObject("products", productRepository.findAll());
+        model.addObject("products", productService.getProducts());
         return model;
     }
 
@@ -31,7 +31,7 @@ public class ProductController {
     @Secured({ROLE_ADMIN, ROLE_OPERATOR})
     public ModelAndView addProductForm() {
         ModelAndView model = new ModelAndView("product/add-product-form");
-        model.addObject("products", productRepository.findAll());
+        model.addObject("products", productService.getProducts());
         return model;
     }
 
@@ -42,7 +42,7 @@ public class ProductController {
             @RequestParam String producer,
             @RequestParam String supplier,
             @RequestParam Product.Unit unit) {
-        productRepository.save(new Product(
+        productService.add(new Product(
                 name,
                 unit,
                 producer,
@@ -54,7 +54,7 @@ public class ProductController {
     @Secured({ROLE_ADMIN, ROLE_OPERATOR})
     public ModelAndView editProductForm(@PathVariable Long id) {
         ModelAndView model = new ModelAndView("product/add-product-form");
-        model.addObject("product", productRepository.findOne(id));
+        model.addObject("product", productService.getProduct(id));
         return model;
     }
 
@@ -66,12 +66,7 @@ public class ProductController {
             @RequestParam String producer,
             @RequestParam String supplier,
             @RequestParam Product.Unit unit) {
-        Product product = productRepository.findOne(id);
-        product.setName(name);
-        product.setProducer(producer);
-        product.setSupplier(supplier);
-        product.setUnit(unit);
-        productRepository.save(product);
+        productService.updateProduct(id, name, producer, supplier, unit);
         return "redirect:/product";
     }
 }

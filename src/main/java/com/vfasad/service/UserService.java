@@ -1,17 +1,17 @@
 package com.vfasad.service;
 
 import com.vfasad.entity.User;
+import com.vfasad.exception.NotFoundException;
 import com.vfasad.repo.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
 
-@Component
+@Service
 public class UserService {
     private static final String EMAIL = "email";
     private static final String NAME = "name";
@@ -30,7 +30,7 @@ public class UserService {
             return null;
         }
         Map<String, String> details = (Map) authentication.getDetails();
-        return userRepository.getByEmail(details.get("email")).orElseThrow(() -> new AccessDeniedException("User is not found in database."));
+        return userRepository.getByEmail(details.get("email")).orElseThrow(() -> new NotFoundException("User is not found in database."));
     }
 
     public User updateUser(Map<String, String> details) {
@@ -55,5 +55,19 @@ public class UserService {
 
     public List<User> getManagers() {
         return userRepository.getByRole("ROLE_SALES");
+    }
+
+    public List<User> findAll() {
+        return userRepository.findAllByOrderByEmail();
+    }
+
+    public void updateUserRole(Long userId, String role) {
+        User user = getUser(userId);
+        user.setRole(role);
+        userRepository.save(user);
+    }
+
+    public User getUser(Long id) {
+        return userRepository.getById(id).orElseThrow(() -> new NotFoundException("User with provided id is not found."));
     }
 }

@@ -1,9 +1,6 @@
 package com.vfasad.controller;
 
-import com.vfasad.entity.Product;
-import com.vfasad.entity.ProductAction;
-import com.vfasad.repo.ProductActionRepository;
-import com.vfasad.repo.ProductRepository;
+import com.vfasad.service.ProductService;
 import com.vfasad.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
@@ -19,10 +16,7 @@ import static com.vfasad.entity.User.*;
 @Controller
 public class StorageController {
     @Autowired
-    private ProductRepository productRepository;
-
-    @Autowired
-    private ProductActionRepository productActionRepository;
+    private ProductService productService;
 
     @Autowired
     private UserService userService;
@@ -31,7 +25,7 @@ public class StorageController {
     @Secured({ROLE_ADMIN, ROLE_OPERATOR, ROLE_PAINTER})
     public ModelAndView dashboard() {
         ModelAndView model = new ModelAndView("storage/storage-dashboard");
-        model.addObject("products", productRepository.findByQuantityGreaterThan(0));
+        model.addObject("products", productService.findAllProductsInStorage());
         return model;
     }
 
@@ -39,7 +33,7 @@ public class StorageController {
     @Secured({ROLE_ADMIN, ROLE_OPERATOR, ROLE_PAINTER})
     public ModelAndView productActions(@PathVariable Long id) {
         ModelAndView model = new ModelAndView("storage/product-actions");
-        model.addObject("actions", productActionRepository.getByProductIdOrderByCreatedDesc(id));
+        model.addObject("actions", productService.findAllProductActions(id));
         return model;
     }
 
@@ -47,7 +41,7 @@ public class StorageController {
     @Secured({ROLE_ADMIN, ROLE_OPERATOR})
     public ModelAndView purchaseProductForm() {
         ModelAndView model = new ModelAndView("storage/purchase-product-form");
-        model.addObject("products", productRepository.findAll());
+        model.addObject("products", productService.findAll());
         return model;
     }
 
@@ -57,18 +51,7 @@ public class StorageController {
             @RequestParam Long productId,
             @RequestParam int quantity,
             @RequestParam double price) {
-        Product product = productRepository.findOne(productId);
-
-        productActionRepository.save(ProductAction.createPurchaseAction(
-                quantity,
-                price,
-                product,
-                userService.getCurrentUser()
-        ));
-
-        product.setQuantity(product.getQuantity() + quantity);
-        product.setPrice(price / quantity);
-        productRepository.save(product);
+        productService.purchase(productId, quantity, price, userService.getCurrentUser());
         return "redirect:/storage";
     }
 
@@ -76,21 +59,14 @@ public class StorageController {
     @Secured(ROLE_ADMIN)
     public ModelAndView productInventoryingForm(@PathVariable Long id) {
         ModelAndView model = new ModelAndView("storage/inventorying-product-form");
-        model.addObject("product", productRepository.findOne(id));
+        model.addObject("product", productService.getProduct(id));
         return model;
     }
 
     @RequestMapping(value = "/storage/product/{id}/inventorying", method = RequestMethod.POST)
     @Secured(ROLE_ADMIN)
     public String productInventorying(@PathVariable Long id, @RequestParam int quantity) {
-        Product product = productRepository.findOne(id);
-        productActionRepository.save(ProductAction.createInventoryingAction(
-                quantity - product.getQuantity(),
-                product,
-                userService.getCurrentUser()
-        ));
-        product.setQuantity(quantity);
-        productRepository.save(product);
+        productService.performInventorying(id, quantity, userService.getCurrentUser());
         return "redirect:/storage";
     }
 }

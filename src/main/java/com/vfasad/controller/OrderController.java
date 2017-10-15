@@ -1,10 +1,10 @@
 package com.vfasad.controller;
 
-import com.vfasad.entity.Order;
 import com.vfasad.entity.OrderConsume;
 import com.vfasad.entity.Product;
-import com.vfasad.repo.OrderRepository;
-import com.vfasad.repo.ProductRepository;
+import com.vfasad.entity.User;
+import com.vfasad.service.OrderService;
+import com.vfasad.service.ProductService;
 import com.vfasad.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
@@ -23,10 +23,10 @@ import static com.vfasad.entity.User.*;
 @Controller
 public class OrderController {
     @Autowired
-    private OrderRepository orderRepository;
+    private OrderService orderService;
 
     @Autowired
-    private ProductRepository productRepository;
+    private ProductService productService;
 
     @Autowired
     private UserService userService;
@@ -35,7 +35,7 @@ public class OrderController {
     @Secured({ROLE_ADMIN, ROLE_OPERATOR, ROLE_PAINTER, ROLE_SALES})
     public ModelAndView products() {
         ModelAndView model = new ModelAndView("order/order-dashboard");
-        model.addObject("orders", orderRepository.findAll());
+        model.addObject("orders", orderService.findAll());
         return model;
     }
 
@@ -43,15 +43,15 @@ public class OrderController {
     @Secured({ROLE_ADMIN, ROLE_OPERATOR})
     public ModelAndView addOrderForm() {
         ModelAndView model = new ModelAndView("order/order-form");
-        model.addObject("orders", orderRepository.findAll());
-        model.addObject("products", productRepository.findAll());
+        model.addObject("orders", orderService.findAll());
+        model.addObject("products", productService.findAll());
         model.addObject("managers", userService.getManagers());
         return model;
     }
 
     @RequestMapping(value = "/order/add", method = RequestMethod.POST)
     @Secured({ROLE_ADMIN, ROLE_OPERATOR})
-    public String addProduct(
+    public String addOrder(
             @RequestParam int area,
             @RequestParam String client,
             @RequestParam double price,
@@ -60,16 +60,11 @@ public class OrderController {
         Set<OrderConsume> consumes = new HashSet<>();
 
         for (int i = 0; i < productIds.length; i++) {
-            Product product = productRepository.findOne(productIds[i]);
+            Product product = productService.getProduct(productIds[i]);
             consumes.add(new OrderConsume(product, quantities[i]));
         }
 
-        orderRepository.save(new Order(
-                userService.getCurrentUser(),
-                area,
-                client,
-                price,
-                consumes));
+        orderService.addOrder(area, client, price, consumes, userService.getCurrentUser());
         return "redirect:/order";
     }
 
@@ -77,8 +72,8 @@ public class OrderController {
     @Secured({ROLE_ADMIN, ROLE_OPERATOR})
     public ModelAndView editProductForm(@PathVariable Long id) {
         ModelAndView model = new ModelAndView("order/order-form");
-        model.addObject("order", orderRepository.findOne(id));
-        model.addObject("products", productRepository.findAll());
+        model.addObject("order", orderService.getOrder(id));
+        model.addObject("products", productService.findAll());
         model.addObject("managers", userService.getManagers());
         return model;
     }
@@ -91,20 +86,16 @@ public class OrderController {
             @RequestParam String client,
             @RequestParam double price,
             @RequestParam long[] productIds,
-            @RequestParam int[] quantities) {
+            @RequestParam int[] quantities,
+            @RequestParam Long managerId) {
         Set<OrderConsume> consumes = new HashSet<>();
 
         for (int i = 0; i < productIds.length; i++) {
-            Product product = productRepository.findOne(productIds[i]);
+            Product product = productService.getProduct(productIds[i]);
             consumes.add(new OrderConsume(product, quantities[i]));
         }
-
-        Order order = orderRepository.findOne(id);
-        order.setArea(area);
-        order.setClient(client);
-        order.setPrice(price);
-        order.setConsumes(consumes);
-        orderRepository.save(order);
+        User manager = userService.getUser(managerId);
+        orderService.updateOrder(id, area, client, price, consumes, manager);
         return "redirect:/order";
     }
 }

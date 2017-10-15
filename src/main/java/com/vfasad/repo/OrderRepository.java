@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import java.math.BigInteger;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface OrderRepository extends JpaRepository<Order, Long> {
@@ -19,4 +20,6 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
             "  JOIN product p ON p.id = c.product_id " +
             "WHERE o.status = 'CREATED' AND p.quantity < c.calculated_quantity", nativeQuery = true)
     List<BigInteger> findBlockedOrdersIds();
+
+    Optional<Order> findById(Long id);
 }

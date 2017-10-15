@@ -10,16 +10,26 @@
         <th>Площадь</th>
         <th>Клиент</th>
         <th>Цена</th>
+    <#if user.role == "ROLE_ADMIN"
+    || user.role == "ROLE_OPERATOR"
+    || user.role == "ROLE_PAINTER">
+        <th>Редактировать</th>
+    </#if>
     </tr>
     </thead>
 <#list orders as order>
     <tr>
-        <td><a href="/order/${order.id?c}/edit">${order.id}</a></td>
+        <td>${order.id}</td>
         <td>${order.status}</td>
         <td>${order.manager.name}</td>
         <td>${order.area}</td>
         <td>${order.client!}</td>
         <td>${order.price}</td>
+        <#if user.role == "ROLE_ADMIN"
+        || user.role == "ROLE_OPERATOR"
+        || user.role == "ROLE_PAINTER">
+            <td><a class="btn btn-info" href="/order/${order.id?c}/edit">Редактировать</a></td>
+        </#if>
     </tr>
 </#list>
 </table>

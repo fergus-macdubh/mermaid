@@ -39,7 +39,7 @@ public class StorageController {
     @Secured({ROLE_ADMIN, ROLE_OPERATOR, ROLE_PAINTER})
     public ModelAndView productActions(@PathVariable Long id) {
         ModelAndView model = new ModelAndView("storage/product-actions");
-        model.addObject("actions", productActionRepository.findByProductId(id));
+        model.addObject("actions", productActionRepository.getByProductIdOrderByCreatedDesc(id));
         return model;
     }
 

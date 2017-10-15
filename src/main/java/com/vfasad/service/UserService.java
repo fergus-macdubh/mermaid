@@ -8,6 +8,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.Map;
 
 @Component
@@ -26,7 +27,7 @@ public class UserService {
     public User getCurrentUser() {
         OAuth2Authentication authentication = (OAuth2Authentication) SecurityContextHolder.getContext().getAuthentication();
         if (authentication == null) {
-            throw new AccessDeniedException("Authentication is null.");
+            return null;
         }
         Map<String, String> details = (Map) authentication.getDetails();
         return userRepository.getByEmail(details.get("email")).orElseThrow(() -> new AccessDeniedException("User is not found in database."));
@@ -46,5 +47,13 @@ public class UserService {
         user.setLocale(details.get(LOCALE));
 
         return user;
+    }
+
+    public List<User> getAdmins() {
+        return userRepository.getByRole("ROLE_ADMIN");
+    }
+
+    public List<User> getManagers() {
+        return userRepository.getByRole("ROLE_SALES");
     }
 }

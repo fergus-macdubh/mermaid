@@ -5,10 +5,8 @@
 
     function selectOrder(id, status) {
         $('#order_' + selectedOrderId)
-                .removeClass('kanban-selected-order')
-                .addClass('kanban-order');
+                .removeClass('kanban-selected-order');
         $('#order_' + id)
-                .removeClass('kanban-order')
                 .addClass('kanban-selected-order');
         selectedOrderId = id;
 
@@ -18,6 +16,9 @@
                         .text('В работу')
                         .removeClass('disabled')
                         .attr('data-target', '#modal-inProgress');
+                $('#in-progress-submit-button').removeClass('hidden');
+                $('#spend-consumes-warning').removeClass('hidden');
+                $('#not-enough-consumes-error').addClass('hidden');
                 break;
             case 'SHIPPING':
                 $('#moveSubmit')
@@ -34,8 +35,11 @@
             case 'BLOCKED':
                 $('#moveSubmit')
                         .text('Недостаточно материалов')
-                        .attr('data-target', '')
-                        .addClass('disabled');
+                        .attr('data-target', '#modal-inProgress')
+                        .removeClass('disabled');
+                $('#in-progress-submit-button').addClass('hidden');
+                $('#spend-consumes-warning').addClass('hidden');
+                $('#not-enough-consumes-error').removeClass('hidden');
         }
 
         $('.modal-order-id').text(selectedOrderId);
@@ -79,8 +83,10 @@
         <div class="kanban-column">
             <div class="kanban-column-head">Новые</div>
         <#list createdOrders as order>
-            <div id="order_${order.id}" class="kanban-order" onclick="selectOrder(${order.id}, '${order.status}')">
-                <#if order.status=='BLOCKED'><img src="/img/warning.png" class="warning-icon" title="Недостаточно материалов"/></#if>
+            <div id="order_${order.id}" class="kanban-order" onclick="selectOrder(${order.id}, '${order.status}')"
+                 style="background-image: url(${order.manager.picture}); ">
+                <#if order.status=='BLOCKED'><img src="/img/warning.png" class="warning-icon"
+                                                  title="Недостаточно материалов"/></#if>
                 <div class="kanban-order-id">${order.id} : ${order.client!}</div>
                 <div class="kanban-order-area">${order.area} м<sup>2</sup></div>
                 <div class="kanban-order-consumes">|<#list order.consumes as consume> ${consume.product.name!}
@@ -94,7 +100,8 @@
         <div class="kanban-column">
             <div class="kanban-column-head">В работе</div>
         <#list inProgressOrders as order>
-            <div id="order_${order.id}" class="kanban-order" onclick="selectOrder(${order.id}, '${order.status}')">
+            <div id="order_${order.id}" class="kanban-order" onclick="selectOrder(${order.id}, '${order.status}')"
+                    style="background-image: url(${order.manager.picture}); ">
                 <div class="kanban-order-id">${order.id} : ${order.client!}</div>
                 <div class="kanban-order-area">${order.area} м<sup>2</sup></div>
                 <div class="kanban-order-consumes">|<#list order.consumes as consume> ${consume.product.name!}
@@ -108,7 +115,8 @@
         <div class="kanban-column">
             <div class="kanban-column-head">К отгрузке</div>
         <#list shippingOrders as order>
-            <div id="order_${order.id}" class="kanban-order" onclick="selectOrder(${order.id}, '${order.status}')">
+            <div id="order_${order.id}" class="kanban-order" onclick="selectOrder(${order.id}, '${order.status}')"
+                 style="background-image: url(${order.manager.picture}); ">
                 <div class="kanban-order-id">${order.id} : ${order.client!}</div>
                 <div class="kanban-order-area">${order.area} м<sup>2</sup></div>
                 <div class="kanban-order-consumes">|<#list order.consumes as consume> ${consume.product.name!}
@@ -149,14 +157,19 @@
                     <th>Количество</th>
                     </thead>
                 </table>
-                <div class="alert alert-warning"><strong>Расходные материалы будут списаны со склада!</strong></div>
+                <div id="spend-consumes-warning" class="alert alert-warning"><strong>Расходные материалы будут списаны со склада!</strong></div>
+                <div id="not-enough-consumes-error" class="alert alert-danger"><strong>Недостаточно расходных материалов!</strong></div>
                 <form method="post">
                     <input type="hidden"
                            name="${_csrf.parameterName}"
                            value="${_csrf.token}"/>
                     <input class="modal-order-id-input" type="hidden" name="orderId"/>
                     <div class="modal-footer">
-                        <input type="submit" class="btn btn-info" value="В работу">
+                    <#if user.role == "ROLE_ADMIN"
+                    || user.role == "ROLE_OPERATOR"
+                    || user.role == "ROLE_PAINTER">
+                        <input id="in-progress-submit-button" type="submit" class="btn btn-info" value="В работу">
+                    </#if>
                         <button type="button" class="btn btn-default" data-dismiss="modal">Отмена</button>
                     </div>
                 </form>
@@ -200,7 +213,12 @@
                     <div class="alert alert-warning"><strong>Остатки материалов будут возвращены на склад</strong></div>
                     <input class="modal-order-id-input" type="hidden" name="orderId"/>
                     <div class="modal-footer">
+
+                    <#if user.role == "ROLE_ADMIN"
+                    || user.role == "ROLE_OPERATOR"
+                    || user.role == "ROLE_PAINTER">
                         <input type="submit" class="btn btn-info" value="Готово">
+                    </#if>
                         <button type="button" class="btn btn-default" data-dismiss="modal">Отмена</button>
                     </div>
                 </form>
@@ -244,7 +262,11 @@
                     </table>
                     <input class="modal-order-id-input" type="hidden" name="orderId"/>
                     <div class="modal-footer">
+                    <#if user.role == "ROLE_ADMIN"
+                    || user.role == "ROLE_OPERATOR"
+                    || user.role == "ROLE_PAINTER">
                         <input type="submit" class="btn btn-info" value="Закрыть заказ">
+                    </#if>
                         <button type="button" class="btn btn-default" data-dismiss="modal">Отмена</button>
                     </div>
                 </form>

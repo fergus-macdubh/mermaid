@@ -8,5 +8,5 @@ import java.util.List;
 
 @Repository
 public interface ProductActionRepository extends JpaRepository<ProductAction, Long> {
-    List<ProductAction> findByProductId(Long productId);
+    List<ProductAction> getByProductIdOrderByCreatedDesc(Long productId);
 }

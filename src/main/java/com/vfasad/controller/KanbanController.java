@@ -38,6 +38,12 @@ public class KanbanController {
     @Autowired
     private Gson gson;
 
+    @RequestMapping(value = "/", method = RequestMethod.GET)
+    @Secured({ROLE_ADMIN, ROLE_OPERATOR, ROLE_PAINTER, ROLE_SALES})
+    public String main() {
+        return "redirect:/kanban";
+    }
+
     @RequestMapping(value = "/kanban", method = RequestMethod.GET)
     @Secured({ROLE_ADMIN, ROLE_OPERATOR, ROLE_PAINTER, ROLE_SALES})
     public ModelAndView kanbanBoard() {

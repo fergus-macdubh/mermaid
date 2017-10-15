@@ -15,6 +15,9 @@
     background-color: beige;
     padding: 1em;
     margin: .5em 0;
+    background-position: 99% 90%;
+    background-repeat: no-repeat;
+    background-size: 40px;
 }
 
 .kanban-order-blocked {

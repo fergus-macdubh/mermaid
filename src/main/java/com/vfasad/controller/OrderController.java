@@ -45,6 +45,7 @@ public class OrderController {
         ModelAndView model = new ModelAndView("order/order-form");
         model.addObject("orders", orderRepository.findAll());
         model.addObject("products", productRepository.findAll());
+        model.addObject("managers", userService.getManagers());
         return model;
     }
 
@@ -78,6 +79,7 @@ public class OrderController {
         ModelAndView model = new ModelAndView("order/order-form");
         model.addObject("order", orderRepository.findOne(id));
         model.addObject("products", productRepository.findAll());
+        model.addObject("managers", userService.getManagers());
         return model;
     }
 

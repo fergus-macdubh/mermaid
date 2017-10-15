@@ -21,7 +21,7 @@ public class UserController {
     @Secured(ROLE_ADMIN)
     public ModelAndView products() {
         ModelAndView model = new ModelAndView("users/users");
-        model.addObject("users", userRepository.findAll());
+        model.addObject("users", userRepository.findAllByOrderByEmail());
         return model;
     }
 

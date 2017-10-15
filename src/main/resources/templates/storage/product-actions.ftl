@@ -4,21 +4,36 @@
 <table class="responsive-table">
     <thead>
     <tr>
-        <td>Дата</td>
-        <td>Цена</td>
-        <td>Количество</td>
-        <td>Цена за единицу</td>
-        <td>Тип</td>
-        <td>Менеджер</td>
+        <th>Дата</th>
+        <th>Цена</th>
+        <th>Количество</th>
+        <th>Цена за единицу</th>
+        <th>Тип</th>
+        <th>Менеджер</th>
     </tr>
     </thead>
 <#list actions as action>
     <tr>
         <td>${action.created.format('dd MMM yyyy')}</td>
-        <td>${action.price} грн</a></td>
+        <td><#if action.type == 'PURCHASE'>${action.price} грн<#else>-</#if></td>
         <td>${action.quantity} ${action.product.unit.abbr}</td>
-        <td>${action.price / action.quantity} грн / ${action.product.unit.abbr}</a></td>
-        <td>${action.type}</td>
+        <td><#if action.type == 'PURCHASE'>${action.price / action.quantity} грн / ${action.product.unit.abbr}<#else>-</#if></td>
+        <td>
+            <#switch action.type>
+                <#case 'SPEND'>
+                    <a href="/order/${action.order.id}/edit">Списано по заказу #${action.order.id}</a>
+                    <#break>
+                <#case 'PURCHASE'>
+                    Покупка
+                    <#break>
+                <#case 'INVENTORYING'>
+                    Инвентаризация
+                    <#break>
+                <#case 'RETURN'>
+            <a href="/order/${action.order.id}/edit">Возврат по заказу #${action.order.id}</a>
+                    <#break>
+            </#switch>
+        </td>
         <td>${action.actor.name}</td>
     </tr>
 </#list>

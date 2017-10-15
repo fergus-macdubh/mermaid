@@ -58,6 +58,16 @@
                 <input name="price" value="${(order.price?c)!}"/>
             </td>
         </tr>
+        <tr>
+            <th>Менеджер</th>
+            <td>
+                <select name="manager">
+                    <#list managers as manager>
+                        <option value="${manager.id}" <#if order?? && order.manager.id! == manager.id>selected</#if>>${manager.name}</option>
+                    </#list>
+                </select>
+            </td>
+        </tr>
     </table>
 
     <table id="consumes-table" class="responsive-table" style="width: 20em">

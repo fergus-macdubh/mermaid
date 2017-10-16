@@ -73,15 +73,15 @@ public class OrderService {
         orderRepository.save(order);
     }
 
-    public void moveOrderToShipping(Order order, long[] consumeIds, int[] actualQuantities) {
+    public void moveOrderToShipping(Order order, long[] consumeIds, List<Integer> actualQuantities) {
         Map<Long, OrderConsume> consumeMap = order.getConsumes().stream().collect(toMap(OrderConsume::getId, Function.identity()));
 
         for (int i = 0; i < consumeIds.length; i++) {
             OrderConsume consume = consumeMap.get(consumeIds[i]);
             if (consume == null) throw new NotFoundException("Order consume with provided id is not found.");
             Product product = consume.getProduct();
-            consume.setActualUsedQuantity(actualQuantities[i]);
-            int remain = consume.getCalculatedQuantity() - actualQuantities[i];
+            consume.setActualUsedQuantity(actualQuantities.get(i));
+            int remain = consume.getCalculatedQuantity() - actualQuantities.get(i);
             productService.returnProduct(product, remain, order);
         }
         order.setStatus(Order.Status.SHIPPING);

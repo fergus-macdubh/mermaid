@@ -8,13 +8,28 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
+
+import static java.util.stream.Collectors.toList;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(AccessDeniedException.class)
-    public String accessDenied(HttpServletRequest req, Exception e) throws Exception {
+    public String accessDenied(HttpServletRequest req, AccessDeniedException e) throws Exception {
         return "redirect:/denied";
+    }
+
+    @ExceptionHandler(ConstraintViolationException.class)
+    public ModelAndView constraintViolation(HttpServletRequest req, ConstraintViolationException e) throws Exception {
+        ModelAndView mav = new ModelAndView("error/error");
+        mav.addObject("messages", e.getConstraintViolations()
+                .stream()
+                .map(ConstraintViolation::getMessage)
+                .collect(toList()));
+        mav.addObject("url", req.getRequestURL());
+        return mav;
     }
 
     @ExceptionHandler(Exception.class)
@@ -29,7 +44,7 @@ public class GlobalExceptionHandler {
 
         // Otherwise setup and send the user to a default error-view.
         ModelAndView mav = new ModelAndView("error/error");
-        mav.addObject("exception", e);
+        mav.addObject("messages", new String[]{e.getMessage()});
         mav.addObject("url", req.getRequestURL());
         return mav;
     }

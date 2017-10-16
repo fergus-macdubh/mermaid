@@ -2,9 +2,11 @@ package com.vfasad.controller;
 
 import com.vfasad.entity.Product;
 import com.vfasad.service.ProductService;
+import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -15,6 +17,7 @@ import static com.vfasad.entity.User.ROLE_ADMIN;
 import static com.vfasad.entity.User.ROLE_OPERATOR;
 
 @Controller
+@Validated
 public class ProductController {
     @Autowired
     private ProductService productService;
@@ -38,9 +41,9 @@ public class ProductController {
     @RequestMapping(value = "/product/add", method = RequestMethod.POST)
     @Secured({ROLE_ADMIN, ROLE_OPERATOR})
     public String addProduct(
-            @RequestParam String name,
-            @RequestParam String producer,
-            @RequestParam String supplier,
+            @RequestParam @NotEmpty(message = "Name may not be empty") String name,
+            @RequestParam @NotEmpty(message = "Producer may not be empty") String producer,
+            @RequestParam(required = false) String supplier,
             @RequestParam Product.Unit unit) {
         productService.add(new Product(
                 name,
@@ -62,8 +65,8 @@ public class ProductController {
     @Secured({ROLE_ADMIN, ROLE_OPERATOR})
     public String updateProduct(
             @PathVariable Long id,
-            @RequestParam String name,
-            @RequestParam String producer,
+            @RequestParam @NotEmpty(message = "Name may not be empty") String name,
+            @RequestParam @NotEmpty(message = "Producer may not be empty") String producer,
             @RequestParam String supplier,
             @RequestParam Product.Unit unit) {
         productService.updateProduct(id, name, producer, supplier, unit);

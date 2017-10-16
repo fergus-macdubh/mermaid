@@ -61,7 +61,7 @@
         <tr>
             <th>Менеджер</th>
             <td>
-                <select name="manager">
+                <select name="managerId">
                     <#list managers as manager>
                         <option value="${manager.id}" <#if order?? && order.manager.id! == manager.id>selected</#if>>${manager.name}</option>
                     </#list>

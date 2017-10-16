@@ -19,8 +19,13 @@
 </ul>
     Отправьте ему пожалуйста следующую информацию:
     <ul>
-        <li>Requested URL: ${url}</li>
-        <li>Message: ${exception.message}</li>
+        <li>Requested URL: ${url!}</li>
+        <li>Messages: <ul>
+            <#list messages as message>
+            <li>${message!}</li>
+            </#list>
+        </ul>
+        </li>
     </ul>
 </div>
 </body>

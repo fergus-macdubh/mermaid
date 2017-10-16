@@ -3,9 +3,12 @@ package com.vfasad.controller;
 import com.google.gson.Gson;
 import com.vfasad.entity.Order;
 import com.vfasad.service.OrderService;
+import com.vfasad.validation.constraints.ElementMin;
+import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -18,6 +21,7 @@ import static com.vfasad.entity.User.*;
 import static java.util.stream.Collectors.toMap;
 
 @Controller
+@Validated
 public class KanbanController {
     @Autowired
     private OrderService orderService;
@@ -46,8 +50,12 @@ public class KanbanController {
     @Secured({ROLE_ADMIN, ROLE_OPERATOR, ROLE_PAINTER})
     public String moveOrder(
             @RequestParam Long orderId,
-            @RequestParam(required = false) long[] consumeIds,
-            @RequestParam(required = false) int[] actualQuantities) {
+            @RequestParam(required = false) @NotEmpty
+                    long[] consumeIds,
+            @RequestParam(required = false) @NotEmpty
+            @ElementMin(value = 1, message = "Quantities cannot be zero or negative.")
+                    List<Integer> actualQuantities) {
+
         Order order = orderService.getOrder(orderId);
         if (order.getStatus() == Order.Status.CREATED) {
             orderService.moveOrderInProgress(order);

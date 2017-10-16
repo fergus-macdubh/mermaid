@@ -1,25 +1,25 @@
 package com.vfasad.controller;
 
 import com.vfasad.service.ProductService;
-import com.vfasad.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.validation.constraints.Min;
+
 import static com.vfasad.entity.User.*;
 
 @Controller
+@Validated
 public class StorageController {
     @Autowired
     private ProductService productService;
-
-    @Autowired
-    private UserService userService;
 
     @RequestMapping(value = "/storage", method = RequestMethod.GET)
     @Secured({ROLE_ADMIN, ROLE_OPERATOR, ROLE_PAINTER})
@@ -49,8 +49,10 @@ public class StorageController {
     @Secured({ROLE_ADMIN, ROLE_OPERATOR})
     public String purchaseProduct(
             @RequestParam Long productId,
-            @RequestParam int quantity,
-            @RequestParam double price) {
+            @RequestParam @Min(value = 1, message = "Quantity cannot be zero or negative.")
+                    int quantity,
+            @RequestParam @Min(value = 1, message = "Price cannot be zero or negative.")
+                    double price) {
         productService.purchase(productId, quantity, price);
         return "redirect:/storage";
     }
@@ -65,7 +67,10 @@ public class StorageController {
 
     @RequestMapping(value = "/storage/product/{id}/inventorying", method = RequestMethod.POST)
     @Secured(ROLE_ADMIN)
-    public String productInventorying(@PathVariable Long id, @RequestParam int quantity) {
+    public String productInventorying(
+            @PathVariable Long id,
+            @RequestParam @Min(value = 1, message = "Quantity cannot be zero or negative.")
+                    int quantity) {
         productService.performInventorying(id, quantity);
         return "redirect:/storage";
     }

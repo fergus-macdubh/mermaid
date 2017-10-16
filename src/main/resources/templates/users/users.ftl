@@ -4,12 +4,12 @@
 <table class="responsive-table">
     <thead>
     <tr>
-        <td></td>
-        <td>Email</td>
-        <td>Полное имя</td>
-        <td>Имя</td>
-        <td>Фамилия</td>
-        <td>Роль</td>
+        <th></th>
+        <th>Email</th>
+        <th>Полное имя</th>
+        <th>Имя</th>
+        <th>Фамилия</th>
+        <th>Роль</th>
     </tr>
     </thead>
 <#list users as user>

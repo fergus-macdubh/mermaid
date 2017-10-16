@@ -22,7 +22,7 @@ public class ProductAction {
     @GeneratedValue(generator="optimized-sequence")
     private Long id;
 
-    private int quantity;
+    private double quantity;
     private double price;
 
     @Enumerated(EnumType.STRING)
@@ -39,7 +39,7 @@ public class ProductAction {
 
     private LocalDateTime created = LocalDateTime.now();
 
-    public static ProductAction createPurchaseAction(int quantity, double price, Product product, User user) {
+    public static ProductAction createPurchaseAction(double quantity, double price, Product product, User user) {
         ProductAction pa = new ProductAction();
         pa.quantity = quantity;
         pa.price = price;
@@ -49,7 +49,7 @@ public class ProductAction {
         return pa;
     }
 
-    public static ProductAction createSpendAction(int quantity, Product product, User user, Order order) {
+    public static ProductAction createSpendAction(double quantity, Product product, User user, Order order) {
         ProductAction pa = new ProductAction();
         pa.quantity = quantity;
         pa.type = Type.SPEND;
@@ -59,7 +59,7 @@ public class ProductAction {
         return pa;
     }
 
-    public static ProductAction createReturnAction(int quantity, Product product, User user, Order order) {
+    public static ProductAction createReturnAction(double quantity, Product product, User user, Order order) {
         ProductAction pa = new ProductAction();
         pa.quantity = quantity;
         pa.type = Type.RETURN;
@@ -69,7 +69,7 @@ public class ProductAction {
         return pa;
     }
 
-    public static ProductAction createInventoryingAction(int quantity, Product product, User user) {
+    public static ProductAction createInventoryingAction(double quantity, Product product, User user) {
         ProductAction pa = new ProductAction();
         pa.quantity = quantity;
         pa.type = Type.INVENTORYING;

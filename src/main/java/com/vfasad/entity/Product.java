@@ -13,7 +13,7 @@ public class Product {
     @Id
     @GeneratedValue(generator="optimized-sequence")
     private Long id;
-    private int quantity;
+    private double quantity;
     private String name;
 
     @Enumerated(EnumType.STRING)

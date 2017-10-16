@@ -1,11 +1,37 @@
 <#include "../header.ftl">
+<script type="application/javascript">
+    $(function() {
+        $("#add-product-form").validate({
+            rules: {
+                name: {
+                    required: true
+                },
+                producer: {
+                    required: true
+                }
+            },
+            messages: {
+                name: {
+                    required: "Название товара должно быть заполнено."
+                },
+                producer: {
+                    required: "Поле 'Производитель' должно быть заполнено."
+                }
+            },
+            submitHandler: function(form) {
+                form.submit();
+            }
+        });
+    });
+</script>
+
 <#if product??>
 <h1>Новый товар</h1>
 <#else>
 <h1>Изменение товара</h1>
 </#if>
 
-<form method="post">
+<form id="add-product-form" method="post">
     <input type="hidden"
            name="${_csrf.parameterName}"
            value="${_csrf.token}"/>

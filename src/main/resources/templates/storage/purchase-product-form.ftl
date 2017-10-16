@@ -1,7 +1,39 @@
 <#include "../header.ftl">
+<script type="application/javascript">
+    $(function() {
+        $("#purchase-form").validate({
+            rules: {
+                price: {
+                    required: true,
+                    number: true,
+                    min: 1},
+                quantity: {
+                    required: true,
+                    number: true,
+                    min: 0
+                }
+            },
+            messages: {
+                price: {
+                    required: "Поле 'Цена' должно быть заполнено.",
+                    min: "Цена не может быть отрицательной.",
+                    number: "Поле 'Цена' может содержать только цифры."
+                },
+                quantity: {
+                    required: "Поле 'Количество' должно быть заполнено.",
+                    min: "Количество не может быть отрицательным.",
+                    number: "Поле 'Количество' может содержать только цифры."
+                }
+            },
+            submitHandler: function(form) {
+                form.submit();
+            }
+        });
+    });
+</script>
 <h1>Закупка товара</h1>
 
-<form method="post">
+<form id="purchase-form" method="post">
     <table class="responsive-table" style="width: 20em">
         <tr>
             <th>Товар</th>

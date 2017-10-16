@@ -14,6 +14,52 @@
     function removeConsumesRow(i) {
         $('#consumes-row' + i).remove();
     }
+
+    $(function() {
+        $("#order-form").validate({
+            rules: {
+                area: {
+                    required: true,
+                    number: true,
+                    min: 1},
+                client: {
+                    required: true
+                },
+                price: {
+                    required: true,
+                    number: true,
+                    min: 1},
+                quantities: {
+                    required: true,
+                    number: true,
+                    min: 0
+                }
+            },
+            messages: {
+                area: {
+                    required: "Поле 'Площадь' должно быть заполнено.",
+                    min: "Площадь не может быть отрицательной.",
+                    number: "Поле 'Площадь' может содержать только цифры."
+                },
+                client: {
+                    required: "Поле 'Клиент' должно быть заполнено."
+                },
+                price: {
+                    required: "Поле 'Цена' должно быть заполнено.",
+                    min: "Цена не может быть отрицательной.",
+                    number: "Поле 'Цена' может содержать только цифры."
+                },
+                quantities: {
+                    required: "Поле 'Количество' должно быть заполнено.",
+                    min: "Количество не может быть отрицательным.",
+                    number: "Поле 'Количество' может содержать только цифры."
+                }
+            },
+            submitHandler: function(form) {
+                form.submit();
+            }
+        });
+    });
 </script>
 <#if order??>
 <h1>Изменение заказа</h1>
@@ -21,7 +67,7 @@
 <h1>Новый заказ</h1>
 </#if>
 
-<form method="post">
+<form id="order-form" method="post">
     <input type="hidden"
            name="${_csrf.parameterName}"
            value="${_csrf.token}"/>

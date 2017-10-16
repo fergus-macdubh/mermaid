@@ -69,8 +69,8 @@ public class StorageController {
     @Secured(ROLE_ADMIN)
     public String productInventorying(
             @PathVariable Long id,
-            @RequestParam @Min(value = 1, message = "Quantity cannot be zero or negative.")
-                    int quantity) {
+            @RequestParam @Min(value = 0, message = "Quantity cannot be negative.")
+                    double quantity) {
         productService.performInventorying(id, quantity);
         return "redirect:/storage";
     }

@@ -59,7 +59,7 @@ public class OrderController {
     @Secured({ROLE_ADMIN, ROLE_OPERATOR})
     public String addOrder(
             @RequestParam @Min(value = 1, message = "Area cannot be zero or negative.")
-                    int area,
+                    double area,
             @RequestParam(required = false)
                     String client,
             @RequestParam @Min(value = 1, message = "Price cannot be zero or negative.")
@@ -67,7 +67,7 @@ public class OrderController {
             @RequestParam @NotEmpty
                     long[] productIds,
             @RequestParam @NotEmpty @ElementMin(value = 1, message = "Quantities cannot be zero or negative.")
-                    List<Integer> quantities,
+                    List<Double> quantities,
             @RequestParam long managerId) {
         Set<OrderConsume> consumes = new HashSet<>();
 
@@ -94,7 +94,7 @@ public class OrderController {
     @Secured({ROLE_ADMIN, ROLE_OPERATOR})
     public String updateProduct(
             @PathVariable Long id,
-            @RequestParam int area,
+            @RequestParam double area,
             @RequestParam String client,
             @RequestParam double price,
             @RequestParam long[] productIds,

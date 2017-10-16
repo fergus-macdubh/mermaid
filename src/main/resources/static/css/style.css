@@ -1,3 +1,8 @@
+label.error {
+  font-size: smaller;
+  color: darkred;
+}
+
 #logo {
   float: left;
   padding-right: 1em;

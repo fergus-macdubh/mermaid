@@ -4,7 +4,6 @@ import com.google.gson.Gson;
 import com.vfasad.entity.Order;
 import com.vfasad.service.OrderService;
 import com.vfasad.validation.constraints.ElementMin;
-import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
@@ -50,11 +49,11 @@ public class KanbanController {
     @Secured({ROLE_ADMIN, ROLE_OPERATOR, ROLE_PAINTER})
     public String moveOrder(
             @RequestParam Long orderId,
-            @RequestParam(required = false) @NotEmpty
+            @RequestParam(required = false)
                     long[] consumeIds,
-            @RequestParam(required = false) @NotEmpty
+            @RequestParam(required = false)
             @ElementMin(value = 1, message = "Quantities cannot be zero or negative.")
-                    List<Integer> actualQuantities) {
+                    List<Double> actualQuantities) {
 
         Order order = orderService.getOrder(orderId);
         if (order.getStatus() == Order.Status.CREATED) {

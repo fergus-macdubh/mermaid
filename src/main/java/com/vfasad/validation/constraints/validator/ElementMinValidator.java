@@ -16,6 +16,10 @@ public class ElementMinValidator implements ConstraintValidator<ElementMin, Coll
 
     @Override
     public boolean isValid(Collection collection, ConstraintValidatorContext constraintValidatorContext) {
+        if (collection == null) {
+            return true;
+        }
+
         for (Object object : collection) {
             if (!(object instanceof Number)) return false;
 

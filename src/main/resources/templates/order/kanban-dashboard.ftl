@@ -74,7 +74,6 @@
     <div class="col-sm-12">
         <button id="moveSubmit" class="btn btn-info disabled" data-toggle="modal" data-target="#modal">Заказ не выбран
         </button>
-        </form>
     </div>
 </div>
 <br/>
@@ -84,16 +83,7 @@
             <div class="kanban-column-head">Новые</div>
         <#list orders as order>
             <#if order.status == 'CREATED' || order.status == 'BLOCKED'>
-            <div id="order_${order.id}" class="kanban-order" onclick="selectOrder(${order.id}, '${order.status}')"
-                 style="background-image: url(${order.manager.picture}); ">
-                <#if order.status=='BLOCKED'><img src="/img/warning.png" class="warning-icon"
-                                                  title="Недостаточно материалов"/></#if>
-                <div class="kanban-order-id">${order.id} : ${order.client!}</div>
-                <div class="kanban-order-area">${order.area} м<sup>2</sup></div>
-                <div class="kanban-order-consumes">|<#list order.consumes as consume> ${consume.product.name!}
-                    |</#list></div>
-                <div class="kanban-order-manager">${order.manager.familyName}</div>
-            </div>
+                <#include 'kanban-order.ftl'/>
             </#if>
         </#list>
         </div>
@@ -103,14 +93,7 @@
             <div class="kanban-column-head">В работе</div>
         <#list orders as order>
             <#if order.status == 'IN_PROGRESS'>
-            <div id="order_${order.id}" class="kanban-order" onclick="selectOrder(${order.id}, '${order.status}')"
-                    style="background-image: url(${order.manager.picture}); ">
-                <div class="kanban-order-id">${order.id} : ${order.client!}</div>
-                <div class="kanban-order-area">${order.area} м<sup>2</sup></div>
-                <div class="kanban-order-consumes">|<#list order.consumes as consume> ${consume.product.name!}
-                    |</#list></div>
-                <div class="kanban-order-manager">${order.manager.familyName}</div>
-            </div>
+                <#include 'kanban-order.ftl'/>
             </#if>
         </#list>
         </div>
@@ -120,14 +103,7 @@
             <div class="kanban-column-head">К отгрузке</div>
         <#list orders as order>
             <#if order.status == 'SHIPPING'>
-            <div id="order_${order.id}" class="kanban-order" onclick="selectOrder(${order.id}, '${order.status}')"
-                 style="background-image: url(${order.manager.picture}); ">
-                <div class="kanban-order-id">${order.id} : ${order.client!}</div>
-                <div class="kanban-order-area">${order.area} м<sup>2</sup></div>
-                <div class="kanban-order-consumes">|<#list order.consumes as consume> ${consume.product.name!}
-                    |</#list></div>
-                <div class="kanban-order-manager">${order.manager.familyName}</div>
-            </div>
+                <#include 'kanban-order.ftl'/>
             </#if>
         </#list>
         </div>
@@ -163,8 +139,10 @@
                     <th>Количество</th>
                     </thead>
                 </table>
-                <div id="spend-consumes-warning" class="alert alert-warning"><strong>Расходные материалы будут списаны со склада!</strong></div>
-                <div id="not-enough-consumes-error" class="alert alert-danger"><strong>Недостаточно расходных материалов!</strong></div>
+                <div id="spend-consumes-warning" class="alert alert-warning"><strong>Расходные материалы будут списаны
+                    со склада!</strong></div>
+                <div id="not-enough-consumes-error" class="alert alert-danger"><strong>Недостаточно расходных
+                    материалов!</strong></div>
                 <form method="post">
                     <input type="hidden"
                            name="${_csrf.parameterName}"

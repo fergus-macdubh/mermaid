@@ -32,7 +32,7 @@ public class OrderService {
         return orderRepository.findAll(new Sort(new Sort.Order(Sort.Direction.DESC, "created")));
     }
 
-    public void addOrder(int area, String client, double price, Set<OrderConsume> consumes, User manager) {
+    public void addOrder(double area, String client, double price, Set<OrderConsume> consumes, User manager) {
         orderRepository.save(new Order(
                 manager,
                 area,
@@ -46,7 +46,7 @@ public class OrderService {
         return orderRepository.findById(id).orElseThrow(() -> new NotFoundException("Order with provided id is not found"));
     }
 
-    public void updateOrder(Long id, int area, String client, double price, Set<OrderConsume> consumes, User manager) {
+    public void updateOrder(Long id, double area, String client, double price, Set<OrderConsume> consumes, User manager) {
         Order order = getOrder(id);
         order.setArea(area);
         order.setClient(client);
@@ -73,7 +73,7 @@ public class OrderService {
         orderRepository.save(order);
     }
 
-    public void moveOrderToShipping(Order order, long[] consumeIds, List<Integer> actualQuantities) {
+    public void moveOrderToShipping(Order order, long[] consumeIds, List<Double> actualQuantities) {
         Map<Long, OrderConsume> consumeMap = order.getConsumes().stream().collect(toMap(OrderConsume::getId, Function.identity()));
 
         for (int i = 0; i < consumeIds.length; i++) {
@@ -81,7 +81,7 @@ public class OrderService {
             if (consume == null) throw new NotFoundException("Order consume with provided id is not found.");
             Product product = consume.getProduct();
             consume.setActualUsedQuantity(actualQuantities.get(i));
-            int remain = consume.getCalculatedQuantity() - actualQuantities.get(i);
+            double remain = consume.getCalculatedQuantity() - actualQuantities.get(i);
             productService.returnProduct(product, remain, order);
         }
         order.setStatus(Order.Status.SHIPPING);

@@ -16,7 +16,7 @@ public class Order {
     private Long id;
     @ManyToOne
     private User manager;
-    private int area;
+    private double area;
     private String client;
     private double price;
     private LocalDateTime created = LocalDateTime.now();
@@ -32,7 +32,7 @@ public class Order {
         CREATED, IN_PROGRESS, SHIPPING, CLOSED, BLOCKED
     }
 
-    public Order(User manager, int area, String client, double price, Set<OrderConsume> consumes) {
+    public Order(User manager, double area, String client, double price, Set<OrderConsume> consumes) {
         this.manager = manager;
         this.area = area;
         this.client = client;

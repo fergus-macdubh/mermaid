@@ -37,7 +37,7 @@ public class ProductService {
         return productRepository.findAll(new Sort(new Sort.Order(Sort.Direction.ASC, "id")));
     }
 
-    public void purchase(Long productId, int quantity, double price) {
+    public void purchase(Long productId, double quantity, double price) {
         Product product = getProduct(productId);
 
         productActionRepository.save(ProductAction.createPurchaseAction(
@@ -56,7 +56,7 @@ public class ProductService {
         return productRepository.findById(id).orElseThrow(() -> new NotFoundException("Product with provided id is not found."));
     }
 
-    public void performInventorying(Long id, int quantity) {
+    public void performInventorying(Long id, double quantity) {
         Product product = getProduct(id);
         productActionRepository.save(ProductAction.createInventoryingAction(
                 quantity - product.getQuantity(),
@@ -84,7 +84,7 @@ public class ProductService {
         productRepository.save(product);
     }
 
-    public void spend(Product product, int quantity, Order order) {
+    public void spend(Product product, double quantity, Order order) {
         productActionRepository.save(ProductAction.createSpendAction(
                 quantity,
                 product,
@@ -95,7 +95,7 @@ public class ProductService {
         productRepository.save(product);
     }
 
-    public void returnProduct(Product product, int remain, Order order) {
+    public void returnProduct(Product product, double remain, Order order) {
         productActionRepository.save(ProductAction.createReturnAction(
                 remain,
                 product,

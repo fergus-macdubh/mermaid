@@ -17,10 +17,10 @@ public class OrderConsume {
     private Long id;
     @ManyToOne
     private Product product;
-    private int calculatedQuantity;
-    private int actualUsedQuantity;
+    private double calculatedQuantity;
+    private double actualUsedQuantity;
 
-    public OrderConsume(Product product, int calculatedQuantity) {
+    public OrderConsume(Product product, double calculatedQuantity) {
         this.product = product;
         this.calculatedQuantity = calculatedQuantity;
     }

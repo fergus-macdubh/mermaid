@@ -26,9 +26,9 @@
 </script>
 
 <#if product??>
-<h1>Новый товар</h1>
-<#else>
 <h1>Изменение товара</h1>
+<#else>
+<h1>Новый товар</h1>
 </#if>
 
 <form id="add-product-form" method="post">

@@ -46,7 +46,7 @@
             </td>
         </tr>
         <tr>
-            <th>Цена</th>
+            <th>Цена за единицу</th>
             <td>
                 <input name="price" />
             </td>

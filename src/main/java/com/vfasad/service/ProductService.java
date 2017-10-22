@@ -42,13 +42,13 @@ public class ProductService {
 
         productActionRepository.save(ProductAction.createPurchaseAction(
                 quantity,
-                price,
+                price * quantity,
                 product,
                 userService.getCurrentUser()
         ));
 
         product.setQuantity(product.getQuantity() + quantity);
-        product.setPrice(price / quantity);
+        product.setPrice(price);
         productRepository.save(product);
     }
 

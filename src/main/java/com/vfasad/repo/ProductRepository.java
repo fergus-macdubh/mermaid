@@ -9,7 +9,7 @@ import java.util.Optional;
 
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Long> {
-    List<Product> findByQuantityGreaterThan(double quantityGraterThan);
+    List<Product> findByQuantityGreaterThanOrderByName(double quantityGraterThan);
 
     List<Product> findAllByOrderById();
 

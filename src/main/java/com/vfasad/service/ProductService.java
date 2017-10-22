@@ -26,7 +26,7 @@ public class ProductService {
     private UserService userService;
 
     public List<Product> findAllProductsInStorage() {
-        return productRepository.findByQuantityGreaterThan(0);
+        return productRepository.findByQuantityGreaterThanOrderByName(0);
     }
 
     public List<ProductAction> findAllProductActions(Long id) {

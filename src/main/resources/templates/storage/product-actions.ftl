@@ -16,7 +16,7 @@
     <tr>
         <td>${action.created.format('dd MMM yyyy')}</td>
         <td><#if action.type == 'PURCHASE'>${action.price} грн<#else>-</#if></td>
-        <td>${action.quantity} ${action.product.unit.abbr}</td>
+        <td><#if action.type == 'SPEND'>-</#if>${action.quantity} ${action.product.unit.abbr}</td>
         <td><#if action.type == 'PURCHASE'>${action.price / action.quantity} грн / ${action.product.unit.abbr}<#else>-</#if></td>
         <td>
             <#switch action.type>

@@ -3,6 +3,7 @@ package com.vfasad.service;
 import com.vfasad.entity.Order;
 import com.vfasad.entity.Product;
 import com.vfasad.entity.ProductAction;
+import com.vfasad.exception.NotEnoughResourceException;
 import com.vfasad.exception.NotFoundException;
 import com.vfasad.repo.ProductActionRepository;
 import com.vfasad.repo.ProductRepository;
@@ -100,8 +101,11 @@ public class ProductService {
     }
 
     public void returnProduct(Product product, double remain, Order order) {
-        if (remain <= 0) {
-            return;
+        if (product.getQuantity() + remain < 0) {
+            throw new NotEnoughResourceException(
+                    String.format("Not enough resource [%s] in storage. Order [%s].",
+                            product.getName(),
+                            order.getId()));
         }
 
         productActionRepository.save(ProductAction.createReturnAction(

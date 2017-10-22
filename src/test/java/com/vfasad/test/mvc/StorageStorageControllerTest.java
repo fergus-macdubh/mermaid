@@ -1,5 +1,6 @@
 package com.vfasad.test.mvc;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Matchers;
@@ -21,6 +22,7 @@ public class StorageStorageControllerTest {
     private MockMvc mvc;
 
     @Test
+    @Ignore
     public void getHello() throws Exception {
         mvc.perform(MockMvcRequestBuilders.get("/"))
                 .andExpect(status().isOk())

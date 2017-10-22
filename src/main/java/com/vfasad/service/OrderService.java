@@ -28,6 +28,9 @@ public class OrderService {
     @Autowired
     private ProductService productService;
 
+    @Autowired
+    private EmailService emailService;
+
     public List<Order> findAll() {
         return orderRepository.findAll(new Sort(new Sort.Order(Sort.Direction.DESC, "created")));
     }
@@ -71,6 +74,8 @@ public class OrderService {
         );
         order.setStatus(Order.Status.IN_PROGRESS);
         orderRepository.save(order);
+
+        emailService.notifyManagerOrderInProgress(order);
     }
 
     public void moveOrderToShipping(Order order, long[] consumeIds, List<Double> actualQuantities) {
@@ -86,6 +91,8 @@ public class OrderService {
         }
         order.setStatus(Order.Status.SHIPPING);
         orderRepository.save(order);
+
+        emailService.notifyManagerOrderCompleted(order);
     }
 
     public void closeOrder(Order order) {

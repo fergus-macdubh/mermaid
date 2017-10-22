@@ -85,6 +85,10 @@ public class ProductService {
     }
 
     public void spend(Product product, double quantity, Order order) {
+        if (quantity <= 0) {
+            return;
+        }
+
         productActionRepository.save(ProductAction.createSpendAction(
                 quantity,
                 product,
@@ -96,6 +100,10 @@ public class ProductService {
     }
 
     public void returnProduct(Product product, double remain, Order order) {
+        if (remain <= 0) {
+            return;
+        }
+
         productActionRepository.save(ProductAction.createReturnAction(
                 remain,
                 product,

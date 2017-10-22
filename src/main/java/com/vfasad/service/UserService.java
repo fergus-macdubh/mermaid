@@ -4,10 +4,15 @@ import com.vfasad.entity.User;
 import com.vfasad.exception.NotFoundException;
 import com.vfasad.repo.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -71,5 +76,25 @@ public class UserService {
 
     public User getUser(Long id) {
         return userRepository.getById(id).orElseThrow(() -> new NotFoundException("User with provided id is not found."));
+    }
+
+    public boolean isRoleChanged(OAuth2Authentication authentication, String role) {
+        return !((authentication.getAuthorities().size() == 0
+                && StringUtils.isEmpty(role))
+                || ((GrantedAuthority)authentication.getAuthorities().toArray()[0]).getAuthority().equals(role));
+
+    }
+
+    public void updateAuthorities(OAuth2Authentication authentication, String role) {
+        Object details = authentication.getDetails();
+        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(
+                authentication.getPrincipal(),
+                authentication.getCredentials(),
+                StringUtils.isEmpty(role)
+                        ? Collections.emptyList()
+                        : Collections.singletonList(new SimpleGrantedAuthority(role)));
+        authentication = new OAuth2Authentication(authentication.getOAuth2Request(), token);
+        authentication.setDetails(details);
+        SecurityContextHolder.getContext().setAuthentication(authentication);
     }
 }

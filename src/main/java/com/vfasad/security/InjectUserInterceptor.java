@@ -3,6 +3,8 @@ package com.vfasad.security;
 import com.vfasad.entity.User;
 import com.vfasad.service.UserService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
@@ -20,6 +22,13 @@ public class InjectUserInterceptor extends HandlerInterceptorAdapter {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         log.info("Processing request [{}:{}]", request.getRequestURI(), request.getMethod());
+
+        OAuth2Authentication authentication = (OAuth2Authentication) SecurityContextHolder.getContext().getAuthentication();
+        User user = userService.getCurrentUser();
+
+        if (userService.isRoleChanged(authentication, user.getRole())) {
+            userService.updateAuthorities(authentication, user.getRole());
+        }
 
         return true;
     }

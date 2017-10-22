@@ -13,7 +13,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     Optional<User> getById(Long id);
 
-    List<User> getByRole(String role);
+    List<User> getByRoleIn(String ...role);
 
     List<User> findAllByOrderByEmail();
 }

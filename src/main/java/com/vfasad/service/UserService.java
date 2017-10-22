@@ -50,11 +50,11 @@ public class UserService {
     }
 
     public List<User> getAdmins() {
-        return userRepository.getByRole("ROLE_ADMIN");
+        return userRepository.getByRoleIn("ROLE_ADMIN");
     }
 
     public List<User> getManagers() {
-        return userRepository.getByRole("ROLE_SALES");
+        return userRepository.getByRoleIn("ROLE_SALES", "ROLE_OPERATOR");
     }
 
     public List<User> findAll() {

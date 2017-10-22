@@ -38,8 +38,8 @@ public class OrderController {
     private UserService userService;
 
     @RequestMapping(value = "/order", method = RequestMethod.GET)
-    @Secured({ROLE_ADMIN, ROLE_OPERATOR, ROLE_PAINTER, ROLE_SALES})
-    public ModelAndView products() {
+    @Secured({ROLE_ADMIN, ROLE_OPERATOR, ROLE_SALES})
+    public ModelAndView orders() {
         ModelAndView model = new ModelAndView("order/order-dashboard");
         model.addObject("orders", orderService.findAll());
         return model;

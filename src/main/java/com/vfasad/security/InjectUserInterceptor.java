@@ -33,9 +33,6 @@ public class InjectUserInterceptor extends HandlerInterceptorAdapter {
         log.info("Postprocessing view [{}]", modelAndView.getViewName());
 
         User user = userService.getCurrentUser();
-        if (user == null) {
-            return;
-        }
         modelAndView.addObject("user", user);
 
         log.info("User [{}] is added to model", user.getName());

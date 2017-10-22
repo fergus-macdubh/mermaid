@@ -30,13 +30,13 @@ public class UserService {
             return null;
         }
         Map<String, String> details = (Map) authentication.getDetails();
-        return userRepository.getByEmail(details.get("email")).orElseThrow(() -> new NotFoundException("User is not found in database."));
+        return userRepository.getByEmail(details.get("email"))
+                .orElse(new User(details.get("email"), "Незнакомец", "Незнакомец", "", "", "", ""));
     }
 
     public User updateUser(Map<String, String> details) {
         User user = userRepository.getByEmail(details.get(EMAIL))
                 .orElse(new User());
-        userRepository.save(user);
 
         user.setEmail(details.get(EMAIL));
         user.setName(details.get(NAME));
@@ -46,7 +46,7 @@ public class UserService {
         user.setGender(details.get(GENDER));
         user.setLocale(details.get(LOCALE));
 
-        return user;
+        return userRepository.save(user);
     }
 
     public List<User> getAdmins() {

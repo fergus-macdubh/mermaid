@@ -14,13 +14,13 @@
     </thead>
 <#list users as user>
     <tr>
-        <td><img src="${user.picture}" width="40"/></td>
-        <td>${user.email}</a></td>
-        <td>${user.name}</a></td>
-        <td>${user.givenName}</td>
-        <td>${user.familyName}</td>
+        <td><img src="${user.picture!}" width="40"/></td>
+        <td>${user.email!}</a></td>
+        <td>${user.name!}</a></td>
+        <td>${user.givenName!}</td>
+        <td>${user.familyName!}</td>
         <td>
-            <#if user.role == 'ROLE_ADMIN'>
+            <#if user.role! == 'ROLE_ADMIN'>
                 Администратор
             <#else>
                 <form method="post">
@@ -31,15 +31,15 @@
                     <select name="role">
                         <option value="">Не назначена</option>
                         <option value="ROLE_OPERATOR"
-                                <#if user.role == 'ROLE_OPERATOR'>selected</#if>>
+                                <#if user.role! == 'ROLE_OPERATOR'>selected</#if>>
                             Оператор
                         </option>
                         <option value="ROLE_PAINTER"
-                                <#if user.role == 'ROLE_PAINTER'>selected</#if>>
+                                <#if user.role! == 'ROLE_PAINTER'>selected</#if>>
                             Маляр
                         </option>
                         <option value="ROLE_SALES"
-                                <#if user.role == 'ROLE_SALES'>selected</#if>>
+                                <#if user.role! == 'ROLE_SALES'>selected</#if>>
                             Менеджер
                         </option>
                     </select>

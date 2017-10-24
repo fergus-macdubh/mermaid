@@ -58,7 +58,7 @@ public class OrderController {
     @RequestMapping(value = "/order/add", method = RequestMethod.POST)
     @Secured({ROLE_ADMIN, ROLE_OPERATOR})
     public String addOrder(
-            @RequestParam @Min(value = 1, message = "Area cannot be zero or negative.")
+            @RequestParam @Min(value = 0, message = "Area cannot be zero or negative.")
                     double area,
             @RequestParam(required = false)
                     String document,
@@ -66,7 +66,7 @@ public class OrderController {
                     double price,
             @RequestParam @NotEmpty
                     long[] productIds,
-            @RequestParam @NotEmpty @ElementMin(value = 1, message = "Quantities cannot be zero or negative.")
+            @RequestParam @NotEmpty @ElementMin(value = 0, message = "Quantities cannot be zero or negative.")
                     List<Double> quantities,
             @RequestParam long managerId) {
         Set<OrderConsume> consumes = new HashSet<>();
@@ -99,7 +99,7 @@ public class OrderController {
             @RequestParam double price,
             @RequestParam long[] productIds,
             @RequestParam @NotEmpty
-            @ElementMin(value = 1, message = "Quantities cannot be zero or negative.")
+            @ElementMin(value = 0, message = "Quantities cannot be zero or negative.")
                     List<Integer> quantities,
             @RequestParam Long managerId) {
         Set<OrderConsume> consumes = new HashSet<>();

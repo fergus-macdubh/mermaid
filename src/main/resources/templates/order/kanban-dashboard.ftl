@@ -44,7 +44,7 @@
 
         $('.modal-order-id').text(selectedOrderId);
         $('.modal-order-area').text(orders[selectedOrderId].area);
-        $('.modal-order-client').text(orders[selectedOrderId].client);
+        $('.modal-order-document').text(orders[selectedOrderId].document);
         $('.modal-order-id-input').attr('value', selectedOrderId);
         $('.modal-order-status').text(orders[selectedOrderId].status);
         $('#modal-inProgress-consumes-table > tr').remove();
@@ -128,8 +128,8 @@
                         <td class="modal-order-area"></td>
                     </tr>
                     <tr>
-                        <th>Клиент</th>
-                        <td class="modal-order-client"></td>
+                        <th>Документ</th>
+                        <td class="modal-order-document"></td>
                     </tr>
                 </table>
 
@@ -180,8 +180,8 @@
                         <td class="modal-order-area"></td>
                     </tr>
                     <tr>
-                        <th>Клиент</th>
-                        <td class="modal-order-client"></td>
+                        <th>Документ</th>
+                        <td class="modal-order-document"></td>
                     </tr>
                 </table>
                 <form method="post">
@@ -229,8 +229,8 @@
                         <td class="modal-order-area"></td>
                     </tr>
                     <tr>
-                        <th>Клиент</th>
-                        <td class="modal-order-client"></td>
+                        <th>Документ</th>
+                        <td class="modal-order-document"></td>
                     </tr>
                 </table>
                 <form method="post">

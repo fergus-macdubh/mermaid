@@ -20,8 +20,8 @@
         <td class="modal-order-area"></td>
     </tr>
     <tr>
-        <th>Клиент</th>
-        <td class="modal-order-client"></td>
+        <th>Документ</th>
+        <td class="modal-order-document"></td>
     </tr>
 </table>
 <table class="table-striped" style="width: 100%">

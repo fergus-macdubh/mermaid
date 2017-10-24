@@ -8,7 +8,7 @@
         <th>Статус</th>
         <th>Менеджер</th>
         <th>Площадь</th>
-        <th>Клиент</th>
+        <th>Документ</th>
         <th>Цена</th>
     <#if user.role == "ROLE_ADMIN"
     || user.role == "ROLE_OPERATOR"
@@ -23,7 +23,7 @@
         <td>${order.status}</td>
         <td>${order.manager.name}</td>
         <td>${order.area}</td>
-        <td>${order.client!}</td>
+        <td>${order.document!}</td>
         <td>${order.price}</td>
         <#if user.role == "ROLE_ADMIN"
         || user.role == "ROLE_OPERATOR"

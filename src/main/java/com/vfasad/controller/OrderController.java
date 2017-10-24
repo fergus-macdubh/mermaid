@@ -61,7 +61,7 @@ public class OrderController {
             @RequestParam @Min(value = 1, message = "Area cannot be zero or negative.")
                     double area,
             @RequestParam(required = false)
-                    String client,
+                    String document,
             @RequestParam @Min(value = 1, message = "Price cannot be zero or negative.")
                     double price,
             @RequestParam @NotEmpty
@@ -76,7 +76,7 @@ public class OrderController {
             consumes.add(new OrderConsume(product, quantities.get(i)));
         }
 
-        orderService.addOrder(area, client, price, consumes, userService.getUser(managerId));
+        orderService.addOrder(area, document, price, consumes, userService.getUser(managerId));
         return "redirect:/order";
     }
 
@@ -95,7 +95,7 @@ public class OrderController {
     public String updateProduct(
             @PathVariable Long id,
             @RequestParam double area,
-            @RequestParam String client,
+            @RequestParam String document,
             @RequestParam double price,
             @RequestParam long[] productIds,
             @RequestParam @NotEmpty
@@ -109,7 +109,7 @@ public class OrderController {
             consumes.add(new OrderConsume(product, quantities.get(i)));
         }
         User manager = userService.getUser(managerId);
-        orderService.updateOrder(id, area, client, price, consumes, manager);
+        orderService.updateOrder(id, area, document, price, consumes, manager);
         return "redirect:/order";
     }
 }

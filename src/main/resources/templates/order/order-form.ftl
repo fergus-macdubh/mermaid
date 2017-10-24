@@ -21,7 +21,7 @@
                 area: {
                     required: true,
                     commaDotNumber: true},
-                client: {
+                document: {
                     required: true
                 },
                 price: {
@@ -37,8 +37,8 @@
                     required: "Поле 'Площадь' должно быть заполнено.",
                     commaDotNumber: "'Площадь' должна быть числом."
                 },
-                client: {
-                    required: "Поле 'Клиент' должно быть заполнено."
+                document: {
+                    required: "Поле 'Документ' должно быть заполнено."
                 },
                 price: {
                     required: "Поле 'Цена' должно быть заполнено.",
@@ -87,9 +87,9 @@
             </td>
         </tr>
         <tr>
-            <th>Клиент</th>
+            <th>Документ</th>
             <td>
-                <input name="client" value="${(order.client)!}"/>
+                <input name="document" value="${(order.document)!}"/>
             </td>
         </tr>
         <tr>

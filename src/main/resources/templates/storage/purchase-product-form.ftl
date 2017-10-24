@@ -5,24 +5,20 @@
             rules: {
                 price: {
                     required: true,
-                    number: true,
-                    min: 1},
+                    commaDotNumber: true},
                 quantity: {
                     required: true,
-                    number: true,
-                    min: 0
+                    commaDotNumber: true
                 }
             },
             messages: {
                 price: {
                     required: "Поле 'Цена' должно быть заполнено.",
-                    min: "Цена не может быть отрицательной.",
-                    number: "Поле 'Цена' может содержать только цифры."
+                    commaDotNumber: "'Цена' должна быть числом."
                 },
                 quantity: {
                     required: "Поле 'Количество' должно быть заполнено.",
-                    min: "Количество не может быть отрицательным.",
-                    number: "Поле 'Количество' может содержать только цифры."
+                    commaDotNumber: "'Количество' должно быть числом."
                 }
             },
             submitHandler: function(form) {

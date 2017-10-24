@@ -5,15 +5,13 @@
             rules: {
                 quantity: {
                     required: true,
-                    number: true,
-                    min: 0
+                    commaDotNumber: true
                 }
             },
             messages: {
                 quantity: {
                     required: "Поле 'Количество' должно быть заполнено.",
-                    min: "Количество не может быть отрицательным.",
-                    number: "Поле 'Количество' может содержать только цифры."
+                    commaDotNumber: "'Количество' должно быть числом."
                 }
             },
             submitHandler: function(form) {
@@ -33,7 +31,7 @@
         </tr>
         <tr>
             <th>Количество</th>
-            <td><input name="quantity" value="${product.quantity}" /></td>
+            <td><input name="quantity" value="${product.quantity}" onblur="replaceComma(event.target)" /></td>
         </tr>
         <tr>
             <td colspan="2">

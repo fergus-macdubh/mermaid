@@ -52,7 +52,7 @@ public class KanbanController {
             @RequestParam(required = false)
                     long[] consumeIds,
             @RequestParam(required = false)
-            @ElementMin(value = 1, message = "Quantities cannot be zero or negative.")
+            @ElementMin(value = 0, message = "Quantities cannot be zero or negative.")
                     List<Double> actualQuantities) {
 
         Order order = orderService.getOrder(orderId);

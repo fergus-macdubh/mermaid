@@ -49,9 +49,9 @@ public class StorageController {
     @Secured({ROLE_ADMIN, ROLE_OPERATOR})
     public String purchaseProduct(
             @RequestParam Long productId,
-            @RequestParam @Min(value = 1, message = "Quantity cannot be zero or negative.")
-                    int quantity,
-            @RequestParam @Min(value = 1, message = "Price cannot be zero or negative.")
+            @RequestParam @Min(value = 0, message = "Quantity cannot be zero or negative.")
+                    double quantity,
+            @RequestParam @Min(value = 0, message = "Price cannot be zero or negative.")
                     double price) {
         productService.purchase(productId, quantity, price);
         return "redirect:/storage";
@@ -69,8 +69,7 @@ public class StorageController {
     @Secured(ROLE_ADMIN)
     public String productInventorying(
             @PathVariable Long id,
-            @RequestParam @Min(value = 0, message = "Quantity cannot be negative.")
-                    double quantity) {
+            @RequestParam double quantity) {
         productService.performInventorying(id, quantity);
         return "redirect:/storage";
     }

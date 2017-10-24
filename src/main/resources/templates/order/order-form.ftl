@@ -20,39 +20,33 @@
             rules: {
                 area: {
                     required: true,
-                    number: true,
-                    min: 1},
+                    commaDotNumber: true},
                 client: {
                     required: true
                 },
                 price: {
                     required: true,
-                    number: true,
-                    min: 1},
+                    commaDotNumber: true},
                 quantities: {
                     required: true,
-                    number: true,
-                    min: 0
+                    commaDotNumber: true
                 }
             },
             messages: {
                 area: {
                     required: "Поле 'Площадь' должно быть заполнено.",
-                    min: "Площадь не может быть отрицательной.",
-                    number: "Поле 'Площадь' может содержать только цифры."
+                    commaDotNumber: "'Площадь' должна быть числом."
                 },
                 client: {
                     required: "Поле 'Клиент' должно быть заполнено."
                 },
                 price: {
                     required: "Поле 'Цена' должно быть заполнено.",
-                    min: "Цена не может быть отрицательной.",
-                    number: "Поле 'Цена' может содержать только цифры."
+                    commaDotNumber: "'Цена' должна быть числом."
                 },
                 quantities: {
                     required: "Поле 'Количество' должно быть заполнено.",
-                    min: "Количество не может быть отрицательным.",
-                    number: "Поле 'Количество' может содержать только цифры."
+                    commaDotNumber: "'Количество' должно быть числом."
                 }
             },
             submitHandler: function(form) {
@@ -89,7 +83,7 @@
         <tr>
             <th>Площадь</th>
             <td>
-                <input name="area" value="${(order.area?c)!}"/>
+                <input name="area" value="${(order.area?c)!}" onblur="replaceComma(event.target)"/>
             </td>
         </tr>
         <tr>
@@ -101,7 +95,7 @@
         <tr>
             <th>Цена</th>
             <td>
-                <input name="price" value="${(order.price?c)!}"/>
+                <input name="price" value="${(order.price?c)!}" onblur="replaceComma(event.target)"/>
             </td>
         </tr>
         <tr>
@@ -134,7 +128,7 @@
                     </select>
                 </td>
                 <td>
-                    <input name="quantities" value="${consume.calculatedQuantity?c}"/>
+                    <input name="quantities" value="${consume.calculatedQuantity?c}" onblur="replaceComma(event.target)"/>
                 </td>
                 <td>
                     <#if consume?index == 0>
@@ -156,7 +150,7 @@
                 </select>
             </td>
             <td>
-                <input name="quantities"/>
+                <input name="quantities" onblur="replaceComma(event.target)"/>
             </td>
             <td>
                 <div class="btn" style="opacity: 0">Удалить</div>

@@ -53,7 +53,7 @@
         for (i = 0; i < orders[selectedOrderId].consumes.length; i++) {
             $('#modal-inProgress-consumes-table').append('<tr><td>' + orders[selectedOrderId].consumes[i].product.name + '</td><td>' + orders[selectedOrderId].consumes[i].calculatedQuantity + ' ' + getUnitAbbr(orders[selectedOrderId].consumes[i].product.unit) + '</td><td></td></tr>');
             $('#modal-shipping-consumes-table').append('<tr><td>' + orders[selectedOrderId].consumes[i].product.name + ' (' + getUnitAbbr(orders[selectedOrderId].consumes[i].product.unit) + ')'
-                    + '<input type="hidden" name="consumeIds" value="' + orders[selectedOrderId].consumes[i].id + '"></td><td><input name="actualQuantities" value="' + orders[selectedOrderId].consumes[i].calculatedQuantity + '"></td><td></td></tr>');
+                    + '<input type="hidden" name="consumeIds" value="' + orders[selectedOrderId].consumes[i].id + '"></td><td><input name="actualQuantities" onblur="replaceComma(event.target)" value="' + orders[selectedOrderId].consumes[i].calculatedQuantity + '"></td><td></td></tr>');
             $('#modal-done-consumes-table').append('<tr><td>' + orders[selectedOrderId].consumes[i].product.name + '</td><td>' + orders[selectedOrderId].consumes[i].calculatedQuantity + ' ' + getUnitAbbr(orders[selectedOrderId].consumes[i].product.unit) + '</td><td>' + orders[selectedOrderId].consumes[i].actualUsedQuantity + ' ' + getUnitAbbr(orders[selectedOrderId].consumes[i].product.unit) + '</td></tr>');
         }
     }

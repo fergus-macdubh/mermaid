@@ -9,6 +9,19 @@
     <script src="/js/jquery-3.2.1.min.js"></script>
     <script src="/js/jquery.validate.min.js"></script>
     <script src="/js/bootstrap.min.js"></script>
+    <script>
+        function replaceComma(element) {
+            element.value = element.value.replace(',', '.');
+        }
+
+        jQuery.validator.addMethod(
+                "commaDotNumber",
+                function (value, element) {
+                    element.value = value.replace(',', '.');
+                    return this.optional(element) || /^(\d*\.\d{1,2})$/.test(element.value);
+                },
+                "Please specify the correct number format");
+    </script>
 </head>
 <body>
 <header class="container-fluid">

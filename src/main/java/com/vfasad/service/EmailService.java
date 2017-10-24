@@ -30,7 +30,7 @@ public class EmailService {
     }
 
     public void notifyManagerOrderCompleted(Order order) {
-        String subject = "Заказ №$" + order.getId() + " звершен";
+        String subject = "Заказ №$" + order.getId() + " завершен";
         String message = subject + ". Детали заказа:";
 
         Map<String, Object> model = new HashMap<>();

@@ -6,25 +6,25 @@
 <p>Привет, ${order.manager.givenName}!</p>
 <p>${message}</p>
 
-<table class="table-striped" style="width:20em">
+<table>
     <tr>
         <th>ID</th>
-        <td class="modal-order-id"></td>
+        <td class="modal-order-id">${order.id}</td>
     </tr>
     <tr>
         <th>Статус</th>
-        <td class="modal-order-status"></td>
+        <td class="modal-order-status">${order.status}</td>
     </tr>
     <tr>
         <th>Площадь</th>
-        <td class="modal-order-area"></td>
+        <td class="modal-order-area">${order.area}</td>
     </tr>
     <tr>
         <th>Документ</th>
-        <td class="modal-order-document"></td>
+        <td class="modal-order-document">${order.document!}</td>
     </tr>
 </table>
-<table class="table-striped" style="width: 100%">
+<table>
     <thead>
     <th>Расходный материал</th>
     <th>Расчетный расход</th>

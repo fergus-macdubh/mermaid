@@ -6,35 +6,27 @@
 <p>Привет, ${order.manager.givenName}!</p>
 <p>${message}</p>
 
-<table>
+<table style="border: 1px solid black;">
     <tr>
-        <th>ID</th>
-        <td class="modal-order-id">${order.id}</td>
+        <th style="150px;">ID</th>
+        <td style="150px;">${order.id}</td>
     </tr>
     <tr>
         <th>Статус</th>
-        <td class="modal-order-status">${order.status}</td>
+        <td>${order.status}</td>
     </tr>
     <tr>
         <th>Площадь</th>
-        <td class="modal-order-area">${order.area}</td>
+        <td>${order.area} м<sup>2</sup></td>
     </tr>
     <tr>
         <th>Документ</th>
         <td class="modal-order-document">${order.document!}</td>
     </tr>
-</table>
-<table>
-    <thead>
-    <th>Расходный материал</th>
-    <th>Расчетный расход</th>
-    </thead>
-    <#list order.consumes as consume>
-        <tr>
-            <td>${consume.product.name}</td>
-            <td>${consume.calculatedQuantity}</td>
-        </tr>
-    </#list>
+    <tr>
+        <th>Сумма заказа</th>
+        <td class="modal-order-document">${order.price!} грн</td>
+    </tr>
 </table>
 </body>
 </html>

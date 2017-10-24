@@ -30,12 +30,14 @@
     </tr>
     <tr>
         <th>Документ</th>
-        <td class="modal-order-document">${order.document!}</td>
+        <td>${order.document!}</td>
     </tr>
     <tr>
         <th>Сумма заказа</th>
-        <td class="modal-order-document">${order.price!} грн</td>
+        <td>${order.price!} грн</td>
     </tr>
 </table>
+<br/>
+Твоя Русалочка<br/>
 </body>
 </html>

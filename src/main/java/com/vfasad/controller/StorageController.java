@@ -69,8 +69,9 @@ public class StorageController {
     @Secured(ROLE_ADMIN)
     public String productInventorying(
             @PathVariable Long id,
-            @RequestParam double quantity) {
-        productService.performInventorying(id, quantity);
+            @RequestParam double quantity,
+            @RequestParam double price) {
+        productService.performInventorying(id, quantity, price);
         return "redirect:/storage";
     }
 }

@@ -5,13 +5,25 @@
             rules: {
                 quantity: {
                     required: true,
-                    commaDotNumber: true
+                    commaDotNumber: true,
+                    min: true
+                },
+                price: {
+                    required: true,
+                    commaDotNumber: true,
+                    min: true
                 }
             },
             messages: {
                 quantity: {
                     required: "Поле 'Количество' должно быть заполнено.",
-                    commaDotNumber: "'Количество' должно быть числом."
+                    commaDotNumber: "'Количество' должно быть числом.",
+                    min: "'Количество' должно быть положительным."
+                },
+                price: {
+                    required: "Поле 'Цена' должно быть заполнено.",
+                    commaDotNumber: "'Цена' должна быть числом.",
+                    min: "'Цена' должна быть положительным."
                 }
             },
             submitHandler: function(form) {
@@ -32,6 +44,10 @@
         <tr>
             <th>Количество</th>
             <td><input name="quantity" value="${product.quantity}" onblur="replaceComma(event.target)" /></td>
+        </tr>
+        <tr>
+            <th>Цена за 1 ${product.unit.abbr}</th>
+            <td><input name="price" value="${product.price}" onblur="replaceComma(event.target)" /></td>
         </tr>
         <tr>
             <td colspan="2">

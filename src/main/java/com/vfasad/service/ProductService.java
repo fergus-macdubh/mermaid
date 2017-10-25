@@ -57,7 +57,7 @@ public class ProductService {
         return productRepository.findById(id).orElseThrow(() -> new NotFoundException("Product with provided id is not found."));
     }
 
-    public void performInventorying(Long id, double quantity) {
+    public void performInventorying(Long id, double quantity, double price) {
         Product product = getProduct(id);
         productActionRepository.save(ProductAction.createInventoryingAction(
                 quantity - product.getQuantity(),
@@ -65,6 +65,7 @@ public class ProductService {
                 userService.getCurrentUser()
         ));
         product.setQuantity(quantity);
+        product.setPrice(price);
         productRepository.save(product);
     }
 

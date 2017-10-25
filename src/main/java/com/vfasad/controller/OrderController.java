@@ -100,7 +100,7 @@ public class OrderController {
             @RequestParam long[] productIds,
             @RequestParam @NotEmpty
             @ElementMin(value = 0, message = "Quantities cannot be zero or negative.")
-                    List<Integer> quantities,
+                    List<Double> quantities,
             @RequestParam Long managerId) {
         Set<OrderConsume> consumes = new HashSet<>();
 

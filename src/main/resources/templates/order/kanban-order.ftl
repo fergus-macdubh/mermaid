@@ -14,6 +14,7 @@
             готов ${order.completed.format('dd MMM')}
         <#else>
             план на ${order.planned.format('dd MMM')}
+            <button id="order_${order.id}_days_left" class="btn-circle"></button>
         </#if>
         </div>
 </div>

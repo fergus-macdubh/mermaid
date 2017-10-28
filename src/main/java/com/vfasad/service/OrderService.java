@@ -23,7 +23,7 @@ import static java.util.stream.Collectors.toMap;
 @Slf4j
 @Service
 public class OrderService {
-    public static final int PLANNED_WORKDAYS = 7;
+    public static final int PLANNED_COMPLETION_DATE = 7;
     @Autowired
     private OrderRepository orderRepository;
 
@@ -44,7 +44,7 @@ public class OrderService {
                 document,
                 price,
                 consumes,
-                getPlannedDate()
+                LocalDate.now().plusDays(PLANNED_COMPLETION_DATE)
         ));
     }
 
@@ -101,18 +101,5 @@ public class OrderService {
     public void closeOrder(Order order) {
         order.setStatus(Order.Status.CLOSED);
         orderRepository.save(order);
-    }
-
-    private LocalDate getPlannedDate() {
-        LocalDate current = LocalDate.now();
-        return current.plusDays(getActualNumberOfDaysToAdd(PLANNED_WORKDAYS, current.getDayOfWeek().getValue()));
-    }
-
-    private long getActualNumberOfDaysToAdd(long workdays, int dayOfWeek) {
-        if (dayOfWeek < 6) { // date is a workday
-            return workdays + (workdays + dayOfWeek - 1) / 5 * 2;
-        } else { // date is a weekend
-            return workdays + (workdays - 1) / 5 * 2 + (7 - dayOfWeek);
-        }
     }
 }

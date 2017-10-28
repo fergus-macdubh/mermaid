@@ -33,7 +33,7 @@
     });
 </script>
 
-<h1>Закупка товара</h1>
+<h1>Инвентаризация</h1>
 
 <form id="inventorying-form" method="post">
     <table class="responsive-table" style="width: 20em">
@@ -42,7 +42,7 @@
             <td>${product.name}</td>
         </tr>
         <tr>
-            <th>Количество</th>
+            <th>Количество фактическое</th>
             <td><input name="quantity" value="${product.quantity}" onblur="replaceComma(event.target)" /></td>
         </tr>
         <tr>

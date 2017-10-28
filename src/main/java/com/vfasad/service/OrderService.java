@@ -12,6 +12,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.math.BigInteger;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -22,6 +23,7 @@ import static java.util.stream.Collectors.toMap;
 @Slf4j
 @Service
 public class OrderService {
+    public static final int PLANNED_WORKDAYS = 7;
     @Autowired
     private OrderRepository orderRepository;
 
@@ -41,7 +43,8 @@ public class OrderService {
                 area,
                 document,
                 price,
-                consumes
+                consumes,
+                getPlannedDate()
         ));
     }
 
@@ -98,5 +101,18 @@ public class OrderService {
     public void closeOrder(Order order) {
         order.setStatus(Order.Status.CLOSED);
         orderRepository.save(order);
+    }
+
+    private LocalDate getPlannedDate() {
+        LocalDate current = LocalDate.now();
+        return current.plusDays(getActualNumberOfDaysToAdd(PLANNED_WORKDAYS, current.getDayOfWeek().getValue()));
+    }
+
+    private long getActualNumberOfDaysToAdd(long workdays, int dayOfWeek) {
+        if (dayOfWeek < 6) { // date is a workday
+            return workdays + (workdays + dayOfWeek - 1) / 5 * 2;
+        } else { // date is a weekend
+            return workdays + (workdays - 1) / 5 * 2 + (7 - dayOfWeek);
+        }
     }
 }

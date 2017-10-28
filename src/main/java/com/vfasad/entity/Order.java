@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Set;
 
@@ -21,6 +22,8 @@ public class Order {
     private String document;
     private double price;
     private LocalDateTime created = LocalDateTime.now();
+    private LocalDate planned;
+    private LocalDateTime completed;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "order_fk")
@@ -33,11 +36,12 @@ public class Order {
         CREATED, IN_PROGRESS, SHIPPING, CLOSED, BLOCKED
     }
 
-    public Order(User manager, double area, String document, double price, Set<OrderConsume> consumes) {
+    public Order(User manager, double area, String document, double price, Set<OrderConsume> consumes, LocalDate planned) {
         this.manager = manager;
         this.area = area;
         this.document = document;
         this.price = price;
         this.consumes = consumes;
+        this.planned = planned;
     }
 }

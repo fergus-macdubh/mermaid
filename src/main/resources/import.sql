@@ -11,14 +11,14 @@ INSERT INTO user_details (id, email, family_name, gender, given_name, locale, na
 INSERT INTO user_details (id, email, family_name, gender, given_name, locale, name, picture, authority) VALUES (nextval('user_seq'), 'dmitry.drepin@vfasad.com.ua', 'Дрепин', 'male', 'Дмитрий', 'en', 'Дмитрий Дрепин', 'https://lh3.googleusercontent.com/-cnjy0eG_Q24/AAAAAAAAAAI/AAAAAAAACXA/kUI5QHOz4Ys/s75-p-rw-no/photo.jpg', 'ROLE_ADMIN');
 
 INSERT INTO product_action (id, price, quantity, type, product_id, actor_id, created) VALUES (nextval('product_action_seq'), 540, 20, 'PURCHASE', 1, 2, current_timestamp);
-INSERT INTO product_action (id, price, quantity, type, product_id, actor_id, created) VALUES (nextval('product_action_seq'), 260, 10, 'PURCHASE', 1, 3,current_timestamp);
+INSERT INTO product_action (id, price, quantity, type, product_id, actor_id, created) VALUES (nextval('product_action_seq'), 260, 10, 'PURCHASE', 1, 3, current_timestamp);
 INSERT INTO product_action (id, price, quantity, type, product_id, actor_id, created) VALUES (nextval('product_action_seq'), 4500, 150, 'PURCHASE', 2, 4, current_timestamp);
 
-INSERT INTO paint_order (id, area, document_column, created, manager_id, price, status) VALUES (nextval('paint_order_seq'), 50, 'Петя клиент', CURRENT_TIMESTAMP, 2, 100500, 'CREATED');
-INSERT INTO paint_order (id, area, document_column, created, manager_id, price, status) VALUES (nextval('paint_order_seq'), 20, 'Вася клиент', CURRENT_TIMESTAMP, 3, 100500, 'IN_PROGRESS');
-INSERT INTO paint_order (id, area, document_column, created, manager_id, price, status) VALUES (nextval('paint_order_seq'), 11, 'Коля клиент', CURRENT_TIMESTAMP, 3, 100500, 'IN_PROGRESS');
-INSERT INTO paint_order (id, area, document_column, created, manager_id, price, status) VALUES (nextval('paint_order_seq'), 24, 'Петя клиент', CURRENT_TIMESTAMP, 4, 100500, 'CREATED');
-INSERT INTO paint_order (id, area, document_column, created, manager_id, price, status) VALUES (nextval('paint_order_seq'), 3, 'Вася клиент', CURRENT_TIMESTAMP, 2, 100500, 'SHIPPING');
+INSERT INTO paint_order (id, area, document_column, created, manager_id, price, status, planned, completed) VALUES (nextval('paint_order_seq'), 50, 'Петя клиент', CURRENT_TIMESTAMP, 2, 100500, 'CREATED', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+INSERT INTO paint_order (id, area, document_column, created, manager_id, price, status, planned, completed) VALUES (nextval('paint_order_seq'), 20, 'Вася клиент', CURRENT_TIMESTAMP, 3, 100500, 'IN_PROGRESS', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+INSERT INTO paint_order (id, area, document_column, created, manager_id, price, status, planned, completed) VALUES (nextval('paint_order_seq'), 11, 'Коля клиент', CURRENT_TIMESTAMP, 3, 100500, 'IN_PROGRESS', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+INSERT INTO paint_order (id, area, document_column, created, manager_id, price, status, planned, completed) VALUES (nextval('paint_order_seq'), 24, 'Петя клиент', CURRENT_TIMESTAMP, 4, 100500, 'CREATED', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+INSERT INTO paint_order (id, area, document_column, created, manager_id, price, status, planned, completed) VALUES (nextval('paint_order_seq'), 3, 'Вася клиент', CURRENT_TIMESTAMP, 2, 100500, 'SHIPPING', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
 
 INSERT INTO paint_order_consume (id, actual_used_quantity, calculated_quantity, product_id, order_fk) VALUES (nextval('paint_order_consume_seq'), 0, 12, 1, 1);
 INSERT INTO paint_order_consume (id, actual_used_quantity, calculated_quantity, product_id, order_fk) VALUES (nextval('paint_order_consume_seq'), 0, 2, 2, 1);

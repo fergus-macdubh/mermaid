@@ -27,18 +27,26 @@
     margin: .5em 0;
 }
 
-.kanban-order-id {
-    color: darkblue;
+.kanban-order-id-doc {
     float: left;
+}
+
+.kanban-order-id {
+    color: gray;
+    font-weight: bold;
+}
+
+.kanban-order-document {
+    color: #2e6da4;
 }
 
 .kanban-order-area {
     font-weight: bold;
-    float: right;
 }
 
 .kanban-order-manager {
     font-style: italic;
+    float: right;
 }
 
 .kanban-order-consumes {

@@ -118,4 +118,8 @@ public class ProductService {
         product.setQuantity(product.getQuantity() + remain);
         productRepository.save(product);
     }
+
+    public double getStoragePrice() {
+        return productRepository.getStoragePrice();
+    }
 }

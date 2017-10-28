@@ -1,5 +1,6 @@
 <#include "../header.ftl">
-<h1>Склад</h1>
+<h1 class="storage-title">Склад</h1>
+<h4 class="storage-price">Товара на сумму ${storagePrice} грн</h4>
 
 <table class="responsive-table">
     <thead>

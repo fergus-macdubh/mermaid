@@ -25,6 +25,7 @@ public class StorageController {
     @Secured({ROLE_ADMIN, ROLE_OPERATOR, ROLE_PAINTER})
     public ModelAndView dashboard() {
         ModelAndView model = new ModelAndView("storage/storage-dashboard");
+        model.addObject("storagePrice", productService.getStoragePrice());
         model.addObject("products", productService.findAllProductsInStorage());
         return model;
     }

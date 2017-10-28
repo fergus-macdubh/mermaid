@@ -50,7 +50,7 @@ public class OrderController {
     public ModelAndView addOrderForm() {
         ModelAndView model = new ModelAndView("order/order-form");
         model.addObject("orders", orderService.findAll());
-        model.addObject("products", productService.findAll());
+        model.addObject("products", productService.findAllProducts());
         model.addObject("managers", userService.getManagers());
         return model;
     }
@@ -85,7 +85,7 @@ public class OrderController {
     public ModelAndView editProductForm(@PathVariable Long id) {
         ModelAndView model = new ModelAndView("order/order-form");
         model.addObject("order", orderService.getOrder(id));
-        model.addObject("products", productService.findAll());
+        model.addObject("products", productService.findAllProducts());
         model.addObject("managers", userService.getManagers());
         return model;
     }

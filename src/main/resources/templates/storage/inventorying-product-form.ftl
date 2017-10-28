@@ -39,7 +39,7 @@
     <table class="responsive-table" style="width: 20em">
         <tr>
             <th>Товар</th>
-            <td>${product.name}</td>
+            <td>${product.name} ${product.producer}</td>
         </tr>
         <tr>
             <th>Количество фактическое</th>

@@ -1,5 +1,5 @@
 <#include "../header.ftl">
-<h1>Действия по товару</h1>
+<h1>Действия по товару: ${product.name} ${product.producer}</h1>
 
 <table class="responsive-table">
     <thead>

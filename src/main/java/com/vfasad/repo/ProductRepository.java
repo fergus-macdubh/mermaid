@@ -21,4 +21,6 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
             "       from Product p " +
             "       where p.quantity > 0) sp", nativeQuery = true)
     double getStoragePrice();
+
+    List<Product> findAllByOrderByName();
 }

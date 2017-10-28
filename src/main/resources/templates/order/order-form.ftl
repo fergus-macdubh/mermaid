@@ -123,7 +123,7 @@
                     <select name="productIds">
                         <#list products as product>
                             <option value="${product.id?c}"
-                                    <#if consume.product.id == product.id>selected</#if>>${product.name}</option>
+                                    <#if consume.product.id == product.id>selected</#if>>${product.name} ${product.producer}</option>
                         </#list>
                     </select>
                 </td>

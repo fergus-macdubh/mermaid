@@ -9,7 +9,6 @@ import com.vfasad.repo.ProductActionRepository;
 import com.vfasad.repo.ProductRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -26,16 +25,16 @@ public class ProductService {
     @Autowired
     private UserService userService;
 
+    public List<Product> findAllProducts() {
+        return productRepository.findAllByOrderByName();
+    }
+
     public List<Product> findAllProductsInStorage() {
         return productRepository.findByQuantityGreaterThanOrderByName(0);
     }
 
     public List<ProductAction> findAllProductActions(Long id) {
         return productActionRepository.getByProductIdOrderByCreatedDesc(id);
-    }
-
-    public List<Product> findAll() {
-        return productRepository.findAll(new Sort(new Sort.Order(Sort.Direction.ASC, "id")));
     }
 
     public void purchase(Long productId, double quantity, double price) {
@@ -121,5 +120,9 @@ public class ProductService {
 
     public double getStoragePrice() {
         return productRepository.getStoragePrice();
+    }
+
+    public Product findProduct(Long id) {
+        return productRepository.findOne(id);
     }
 }

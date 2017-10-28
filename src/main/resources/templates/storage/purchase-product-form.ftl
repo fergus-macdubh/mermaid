@@ -36,7 +36,7 @@
             <td>
                 <select name="productId">
                 <#list products as product>
-                    <option value="${product.id?c}">${product.name}</option>
+                    <option value="${product.id?c}">${product.name} ${product.producer}</option>
                 </#list>
                 </select>
             </td>

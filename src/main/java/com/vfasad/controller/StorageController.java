@@ -34,6 +34,7 @@ public class StorageController {
     @Secured({ROLE_ADMIN, ROLE_OPERATOR, ROLE_PAINTER})
     public ModelAndView productActions(@PathVariable Long id) {
         ModelAndView model = new ModelAndView("storage/product-actions");
+        model.addObject("product", productService.findProduct(id));
         model.addObject("actions", productService.findAllProductActions(id));
         return model;
     }
@@ -42,7 +43,7 @@ public class StorageController {
     @Secured({ROLE_ADMIN, ROLE_OPERATOR})
     public ModelAndView purchaseProductForm() {
         ModelAndView model = new ModelAndView("storage/purchase-product-form");
-        model.addObject("products", productService.findAll());
+        model.addObject("products", productService.findAllProducts());
         return model;
     }
 

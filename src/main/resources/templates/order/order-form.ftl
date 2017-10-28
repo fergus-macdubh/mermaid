@@ -7,7 +7,7 @@
     </#if>
     function addRow() {
         $('#consumes-table')
-                .append('<tr class="consume-form-row" id="consumes-row' + consumesCount + '"><td><select name="productIds"><#list products as product><option value="${product.id?c}">${product.name}</option></#list>    </select>    </td>    <td>    <input name="quantities"/>                </td>                <td>                <div class="btn btn-warning" onclick="removeConsumesRow(' + consumesCount + ')">Удалить</div> </td> </tr>');
+                .append('<tr class="consume-form-row" id="consumes-row' + consumesCount + '"><td><select name="productIds"><#list products as product><option value="${product.id?c}">${product.name} ${product.producer}</option></#list>    </select>    </td>    <td>    <input name="quantities"/>                </td>                <td>                <div class="btn btn-warning" onclick="removeConsumesRow(' + consumesCount + ')">Удалить</div> </td> </tr>');
         consumesCount++;
     }
 
@@ -145,7 +145,7 @@
             <td>
                 <select name="productIds">
                     <#list products as product>
-                        <option value="${product.id?c}">${product.name}</option>
+                        <option value="${product.id?c}">${product.name} ${product.producer}</option>
                     </#list>
                 </select>
             </td>

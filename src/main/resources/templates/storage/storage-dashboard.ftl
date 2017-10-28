@@ -17,7 +17,7 @@
 <#list products as product>
     <tr>
         <td>${product.id}</td>
-        <td><a href="/storage/product/${product.id?c}/action">${product.name}</a></td>
+        <td><a href="/storage/product/${product.id?c}/action">${product.name} ${product.producer}</a></td>
         <td>${product.price} грн / ${product.unit.abbr}</td>
         <td>${product.quantity} ${product.unit.abbr}</td>
         <#if user.role == "ROLE_ADMIN">

@@ -18,8 +18,8 @@
     });
 
     function getClassForDaysLeft(daysLeft) {
-        if (daysLeft < 3) return 'btn-danger';
-        if (daysLeft < 5) return 'btn-warning';
+        if (daysLeft <= 0) return 'btn-danger';
+        if (daysLeft <= 2) return 'btn-warning';
         return 'btn-success';
     }
 

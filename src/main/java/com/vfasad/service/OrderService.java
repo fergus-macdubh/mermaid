@@ -113,14 +113,16 @@ public class OrderService {
         }
 
         if (order.getStatus() == Order.Status.IN_PROGRESS) {
+            order.setStatus(Order.Status.CREATED);
             order.getConsumes().forEach(
                     consume -> productService.returnProduct(
                             consume.getProduct(),
                             consume.getCalculatedQuantity(),
                             order));
+        } else {
+            order.setStatus(Order.Status.CANCELLED);
         }
 
-        order.setStatus(Order.Status.CANCELLED);
         orderRepository.save(order);
     }
 }

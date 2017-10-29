@@ -63,7 +63,7 @@
                 $('#not-enough-consumes-error').removeClass('hidden');
         }
 
-        $('#cancel-link').attr('href', '/order/' + selectedOrderId + '/cancel');
+        $('.cancel-link').attr('href', '/order/' + selectedOrderId + '/cancel');
         $('.modal-order-id').text(selectedOrderId);
         $('.modal-order-area').text(orders[selectedOrderId].area);
         $('.modal-order-document').text(orders[selectedOrderId].document);
@@ -177,7 +177,7 @@
                     <div class="modal-footer">
                     <#if user.role == "ROLE_ADMIN">
                         <div class="btn btn-large btn-danger" data-toggle="modal"
-                             data-target="#modal-cancel-confirmation">
+                             data-target="#modal-cancel-new-confirmation">
                             Отменить заказ
                         </div>
                     </#if>
@@ -231,7 +231,7 @@
                     <div class="modal-footer">
                     <#if user.role == "ROLE_ADMIN">
                         <div class="btn btn-large btn-danger" data-toggle="modal"
-                             data-target="#modal-cancel-confirmation">
+                             data-target="#modal-cancel-in-progress-confirmation">
                             Отменить заказ
                         </div>
                     </#if>
@@ -295,13 +295,27 @@
         </div>
     </div>
 </div>
-<div id="modal-cancel-confirmation" class="modal fade" role="dialog">
+<div id="modal-cancel-new-confirmation" class="modal fade" role="dialog">
     <div class="modal-dialog" style="width: 30em">
         <div class="modal-content">
             <div class="modal-header"><strong>Отменить заказ?</strong></div>
             <div class="modal-body">
-                <div class="alert alert-warning"><strong>Материалы будут возвращены на склад</strong></div>
-                <a id="cancel-link" class="btn btn-success">Отменить заказ</a>
+                <div class="alert alert-warning"><strong>Заказ будет полностью отменен</strong></div>
+                <a class="btn btn-success cancel-link">Отменить заказ</a>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Нееееет!</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="modal-cancel-in-progress-confirmation" class="modal fade" role="dialog">
+    <div class="modal-dialog" style="width: 30em">
+        <div class="modal-content">
+            <div class="modal-header"><strong>Отменить заказ?</strong></div>
+            <div class="modal-body">
+                <div class="alert alert-warning"><strong>
+                    Заказ будет возвращен в "Новые", а материалы будут возвращены на склад
+                </strong></div>
+                <a class="btn btn-success cancel-link">Отменить заказ</a>
                 <button type="button" class="btn btn-danger" data-dismiss="modal">Нееееет!</button>
             </div>
         </div>

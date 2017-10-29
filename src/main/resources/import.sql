@@ -1,8 +1,8 @@
-INSERT INTO product (id, name, producer, quantity, supplier, price, unit) VALUES (nextval('product_seq'), 'Pulver 7024 mat', 'Pulver', 20, null, 26, 'KILOGRAM');
-INSERT INTO product (id, name, producer, quantity, supplier, price, unit) VALUES (nextval('product_seq'), 'Pulver 2012 mat', 'Pulver', 150, null, 30, 'KILOGRAM');
-INSERT INTO product (id, name, producer, quantity, supplier, price, unit) VALUES (nextval('product_seq'), 'Pulver 1002 mat', 'Pulver', 0, null, 0, 'KILOGRAM');
-INSERT INTO product (id, name, producer, quantity, supplier, price, unit) VALUES (nextval('product_seq'), 'Shmulver 5145 mat', 'Shmulver', 0, null, 0, 'KILOGRAM');
-INSERT INTO product (id, name, producer, quantity, supplier, price, unit) VALUES (nextval('product_seq'), 'Shmulver 1012 mat', 'Shmulver', 0, null, 0, 'KILOGRAM');
+INSERT INTO product (id, name, producer, quantity, supplier, price, unit) VALUES (nextval('product_seq'), '7024 mat', 'Pulver', 20, null, 26, 'KILOGRAM');
+INSERT INTO product (id, name, producer, quantity, supplier, price, unit) VALUES (nextval('product_seq'), '2012 mat', 'Pulver', 150, null, 30, 'KILOGRAM');
+INSERT INTO product (id, name, producer, quantity, supplier, price, unit) VALUES (nextval('product_seq'), '1002 mat', 'Pulver', 0, null, 0, 'KILOGRAM');
+INSERT INTO product (id, name, producer, quantity, supplier, price, unit) VALUES (nextval('product_seq'), '5145 mat', 'Shmulver', 0, null, 0, 'KILOGRAM');
+INSERT INTO product (id, name, producer, quantity, supplier, price, unit) VALUES (nextval('product_seq'), '1012 mat', 'Shmulver', 0, null, 0, 'KILOGRAM');
 
 INSERT INTO user_details (id, email, family_name, gender, given_name, locale, name, picture, authority) VALUES (nextval('user_seq'), 'fergusmacdubh@gmail.com', 'MacDubh', 'male', 'Fergus', 'en', 'Fergus MacDubh', 'https://lh5.googleusercontent.com/-JedDN0NvHv4/AAAAAAAAAAI/AAAAAAAADUs/Rw5rhJTzyZ8/photo.jpg', 'ROLE_ADMIN');
 INSERT INTO user_details (id, email, family_name, gender, given_name, locale, name, picture, authority) VALUES (nextval('user_seq'), 'oleksandr.cherniaiev@gmail.com', 'Петренко', 'male', 'Вася', 'en', 'Вася Петренко', 'https://cdn3.iconfinder.com/data/icons/rcons-user-action/32/boy-512.png', 'ROLE_SALES');

@@ -1,10 +1,7 @@
 <#include "../header.ftl">
 <script type="application/javascript">
-    <#if order??>
-    var consumesCount = ${order.consumes?size + 1};
-    <#else>
-    var consumesCount = 1;
-    </#if>
+    var consumesCount = <#if order??>${order.consumes?size + 1}<#else>1</#if>;
+
     function addRow() {
         $('#consumes-table')
                 .append('<tr class="consume-form-row" id="consumes-row' + consumesCount + '"><td><select name="productIds"><#list products as product><option value="${product.id?c}">${product.name} ${product.producer}</option></#list>    </select>    </td>    <td>    <input name="quantities"/>                </td>                <td>                <div class="btn btn-warning" onclick="removeConsumesRow(' + consumesCount + ')">Удалить</div> </td> </tr>');
@@ -15,18 +12,20 @@
         $('#consumes-row' + i).remove();
     }
 
-    $(function() {
+    $(function () {
         $("#order-form").validate({
             rules: {
                 area: {
                     required: true,
-                    commaDotNumber: true},
+                    commaDotNumber: true
+                },
                 document: {
                     required: true
                 },
                 price: {
                     required: true,
-                    commaDotNumber: true},
+                    commaDotNumber: true
+                },
                 quantities: {
                     required: true,
                     commaDotNumber: true
@@ -38,7 +37,7 @@
                     commaDotNumber: "'Площадь' должна быть числом."
                 },
                 document: {
-                    required: "Поле 'Клиент' должно быть заполнено."
+                    required: "Поле 'Документ' должно быть заполнено."
                 },
                 price: {
                     required: "Поле 'Цена' должно быть заполнено.",
@@ -49,11 +48,22 @@
                     commaDotNumber: "'Количество' должно быть числом."
                 }
             },
-            submitHandler: function(form) {
+            submitHandler: function (form) {
                 form.submit();
             }
         });
     });
+
+    function calculatePriceAndConsumes() {
+        var coeff = $('input[name=price-coeff]:checked').val();
+        var area = $('#area-input').val();
+
+        $('input[name=quantities]').val(area * 0.2);
+
+        if (coeff != 0) {
+            $('#price-input').val(coeff * area);
+        }
+    }
 </script>
 <#if order??>
 <h1>Изменение заказа</h1>
@@ -65,7 +75,8 @@
     <input type="hidden"
            name="${_csrf.parameterName}"
            value="${_csrf.token}"/>
-    <table class="responsive-table" style="width:20em">
+
+    <table class="responsive-table" style="width:30em">
     <#if order??>
         <tr>
             <th>ID</th>
@@ -79,11 +90,31 @@
             ${(order.status)!}
             </td>
         </tr>
+    <#else>
+        <tr>
+            <th>Авторасчет цены</th>
+            <td>
+                <div id="priceRadio" class="btn-group" data-toggle="buttons" onchange="calculatePriceAndConsumes()">
+                    <label class="btn btn-primary active">
+                        <input type="radio" name="price-coeff" checked value="0"> X
+                    </label>
+                    <label class="btn btn-primary">
+                        <input type="radio" name="price-coeff" value="120"> 120
+                    </label>
+                    <label class="btn btn-primary">
+                        <input type="radio" name="price-coeff" value="150"> 150
+                    </label>
+                    <label class="btn btn-primary">
+                        <input type="radio" name="price-coeff" value="180"> 180
+                    </label>
+                </div>
+            </td>
+        </tr>
     </#if>
         <tr>
             <th>Площадь</th>
             <td>
-                <input name="area" value="${(order.area?c)!}" onblur="replaceComma(event.target)"/>
+                <input id="area-input" name="area" value="${(order.area?c)!}" onchange="calculatePriceAndConsumes()"/>
             </td>
         </tr>
         <tr>
@@ -95,16 +126,17 @@
         <tr>
             <th>Цена</th>
             <td>
-                <input name="price" value="${(order.price?c)!}" onblur="replaceComma(event.target)"/>
+                <input id="price-input" name="price" value="${(order.price?c)!}" onblur="replaceComma(event.target)"/>
             </td>
         </tr>
         <tr>
             <th>Менеджер</th>
             <td>
                 <select name="managerId">
-                    <#list managers as manager>
-                        <option value="${manager.id}" <#if order?? && order.manager.id! == manager.id>selected</#if>>${manager.name}</option>
-                    </#list>
+                <#list managers as manager>
+                    <option value="${manager.id}"
+                            <#if order?? && order.manager.id! == manager.id>selected</#if>>${manager.name}</option>
+                </#list>
                 </select>
             </td>
         </tr>
@@ -128,7 +160,8 @@
                     </select>
                 </td>
                 <td>
-                    <input name="quantities" value="${consume.calculatedQuantity?c}" onblur="replaceComma(event.target)"/>
+                    <input name="quantities" value="${consume.calculatedQuantity?c}"
+                           onblur="replaceComma(event.target)"/>
                 </td>
                 <td>
                     <#if consume?index == 0>

@@ -92,7 +92,7 @@ public class OrderController {
 
     @RequestMapping(value = "/order/{id}/edit", method = RequestMethod.POST)
     @Secured({ROLE_ADMIN, ROLE_OPERATOR})
-    public String updateProduct(
+    public String updateOrder(
             @PathVariable Long id,
             @RequestParam double area,
             @RequestParam String document,

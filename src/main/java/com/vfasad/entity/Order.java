@@ -33,7 +33,7 @@ public class Order {
     private Status status = Status.CREATED;
 
     public enum Status {
-        CREATED, IN_PROGRESS, SHIPPING, CLOSED, BLOCKED
+        CREATED, IN_PROGRESS, SHIPPING, CLOSED, BLOCKED, CANCELLED
     }
 
     public Order(User manager, double area, String document, double price, Set<OrderConsume> consumes, LocalDate planned) {

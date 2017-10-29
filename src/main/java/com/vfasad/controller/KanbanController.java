@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -64,6 +65,14 @@ public class KanbanController {
         } else if (order.getStatus() == Order.Status.SHIPPING) {
             orderService.closeOrder(order);
         }
+        return "redirect:/kanban";
+    }
+
+    @RequestMapping(value = "/order/{id}/cancel", method = RequestMethod.GET)
+    @Secured({ROLE_ADMIN})
+    public String cancelOrder(
+            @PathVariable Long id) {
+        orderService.cancelOrder(id);
         return "redirect:/kanban";
     }
 }

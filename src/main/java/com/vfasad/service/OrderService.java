@@ -73,7 +73,7 @@ public class OrderService {
 
     public void moveOrderInProgress(Order order) {
         order.getConsumes().forEach(c ->
-            productService.spend(c.getProduct(), c.getCalculatedQuantity(), order)
+                productService.spend(c.getProduct(), c.getCalculatedQuantity(), order)
         );
         order.setStatus(Order.Status.IN_PROGRESS);
         orderRepository.save(order);
@@ -100,6 +100,27 @@ public class OrderService {
 
     public void closeOrder(Order order) {
         order.setStatus(Order.Status.CLOSED);
+        orderRepository.save(order);
+    }
+
+    public void cancelOrder(Long id) {
+        Order order = getOrder(id);
+
+        if (order.getStatus() == Order.Status.SHIPPING
+                || order.getStatus() == Order.Status.CLOSED
+                || order.getStatus() == Order.Status.CANCELLED) {
+            throw new IllegalStateException("Unable to cancel order in status [" + order.getStatus() + "]");
+        }
+
+        if (order.getStatus() == Order.Status.IN_PROGRESS) {
+            order.getConsumes().forEach(
+                    consume -> productService.returnProduct(
+                            consume.getProduct(),
+                            consume.getCalculatedQuantity(),
+                            order));
+        }
+
+        order.setStatus(Order.Status.CANCELLED);
         orderRepository.save(order);
     }
 }

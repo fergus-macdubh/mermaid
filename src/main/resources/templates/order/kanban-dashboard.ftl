@@ -1,5 +1,6 @@
 <#include "../header.ftl">
 <script type="application/javascript">
+
     var selectedOrderId;
     var orders = ${ordersJson};
 
@@ -62,6 +63,7 @@
                 $('#not-enough-consumes-error').removeClass('hidden');
         }
 
+        $('#cancel-link').attr('href', '/order/' + selectedOrderId + '/cancel');
         $('.modal-order-id').text(selectedOrderId);
         $('.modal-order-area').text(orders[selectedOrderId].area);
         $('.modal-order-document').text(orders[selectedOrderId].document);
@@ -87,6 +89,10 @@
             case "ITEM":
                 return "шт";
         }
+    }
+
+    function cancelOrder() {
+        selectedOrderId
     }
 </script>
 <h1>Заказы</h1>
@@ -169,6 +175,12 @@
                            value="${_csrf.token}"/>
                     <input class="modal-order-id-input" type="hidden" name="orderId"/>
                     <div class="modal-footer">
+                    <#if user.role == "ROLE_ADMIN">
+                        <div class="btn btn-large btn-danger" data-toggle="modal"
+                             data-target="#modal-cancel-confirmation">
+                            Отменить заказ
+                        </div>
+                    </#if>
                     <#if user.role == "ROLE_ADMIN"
                     || user.role == "ROLE_OPERATOR"
                     || user.role == "ROLE_PAINTER">
@@ -217,7 +229,12 @@
                     <div class="alert alert-warning"><strong>Остатки материалов будут возвращены на склад</strong></div>
                     <input class="modal-order-id-input" type="hidden" name="orderId"/>
                     <div class="modal-footer">
-
+                    <#if user.role == "ROLE_ADMIN">
+                        <div class="btn btn-large btn-danger" data-toggle="modal"
+                             data-target="#modal-cancel-confirmation">
+                            Отменить заказ
+                        </div>
+                    </#if>
                     <#if user.role == "ROLE_ADMIN"
                     || user.role == "ROLE_OPERATOR"
                     || user.role == "ROLE_PAINTER">
@@ -274,6 +291,18 @@
                         <button type="button" class="btn btn-default" data-dismiss="modal">Отмена</button>
                     </div>
                 </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="modal-cancel-confirmation" class="modal fade" role="dialog">
+    <div class="modal-dialog" style="width: 30em">
+        <div class="modal-content">
+            <div class="modal-header"><strong>Отменить заказ?</strong></div>
+            <div class="modal-body">
+                <div class="alert alert-warning"><strong>Материалы будут возвращены на склад</strong></div>
+                <a id="cancel-link" class="btn btn-success">Отменить заказ</a>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Нееееет!</button>
             </div>
         </div>
     </div>

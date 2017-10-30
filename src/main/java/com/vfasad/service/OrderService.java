@@ -18,6 +18,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Function;
 
+import static java.time.LocalDateTime.now;
 import static java.util.stream.Collectors.toMap;
 
 @Slf4j
@@ -93,6 +94,7 @@ public class OrderService {
             productService.returnProduct(product, remain, order);
         }
         order.setStatus(Order.Status.SHIPPING);
+        order.setCompleted(now());
         orderRepository.save(order);
 
         emailService.notifyManagerOrderCompleted(order);

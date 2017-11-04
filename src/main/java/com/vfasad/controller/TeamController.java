@@ -1,0 +1,11 @@
+package com.vfasad.controller;
+
+import com.vfasad.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+
+@Controller
+public class TeamController {
+    @Autowired
+    private UserService userService;
+}

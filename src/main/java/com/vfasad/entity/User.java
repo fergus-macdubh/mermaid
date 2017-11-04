@@ -14,6 +14,7 @@ public class User {
     public static final String ROLE_OPERATOR = "ROLE_OPERATOR";
     public static final String ROLE_PAINTER = "ROLE_PAINTER";
     public static final String ROLE_SALES = "ROLE_SALES";
+    public static final String ROLE_LABORER = "ROLE_LABORER";
 
     @Id
     @GeneratedValue(generator="optimized-sequence")

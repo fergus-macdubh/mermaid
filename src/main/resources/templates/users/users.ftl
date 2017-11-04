@@ -42,6 +42,10 @@
                                 <#if user.role! == 'ROLE_SALES'>selected</#if>>
                             Менеджер
                         </option>
+                        <option value="ROLE_LABORER"
+                                <#if user.role! == 'ROLE_LABORER'>selected</#if>>
+                            Рабочий
+                        </option>
                     </select>
                     <button class="btn btn-info">Сохранить</button>
                 </form>

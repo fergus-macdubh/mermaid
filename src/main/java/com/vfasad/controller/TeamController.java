@@ -36,6 +36,20 @@ public class TeamController {
         return modelAndView;
     }
 
+    @GetMapping("/teams/add")
+    @Secured({ROLE_ADMIN, ROLE_OPERATOR})
+    public ModelAndView addTeam() {
+        return new ModelAndView("users/team-form");
+    }
+
+    @PostMapping("/teams/add")
+    @Secured({ROLE_ADMIN, ROLE_OPERATOR})
+    public String addTeam(
+            @RequestParam String name) {
+        teamService.createTeam(name);
+        return "redirect:/teams";
+    }
+
     @GetMapping("/teams/{id}/edit")
     @Secured({ROLE_ADMIN, ROLE_OPERATOR})
     public ModelAndView editTeam(@PathVariable Long id) {

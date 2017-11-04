@@ -43,4 +43,10 @@ public class TeamService {
                 });
         teamRepository.delete(team);
     }
+
+    public void createTeam(String name) {
+        Team team = new Team();
+        team.setName(name);
+        teamRepository.save(team);
+    }
 }

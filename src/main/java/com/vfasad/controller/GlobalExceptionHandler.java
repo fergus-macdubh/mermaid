@@ -1,5 +1,6 @@
 package com.vfasad.controller;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -13,16 +14,19 @@ import javax.validation.ConstraintViolationException;
 
 import static java.util.stream.Collectors.toList;
 
+@Slf4j
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(AccessDeniedException.class)
     public String accessDenied(HttpServletRequest req, AccessDeniedException e) throws Exception {
+        log.warn("Exception is caught.", e);
         return "redirect:/denied";
     }
 
     @ExceptionHandler(ConstraintViolationException.class)
     public ModelAndView constraintViolation(HttpServletRequest req, ConstraintViolationException e) throws Exception {
+        log.warn("Exception is caught.", e);
         ModelAndView mav = new ModelAndView("error/error");
         mav.addObject("messages", e.getConstraintViolations()
                 .stream()
@@ -34,6 +38,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public ModelAndView defaultErrorHandler(HttpServletRequest req, Exception e) throws Exception {
+        log.warn("Exception is caught.", e);
         // If the exception is annotated with @ResponseStatus rethrow it and let
         // the framework handle it - like the OrderNotFoundException example
         // at the start of this post.

@@ -17,7 +17,6 @@ import java.util.List;
 import java.util.Map;
 
 import static com.vfasad.entity.User.ROLE_ADMIN;
-import static com.vfasad.entity.User.ROLE_OPERATOR;
 
 @Controller
 public class TeamController {
@@ -25,7 +24,7 @@ public class TeamController {
     private TeamService teamService;
 
     @GetMapping("/teams")
-    @Secured({ROLE_ADMIN, ROLE_OPERATOR})
+    @Secured(ROLE_ADMIN)
     public ModelAndView teams() {
         ModelAndView modelAndView = new ModelAndView("users/teams");
         List<Team> teams = teamService.findAll();
@@ -37,13 +36,13 @@ public class TeamController {
     }
 
     @GetMapping("/teams/add")
-    @Secured({ROLE_ADMIN, ROLE_OPERATOR})
+    @Secured(ROLE_ADMIN)
     public ModelAndView addTeam() {
         return new ModelAndView("users/team-form");
     }
 
     @PostMapping("/teams/add")
-    @Secured({ROLE_ADMIN, ROLE_OPERATOR})
+    @Secured(ROLE_ADMIN)
     public String addTeam(
             @RequestParam String name) {
         teamService.createTeam(name);
@@ -51,7 +50,7 @@ public class TeamController {
     }
 
     @GetMapping("/teams/{id}/edit")
-    @Secured({ROLE_ADMIN, ROLE_OPERATOR})
+    @Secured(ROLE_ADMIN)
     public ModelAndView editTeam(@PathVariable Long id) {
         ModelAndView modelAndView = new ModelAndView("users/team-form");
         modelAndView.addObject("team", teamService.getTeam(id));
@@ -59,7 +58,7 @@ public class TeamController {
     }
 
     @PostMapping("/teams/{id}/edit")
-    @Secured({ROLE_ADMIN, ROLE_OPERATOR})
+    @Secured(ROLE_ADMIN)
     public String updateTeam(
             @PathVariable Long id,
             @RequestParam String name) {
@@ -70,6 +69,7 @@ public class TeamController {
     }
 
     @GetMapping("/teams/{id}/delete")
+    @Secured(ROLE_ADMIN)
     public String updateTeam(
             @PathVariable Long id) {
         Team team = teamService.getTeam(id);

@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Set;
 
 @Data
@@ -40,8 +41,8 @@ public class Order {
     @JoinColumn(name = "team_fk")
     private Team team;
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private Set<User> doneBy;
+    @ManyToMany(fetch = FetchType.EAGER)
+    private List<User> doneBy;
 
     public Order(User manager, double area, String document, double price, Set<OrderConsume> consumes, LocalDate planned) {
         this.manager = manager;

@@ -10,6 +10,7 @@
         <th>Площадь</th>
         <th>Документ</th>
         <th>Цена</th>
+        <th>Бригада</th>
     <#if user.role == "ROLE_ADMIN"
     || user.role == "ROLE_OPERATOR"
     || user.role == "ROLE_PAINTER">
@@ -25,6 +26,7 @@
         <td>${order.area}</td>
         <td>${order.document!}</td>
         <td>${order.price}</td>
+        <td>${(order.team.name)!'-'}</td>
         <#if user.role == "ROLE_ADMIN"
         || user.role == "ROLE_OPERATOR"
         || user.role == "ROLE_PAINTER">

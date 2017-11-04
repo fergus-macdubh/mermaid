@@ -31,6 +31,10 @@ public class TeamService {
         return userRepository.findAllByTeam(team);
     }
 
+    public List<User> getTeamUsers(long teamId) {
+        return getTeamUsers(getTeam(teamId));
+    }
+
     public void updateTeam(Team team) {
         teamRepository.save(team);
     }

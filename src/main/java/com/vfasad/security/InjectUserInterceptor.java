@@ -26,6 +26,10 @@ public class InjectUserInterceptor extends HandlerInterceptorAdapter {
         OAuth2Authentication authentication = (OAuth2Authentication) SecurityContextHolder.getContext().getAuthentication();
         User user = userService.getCurrentUser();
 
+        if (user == null) {
+            return false;
+        }
+
         if (userService.isRoleChanged(authentication, user.getRole())) {
             userService.updateAuthorities(authentication, user.getRole());
         }

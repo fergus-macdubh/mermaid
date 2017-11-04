@@ -55,7 +55,7 @@
 <div id="modal-delete-confirmation" class="modal fade" role="dialog">
     <div class="modal-dialog" style="width: 30em">
         <div class="modal-content">
-            <div class="modal-header"><strong>Отменить заказ?</strong></div>
+            <div class="modal-header"><strong>Удалить бригаду?</strong></div>
             <div class="modal-body">
                 <div class="alert alert-warning"><strong>
                     Все работники останутся без бригады!

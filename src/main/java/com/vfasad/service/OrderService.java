@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigInteger;
 import java.time.LocalDate;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -33,6 +34,9 @@ public class OrderService {
 
     @Autowired
     private EmailService emailService;
+
+    @Autowired
+    private TeamService teamService;
 
     public List<Order> findAll() {
         return orderRepository.findAll(new Sort(new Sort.Order(Sort.Direction.DESC, "created")));
@@ -72,11 +76,13 @@ public class OrderService {
         return orders;
     }
 
-    public void moveOrderInProgress(Order order) {
+    public void moveOrderInProgress(Order order, long teamId) {
         order.getConsumes().forEach(c ->
                 productService.spend(c.getProduct(), c.getCalculatedQuantity(), order)
         );
         order.setStatus(Order.Status.IN_PROGRESS);
+        order.setTeam(teamService.getTeam(teamId));
+        order.setDoneBy(teamService.getTeamUsers(teamId));
         orderRepository.save(order);
 
         emailService.notifyManagerOrderInProgress(order);
@@ -121,6 +127,8 @@ public class OrderService {
                             consume.getProduct(),
                             consume.getCalculatedQuantity(),
                             order));
+            order.setTeam(null);
+            order.setDoneBy(Collections.emptyList());
         } else {
             order.setStatus(Order.Status.CANCELLED);
         }

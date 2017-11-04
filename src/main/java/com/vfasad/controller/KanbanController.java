@@ -3,6 +3,7 @@ package com.vfasad.controller;
 import com.google.gson.Gson;
 import com.vfasad.entity.Order;
 import com.vfasad.service.OrderService;
+import com.vfasad.service.TeamService;
 import com.vfasad.validation.constraints.ElementMin;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
@@ -29,6 +30,9 @@ public class KanbanController {
     @Autowired
     private Gson gson;
 
+    @Autowired
+    private TeamService teamService;
+
     @RequestMapping(value = "/", method = RequestMethod.GET)
     @Secured({ROLE_ADMIN, ROLE_OPERATOR, ROLE_PAINTER, ROLE_SALES})
     public String main() {
@@ -41,6 +45,7 @@ public class KanbanController {
         ModelAndView model = new ModelAndView("order/kanban-dashboard");
         List<Order> orders = orderService.getActiveOrders();
         model.addObject("orders", orders);
+        model.addObject("teams", teamService.findAll());
         model.addObject("ordersJson", gson.toJson(
                 orders.stream().collect(toMap(Order::getId, Function.identity()))));
         return model;
@@ -54,12 +59,12 @@ public class KanbanController {
                     long[] consumeIds,
             @RequestParam(required = false)
             @ElementMin(value = 0, message = "Quantities cannot be zero or negative.")
-                    List<Double> actualQuantities) {
+                    List<Double> actualQuantities,
+            @RequestParam Long teamId) {
 
         Order order = orderService.getOrder(orderId);
         if (order.getStatus() == Order.Status.CREATED) {
-            orderService.moveOrderInProgress(order);
-            order.setStatus(Order.Status.IN_PROGRESS);
+            orderService.moveOrderInProgress(order, teamId);
         } else if (order.getStatus() == Order.Status.IN_PROGRESS) {
             orderService.moveOrderToShipping(order, consumeIds, actualQuantities);
         } else if (order.getStatus() == Order.Status.SHIPPING) {
@@ -69,7 +74,7 @@ public class KanbanController {
     }
 
     @RequestMapping(value = "/order/{id}/cancel", method = RequestMethod.GET)
-    @Secured({ROLE_ADMIN})
+    @Secured(ROLE_ADMIN)
     public String cancelOrder(
             @PathVariable Long id) {
         orderService.cancelOrder(id);

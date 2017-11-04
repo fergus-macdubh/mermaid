@@ -5,6 +5,25 @@
     var orders = ${ordersJson};
 
     $(function () {
+        $("#inProgressForm").validate({
+            rules: {
+                teamId: {
+                    required: true
+                }
+            },
+            messages: {
+                teamId: {
+                    required: "Нужно выбрать бригаду."
+                }
+            },
+            submitHandler: function (form) {
+                form.submit();
+            },
+            errorPlacement: function(error, element) {
+                error.appendTo('#teamRadioContainer');
+            }
+        });
+
         var current = new Date();
         for (var orderId in orders) {
             if (!orders.hasOwnProperty(orderId)) continue;
@@ -169,7 +188,21 @@
                     со склада!</strong></div>
                 <div id="not-enough-consumes-error" class="alert alert-danger"><strong>Недостаточно расходных
                     материалов!</strong></div>
-                <form method="post">
+                <form id="inProgressForm" method="post">
+                <#if user.role == "ROLE_ADMIN"
+                || user.role == "ROLE_OPERATOR"
+                || user.role == "ROLE_PAINTER">
+                    <div id="teamRadioContainer">
+                        <div id="teamRadio" class="btn-group" data-toggle="buttons">
+                            <#list teams as team>
+                                <label class="btn btn-primary">
+                                    <input type="radio" name="teamId" value="${team.id}"
+                                           <#if user.team?? && user.team.id == team.id>checked</#if>> ${team.name}
+                                </label>
+                            </#list>
+                        </div>
+                    </div>
+                </#if>
                     <input type="hidden"
                            name="${_csrf.parameterName}"
                            value="${_csrf.token}"/>

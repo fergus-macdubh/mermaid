@@ -77,7 +77,7 @@ public class OrderController {
         }
 
         orderService.addOrder(area, document, price, consumes, userService.getUser(managerId));
-        return "redirect:/order";
+        return "redirect:/kanban";
     }
 
     @RequestMapping(value = "/order/{id}/edit", method = RequestMethod.GET)

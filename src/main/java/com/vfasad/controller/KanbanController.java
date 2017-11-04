@@ -60,7 +60,7 @@ public class KanbanController {
             @RequestParam(required = false)
             @ElementMin(value = 0, message = "Quantities cannot be zero or negative.")
                     List<Double> actualQuantities,
-            @RequestParam Long teamId) {
+            @RequestParam(required = false) Long teamId) {
 
         Order order = orderService.getOrder(orderId);
         if (order.getStatus() == Order.Status.CREATED) {

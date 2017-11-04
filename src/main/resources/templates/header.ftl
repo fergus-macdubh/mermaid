@@ -61,6 +61,9 @@
 <#if user.role! == "ROLE_ADMIN">
     | <a href="/users">Пользователи</a>
 </#if>
+<#if user.role! == "ROLE_ADMIN">
+    | <a href="/teams">Бригады</a>
+</#if>
     |
     <br/><br/>
     Привет, ${user.givenName}! (<a href="https://accounts.google.com/Logout">Выход</a>)

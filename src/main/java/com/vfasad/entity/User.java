@@ -30,6 +30,10 @@ public class User {
     @Column(name = "authority")
     private String role;
 
+    @ManyToOne
+    @JoinColumn(name = "team_fk")
+    private Team team;
+
     public User(String email, String name, String givenName, String familyName, String picture, String gender, String locale) {
         this.email = email;
         this.name = name;

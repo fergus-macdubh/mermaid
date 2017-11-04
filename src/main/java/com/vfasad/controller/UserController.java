@@ -1,11 +1,12 @@
 package com.vfasad.controller;
 
+import com.vfasad.service.TeamService;
 import com.vfasad.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -15,21 +16,33 @@ import static com.vfasad.entity.User.ROLE_ADMIN;
 public class UserController {
     @Autowired
     private UserService userService;
+    @Autowired
+    private TeamService teamService;
 
-    @RequestMapping(value = "/users", method = RequestMethod.GET)
+    @GetMapping("/users")
     @Secured(ROLE_ADMIN)
     public ModelAndView products() {
         ModelAndView model = new ModelAndView("users/users");
         model.addObject("users", userService.findAll());
+        model.addObject("teams", teamService.findAll());
         return model;
     }
 
-    @RequestMapping(value = "/users", method = RequestMethod.POST)
+    @PostMapping("/users/role")
     @Secured(ROLE_ADMIN)
-    public String updateUser(
+    public String updateUserRole(
             @RequestParam Long userId,
             @RequestParam String role) {
         userService.updateUserRole(userId, role);
+        return "redirect:/users";
+    }
+
+    @PostMapping("/users/team")
+    @Secured(ROLE_ADMIN)
+    public String updateUserTeam(
+            @RequestParam Long userId,
+            @RequestParam Long teamId) {
+        userService.updateUserTeam(userId, teamId);
         return "redirect:/users";
     }
 }

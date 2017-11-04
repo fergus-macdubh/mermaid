@@ -29,6 +29,9 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private TeamService teamService;
+
     public User getCurrentUser() {
         OAuth2Authentication authentication = (OAuth2Authentication) SecurityContextHolder.getContext().getAuthentication();
         if (authentication == null) {
@@ -81,7 +84,7 @@ public class UserService {
     public boolean isRoleChanged(OAuth2Authentication authentication, String role) {
         return !((authentication.getAuthorities().size() == 0
                 && StringUtils.isEmpty(role))
-                || ((GrantedAuthority)authentication.getAuthorities().toArray()[0]).getAuthority().equals(role));
+                || ((GrantedAuthority) authentication.getAuthorities().toArray()[0]).getAuthority().equals(role));
 
     }
 
@@ -96,5 +99,11 @@ public class UserService {
         authentication = new OAuth2Authentication(authentication.getOAuth2Request(), token);
         authentication.setDetails(details);
         SecurityContextHolder.getContext().setAuthentication(authentication);
+    }
+
+    public void updateUserTeam(Long userId, Long teamId) {
+        User user = getUser(userId);
+        user.setTeam(teamService.getTeam(teamId));
+        userRepository.save(user);
     }
 }

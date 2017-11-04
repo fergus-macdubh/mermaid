@@ -4,11 +4,22 @@ INSERT INTO product (id, name, producer, quantity, supplier, price, unit) VALUES
 INSERT INTO product (id, name, producer, quantity, supplier, price, unit) VALUES (nextval('product_seq'), '5145 mat', 'Shmulver', 0, null, 0, 'KILOGRAM');
 INSERT INTO product (id, name, producer, quantity, supplier, price, unit) VALUES (nextval('product_seq'), '1012 mat', 'Shmulver', 0, null, 0, 'KILOGRAM');
 
+INSERT INTO team (id, name) VALUES (nextval('team_seq'), 'Крабы');
+INSERT INTO team (id, name) VALUES (nextval('team_seq'), 'Раки');
+
 INSERT INTO user_details (id, email, family_name, gender, given_name, locale, name, picture, authority) VALUES (nextval('user_seq'), 'fergusmacdubh@gmail.com', 'MacDubh', 'male', 'Fergus', 'en', 'Fergus MacDubh', 'https://lh5.googleusercontent.com/-JedDN0NvHv4/AAAAAAAAAAI/AAAAAAAADUs/Rw5rhJTzyZ8/photo.jpg', 'ROLE_ADMIN');
 INSERT INTO user_details (id, email, family_name, gender, given_name, locale, name, picture, authority) VALUES (nextval('user_seq'), 'oleksandr.cherniaiev@gmail.com', 'Петренко', 'male', 'Вася', 'en', 'Вася Петренко', 'https://cdn3.iconfinder.com/data/icons/rcons-user-action/32/boy-512.png', 'ROLE_SALES');
 INSERT INTO user_details (id, email, family_name, gender, given_name, locale, name, picture, authority) VALUES (nextval('user_seq'), 'vasiliev@vfasad.com.ua', 'Васильев', 'male', 'Петя', 'en', 'Петя Васильев', 'https://img00.deviantart.net/daf4/i/2008/255/a/f/avatar_icon_by_pharaun_mizzrym.jpg', 'ROLE_SALES');
 INSERT INTO user_details (id, email, family_name, gender, given_name, locale, name, picture, authority) VALUES (nextval('user_seq'), 'khomiakov@vfasad.com.ua', 'Хомяков', 'male', 'Коля', 'en', 'Коля Хомяков', 'https://maxcdn.icons8.com/Share/icon/Cinema//avatar1600.png', 'ROLE_SALES');
 INSERT INTO user_details (id, email, family_name, gender, given_name, locale, name, picture, authority) VALUES (nextval('user_seq'), 'dmitry.drepin@vfasad.com.ua', 'Дрепин', 'male', 'Дмитрий', 'en', 'Дмитрий Дрепин', 'https://lh3.googleusercontent.com/-cnjy0eG_Q24/AAAAAAAAAAI/AAAAAAAACXA/kUI5QHOz4Ys/s75-p-rw-no/photo.jpg', 'ROLE_ADMIN');
+INSERT INTO user_details (id, email, family_name, gender, given_name, locale, name, picture, authority, team_fk) VALUES (nextval('user_seq'), 'pavliuk@gmail.com', 'Павлюк', 'male', 'Сережа', 'en', 'Сережа Павлюк', '', 'ROLE_PAINTER', 1);
+INSERT INTO user_details (id, email, family_name, gender, given_name, locale, name, picture, authority, team_fk) VALUES (nextval('user_seq'), 'moroz@gmail.com', 'Мороз', 'male', 'Андрей', 'en', 'Андрей Мороз', '', 'ROLE_LABORER', 1);
+INSERT INTO user_details (id, email, family_name, gender, given_name, locale, name, picture, authority, team_fk) VALUES (nextval('user_seq'), 'gornyy@gmail.com', 'Горный', 'male', 'Толик', 'en', 'Толик Горный', '', 'ROLE_LABORER', 1);
+INSERT INTO user_details (id, email, family_name, gender, given_name, locale, name, picture, authority, team_fk) VALUES (nextval('user_seq'), 'hriak@gmail.com', 'Хряк', 'male', 'Коля', 'en', 'Коля Хряк', '', 'ROLE_LABORER', 1);
+INSERT INTO user_details (id, email, family_name, gender, given_name, locale, name, picture, authority, team_fk) VALUES (nextval('user_seq'), 'tsar@gmail.com', 'Царь', 'male', 'Саша', 'en', 'Саша Царь', '', 'ROLE_PAINTER', 2);
+INSERT INTO user_details (id, email, family_name, gender, given_name, locale, name, picture, authority, team_fk) VALUES (nextval('user_seq'), 'korol@gmail.com', 'Король', 'male', 'Дима', 'en', 'Дима Король', '', 'ROLE_LABORER', 2);
+INSERT INTO user_details (id, email, family_name, gender, given_name, locale, name, picture, authority, team_fk) VALUES (nextval('user_seq'), 'oslov@gmail.com', 'Ослов', 'male', 'Антон', 'en', 'Антон Ослов', '', 'ROLE_LABORER', 2);
+INSERT INTO user_details (id, email, family_name, gender, given_name, locale, name, picture, authority, team_fk) VALUES (nextval('user_seq'), 'vagonov@gmail.com', 'Вагонов', 'male', 'Отстой', 'en', 'Отстой Вагонов', '', 'ROLE_LABORER', 2);
 
 INSERT INTO product_action (id, price, quantity, type, product_id, actor_id, created) VALUES (nextval('product_action_seq'), 540, 20, 'PURCHASE', 1, 2, current_timestamp);
 INSERT INTO product_action (id, price, quantity, type, product_id, actor_id, created) VALUES (nextval('product_action_seq'), 260, 10, 'PURCHASE', 1, 3, current_timestamp);

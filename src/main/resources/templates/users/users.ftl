@@ -10,6 +10,7 @@
         <th>Имя</th>
         <th>Фамилия</th>
         <th>Роль</th>
+        <th>Бригада</th>
     </tr>
     </thead>
 <#list users as user>
@@ -23,7 +24,7 @@
             <#if user.role! == 'ROLE_ADMIN'>
                 Администратор
             <#else>
-                <form method="post">
+                <form method="post" action="/users/role">
                     <input type="hidden" value="${user.id}" name="userId"/>
                     <input type="hidden"
                            name="${_csrf.parameterName}"
@@ -50,6 +51,22 @@
                     <button class="btn btn-info">Сохранить</button>
                 </form>
             </#if>
+        </td>
+        <td>
+            <form method="post" action="/users/team">
+                <input type="hidden" value="${user.id}" name="userId"/>
+                <input type="hidden"
+                       name="${_csrf.parameterName}"
+                       value="${_csrf.token}"/>
+                <select name="teamId">
+                    <option value="">Не назначена</option>
+                        <#list teams as team>
+                            <option value="${team.id}"
+                                    <#if user.team?? && user.team.id! == team.id>selected</#if>>${team.name}</option>
+                        </#list>
+                </select>
+                <button class="btn btn-info">Сохранить</button>
+            </form>
         </td>
     </tr>
 </#list>

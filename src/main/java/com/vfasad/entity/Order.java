@@ -12,6 +12,10 @@ import java.util.Set;
 @Entity(name = "paint_order")
 @NoArgsConstructor
 public class Order {
+    public enum Status {
+        CREATED, IN_PROGRESS, SHIPPING, CLOSED, BLOCKED, CANCELLED
+    }
+
     @Id
     @GeneratedValue(generator="optimized-sequence")
     private Long id;
@@ -32,9 +36,12 @@ public class Order {
     @Enumerated(EnumType.STRING)
     private Status status = Status.CREATED;
 
-    public enum Status {
-        CREATED, IN_PROGRESS, SHIPPING, CLOSED, BLOCKED, CANCELLED
-    }
+    @ManyToOne
+    @JoinColumn(name = "team_fk")
+    private Team team;
+
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private Set<User> doneBy;
 
     public Order(User manager, double area, String document, double price, Set<OrderConsume> consumes, LocalDate planned) {
         this.manager = manager;

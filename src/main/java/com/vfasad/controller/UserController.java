@@ -61,9 +61,11 @@ public class UserController {
             @RequestParam String email,
             @RequestParam String givenName,
             @RequestParam String familyName,
-            @RequestParam String role) {
+            @RequestParam String role,
+            @RequestParam(required = false) Long teamId) {
         User user = new User(email, name, givenName, familyName, null, "male", "en");
         user.setRole(role);
+        user.setTeam(teamService.getTeam(teamId));
         userService.updateUser(user);
         return "redirect:/users";
     }

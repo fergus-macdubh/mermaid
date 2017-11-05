@@ -195,7 +195,7 @@
                     <div id="teamRadioContainer">
                         <div id="teamRadio" class="btn-group" data-toggle="buttons">
                             <#list teams as team>
-                                <label class="btn btn-primary">
+                                <label class="btn btn-primary <#if user.team?? && user.team.id == team.id>active</#if>">
                                     <input type="radio" name="teamId" value="${team.id}"
                                            <#if user.team?? && user.team.id == team.id>checked</#if>> ${team.name}
                                 </label>

@@ -23,6 +23,10 @@ public class TeamService {
     }
 
     public Team getTeam(Long teamId) {
+        if (teamId == null) {
+            return null;
+        }
+
         return teamRepository.findById(teamId)
                 .orElseThrow(() -> new NotFoundException("Team with provided id is not found."));
     }

@@ -1,7 +1,7 @@
 <#include "../header.ftl">
 <h1>Бригады</h1>
 
-<a href="/teams/add" class="btn btn-info">Создать бригаду</a>
+<a href="/teams/add" class="btn btn-success">Создать бригаду</a>
 
 <table class="responsive-table">
     <thead>

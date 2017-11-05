@@ -34,6 +34,9 @@ public class User {
     @JoinColumn(name = "team_fk")
     private Team team;
 
+    @Column(name = "deleted", nullable = false, columnDefinition = "boolean default false")
+    private boolean deleted;
+
     public User(String email, String name, String givenName, String familyName, String picture, String gender, String locale) {
         this.email = email;
         this.name = name;

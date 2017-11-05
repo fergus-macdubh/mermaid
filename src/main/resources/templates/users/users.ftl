@@ -1,6 +1,6 @@
 <#include "../header.ftl">
 <h1>Пользователи</h1>
-
+<a href="/users/add" class="btn btn-success">Добавить пользователя</a>
 <table class="responsive-table">
     <thead>
     <tr>
@@ -11,6 +11,7 @@
         <th>Фамилия</th>
         <th>Роль</th>
         <th>Бригада</th>
+        <th></th>
     </tr>
     </thead>
 <#list users as user>
@@ -21,52 +22,29 @@
         <td>${user.givenName!}</td>
         <td>${user.familyName!}</td>
         <td>
-            <#if user.role! == 'ROLE_ADMIN'>
-                Администратор
+            <#if (user.role)! == 'ROLE_OPERATOR'>
+                Оператор
+            <#elseif (user.role)! == 'ROLE_PAINTER'>
+                Маляр
+            <#elseif (user.role)! == 'ROLE_SALES'>
+                Менеджер
+            <#elseif (user.role)! == 'ROLE_LABORER'>
+                Рабочий
+            <#elseif (user.role)! == 'ROLE_ADMIN'>
+                Админстратор
             <#else>
-                <form method="post" action="/users/role">
-                    <input type="hidden" value="${user.id}" name="userId"/>
-                    <input type="hidden"
-                           name="${_csrf.parameterName}"
-                           value="${_csrf.token}"/>
-                    <select name="role">
-                        <option value="">Не назначена</option>
-                        <option value="ROLE_OPERATOR"
-                                <#if user.role! == 'ROLE_OPERATOR'>selected</#if>>
-                            Оператор
-                        </option>
-                        <option value="ROLE_PAINTER"
-                                <#if user.role! == 'ROLE_PAINTER'>selected</#if>>
-                            Маляр
-                        </option>
-                        <option value="ROLE_SALES"
-                                <#if user.role! == 'ROLE_SALES'>selected</#if>>
-                            Менеджер
-                        </option>
-                        <option value="ROLE_LABORER"
-                                <#if user.role! == 'ROLE_LABORER'>selected</#if>>
-                            Рабочий
-                        </option>
-                    </select>
-                    <button class="btn btn-info">Сохранить</button>
-                </form>
+                Не назначена
             </#if>
         </td>
         <td>
-            <form method="post" action="/users/team">
-                <input type="hidden" value="${user.id}" name="userId"/>
-                <input type="hidden"
-                       name="${_csrf.parameterName}"
-                       value="${_csrf.token}"/>
-                <select name="teamId">
-                    <option value="">Не назначена</option>
-                        <#list teams as team>
-                            <option value="${team.id}"
-                                    <#if user.team?? && user.team.id! == team.id>selected</#if>>${team.name}</option>
-                        </#list>
-                </select>
-                <button class="btn btn-info">Сохранить</button>
-            </form>
+            <#if user.team??>
+            ${user.team.name}
+            <#else>
+                Не назначена
+            </#if>
+        </td>
+        <td>
+            <a href="/users/${user.id}/edit" class="btn btn-info">Редактировать</a>
         </td>
     </tr>
 </#list>

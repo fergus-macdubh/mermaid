@@ -38,10 +38,9 @@ public class UserService {
             return null;
         }
         Map<String, String> details = (Map) authentication.getDetails();
-        User user = userRepository.getByEmail(details.get("email"))
-                .orElse(new User(details.get("email"), "Незнакомец", "Незнакомец", "", "", "", ""));
 
-        return user;
+        return userRepository.getByEmail(details.get("email"))
+                .orElse(new User(details.get("email"), "Незнакомец", "Незнакомец", "", "", "", ""));
     }
 
     public User updateUser(Map<String, String> details) {
@@ -55,8 +54,13 @@ public class UserService {
         user.setPicture(details.get(PICTURE));
         user.setGender(details.get(GENDER));
         user.setLocale(details.get(LOCALE));
+        user.setDeleted(false);
 
         return userRepository.save(user);
+    }
+
+    public void updateUser(User user) {
+        userRepository.save(user);
     }
 
     public List<User> getAdmins() {

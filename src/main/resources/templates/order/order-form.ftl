@@ -58,10 +58,10 @@
         var coeff = $('input[name=price-coeff]:checked').val();
         var area = $('#area-input').val();
 
-        $('input[name=quantities]').val(area * 0.2);
+        $('input[name=quantities]').val((area * 0.2).toFixed(2));
 
         if (coeff != 0) {
-            $('#price-input').val(coeff * area);
+            $('#price-input').val((coeff * area).toFixed(2));
         }
     }
 </script>

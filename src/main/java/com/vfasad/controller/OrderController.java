@@ -62,7 +62,7 @@ public class OrderController {
                     double area,
             @RequestParam(required = false)
                     String document,
-            @RequestParam @Min(value = 1, message = "Price cannot be zero or negative.")
+            @RequestParam @Min(value = 0, message = "Price cannot be negative.")
                     double price,
             @RequestParam @NotEmpty
                     long[] productIds,
@@ -96,7 +96,8 @@ public class OrderController {
             @PathVariable Long id,
             @RequestParam double area,
             @RequestParam String document,
-            @RequestParam double price,
+            @RequestParam @Min(value = 0, message = "Price cannot be negative.")
+                    double price,
             @RequestParam long[] productIds,
             @RequestParam @NotEmpty
             @ElementMin(value = 0, message = "Quantities cannot be zero or negative.")

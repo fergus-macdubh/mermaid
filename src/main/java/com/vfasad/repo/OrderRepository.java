@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.math.BigInteger;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,4 +23,6 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
     List<BigInteger> findBlockedOrdersIds();
 
     Optional<Order> findById(Long id);
+
+    List<Order> findByCompletedBetween(LocalDateTime from, LocalDateTime to);
 }

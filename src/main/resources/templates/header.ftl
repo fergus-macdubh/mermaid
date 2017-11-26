@@ -1,3 +1,5 @@
+<#setting locale="ru_UA">
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -63,6 +65,9 @@
 </#if>
 <#if user.role! == "ROLE_ADMIN">
     | <a href="/teams">Бригады</a>
+</#if>
+<#if user.role! == "ROLE_ADMIN">
+    | <a href="/reports">Отчеты</a>
 </#if>
     |
     <br/><br/>

@@ -13,6 +13,8 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigInteger;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.YearMonth;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -134,5 +136,11 @@ public class OrderService {
         }
 
         orderRepository.save(order);
+    }
+
+    public List<Order> findByMonth(int year, int month) {
+        return orderRepository.findByCompletedBetween(
+                LocalDateTime.of(year, month, 1, 0, 0),
+                LocalDateTime.of(year, month, YearMonth.of(year, month).lengthOfMonth(), 23, 59, 59));
     }
 }

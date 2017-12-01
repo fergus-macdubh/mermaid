@@ -1,6 +1,7 @@
 package com.vfasad.controller;
 
 import com.vfasad.entity.Order;
+import com.vfasad.entity.Team;
 import com.vfasad.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
@@ -44,10 +45,26 @@ public class ReportController {
     public ModelAndView monthReport(@PathVariable int year,
                                     @PathVariable int month) {
         ModelAndView modelAndView = new ModelAndView("report/month-report");
-        List<Order> orders = orderService.findByMonth(year, month);
-        modelAndView.addObject("orders", orders);
         modelAndView.addObject("month", getMonthName(month));
         modelAndView.addObject("year", year);
+
+        List<Order> orders = orderService.findByMonth(year, month);
+        Map<String, Team> teams = new HashMap<>();
+        Map<Long, List<Order>> ordersByTeamId = orders.stream()
+                .filter(o -> o.getTeam() != null)
+                .peek(o -> teams.put(o.getTeam().getId().toString(), o.getTeam()))
+                .collect(Collectors.groupingBy(o -> o.getTeam().getId()));
+        modelAndView.addObject("teams", teams);
+
+        Map<String, List<Order>> ordersByTeamIdString = new HashMap<>();
+        ordersByTeamId.keySet()
+                .forEach(id -> ordersByTeamIdString.put(id.toString(), ordersByTeamId.get(id)));
+        modelAndView.addObject("ordersByTeam", ordersByTeamIdString);
+
+        Map<String, Double> areaByTeamId = new HashMap<>();
+        ordersByTeamIdString.keySet()
+                .forEach(teamId -> areaByTeamId.put(teamId, ordersByTeamIdString.get(teamId).stream().mapToDouble(Order::getArea).sum()));
+        modelAndView.addObject("areaByTeamId", areaByTeamId);
         return modelAndView;
     }
 

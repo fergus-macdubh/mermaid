@@ -8,10 +8,10 @@ import lombok.Getter;
 public enum OptionName {
     SALARY_PAINTER("Зарплата маляра", "грн"),
     SALARY_LABORER("Зарплата помощника", "грн"),
-    SALARY_MANAGER("Зарплата менеджера", "грн"),
+    SALARY_MANAGER("Зарплата начцеха", "грн"),
     BONUS_PAINTER("Премия маляра (коэффициент)", ""),
     BONUS_LABORER("Премия помощника (коэффициент)", ""),
-    BONUS_MANAGER("Премия менеджера (коэффициент)", ""),
+    BONUS_MANAGER("Премия начцеха (коэффициент)", ""),
     ENTERPRENUER_TAX("Налог ФЛП", "грн"),
     ELECTRICITY("Расход электроэнергии (коэффициент)", ""),
     BUILDING_RENT("Аренда помещения", "грн"),

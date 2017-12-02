@@ -11,9 +11,9 @@
         <th>Документ</th>
         <th>Цена</th>
         <th>Бригада</th>
-    <#if user.role == "ROLE_ADMIN"
-    || user.role == "ROLE_OPERATOR"
-    || user.role == "ROLE_PAINTER">
+    <#if currentUser.role == "ROLE_ADMIN"
+    || currentUser.role == "ROLE_OPERATOR"
+    || currentUser.role == "ROLE_PAINTER">
         <th>Редактировать</th>
     </#if>
     </tr>
@@ -27,9 +27,9 @@
         <td>${order.document!}</td>
         <td>${order.price}</td>
         <td>${(order.team.name)!'-'}</td>
-        <#if user.role == "ROLE_ADMIN"
-        || user.role == "ROLE_OPERATOR"
-        || user.role == "ROLE_PAINTER">
+        <#if currentUser.role == "ROLE_ADMIN"
+        || currentUser.role == "ROLE_OPERATOR"
+        || currentUser.role == "ROLE_PAINTER">
             <td><a class="btn btn-info" href="/order/${order.id?c}/edit">Редактировать</a></td>
         </#if>
     </tr>

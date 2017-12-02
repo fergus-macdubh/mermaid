@@ -9,7 +9,7 @@
         <th>Наименование</th>
         <th>Цена последней закупки</th>
         <th>Количество</th>
-    <#if user.role == "ROLE_ADMIN">
+    <#if currentUser.role == "ROLE_ADMIN">
         <th>Инвентаризация</th>
     </#if>
     </tr>
@@ -20,7 +20,7 @@
         <td><a href="/storage/product/${product.id?c}/action">${product.name} ${product.producer}</a></td>
         <td>${product.price} грн / ${product.unit.abbr}</td>
         <td>${product.quantity} ${product.unit.abbr}</td>
-        <#if user.role == "ROLE_ADMIN">
+        <#if currentUser.role == "ROLE_ADMIN">
             <td>
                 <a href="/storage/product/${product.id}/inventorying" class="btn btn-info">Инвентаризация</a>
             </td>

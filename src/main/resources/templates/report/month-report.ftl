@@ -2,7 +2,7 @@
 <h1>Отчет за ${month} ${year?c} года</h1>
 <div style="float: left">
     <h3>Расходы</h3>
-    <#assign totalExpenses = 0>
+<#assign totalExpenses = 0>
     <table class="responsive-table" style="width: 30em">
         <tr>
             <th>Сумма затрат на краску</th>
@@ -45,15 +45,16 @@
             <th>Премии</th>
             <td>
             <#assign sumBonus = 0>
-            <#list users?values as user>
-                <#if user.role == 'ROLE_PAINTER'>
-                    <#assign sumBonus += options['SALARY_PAINTER']?eval> <#-- todo!! -->
-                </#if>
-                <#if user.role == 'ROLE_LABORER'>
-                    <#assign sumBonus += options['SALARY_LABORER']?eval>
-                </#if>
+            <#list teams?keys as teamId>
+                <#list usersByTeamId[teamId] as user>
+                    <#if user.role == 'ROLE_PAINTER'>
+                        <#assign sumBonus += options['BONUS_PAINTER']?eval * areaByTeamId[teamId]>
+                    </#if>
+                    <#if user.role == 'ROLE_LABORER'>
+                        <#assign sumBonus += options['BONUS_LABORER']?eval * areaByTeamId[teamId]>
+                    </#if>
+                </#list>
             </#list>
-            <#assign sumBonus += options['SALARY_MANAGER']?eval>
             ${sumBonus?string["0.##"]} грн
             <#assign totalExpenses += sumBonus>
             </td>

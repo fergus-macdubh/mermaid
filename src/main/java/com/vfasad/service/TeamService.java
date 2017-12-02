@@ -31,12 +31,8 @@ public class TeamService {
                 .orElseThrow(() -> new NotFoundException("Team with provided id is not found."));
     }
 
-    public List<User> getTeamUsers(Team team) {
-        return userRepository.findAllByTeam(team);
-    }
-
     public List<User> getTeamUsers(long teamId) {
-        return getTeamUsers(getTeam(teamId));
+        return userRepository.findAllByTeam(getTeam(teamId));
     }
 
     public void updateTeam(Team team) {
@@ -56,5 +52,9 @@ public class TeamService {
         Team team = new Team();
         team.setName(name);
         teamRepository.save(team);
+    }
+
+    private List<User> getTeamUsers(Team team) {
+        return userRepository.findAllByTeam(team);
     }
 }

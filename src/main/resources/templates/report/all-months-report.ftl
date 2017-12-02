@@ -1,5 +1,5 @@
 <#include "../header.ftl">
-<h1>Отчет по бригадам</h1>
+<h1>Отчет по месяцам</h1>
 
 <table class="responsive-table">
     <thead>

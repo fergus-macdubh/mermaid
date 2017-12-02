@@ -20,7 +20,11 @@ public interface UserRepository extends JpaRepository<User, Long> {
         return findAllByDeletedOrderByEmail(false);
     }
 
-    List<User> findAllByTeam(Team team);
+    default List<User> findAllByTeam(Team team) {
+        return findAllByTeamAndDeleted(team, false);
+    }
 
     List<User> findAllByDeletedOrderByEmail(boolean deleted);
+
+    List<User> findAllByTeamAndDeleted(Team team, boolean deleted);
 }

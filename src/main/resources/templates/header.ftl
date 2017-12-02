@@ -28,52 +28,52 @@
 <body>
 <header class="container-fluid">
     <img id="logo" src="/img/mermaid.png"/>
-<#if user.role! == "ROLE_ADMIN"
-|| user.role! == "ROLE_OPERATOR"
-|| user.role! == "ROLE_PAINTER">
+<#if currentUser.role! == "ROLE_ADMIN"
+|| currentUser.role! == "ROLE_OPERATOR"
+|| currentUser.role! == "ROLE_PAINTER">
     | <a href="/storage">Склад</a>
 </#if>
-<#if user.role! == "ROLE_ADMIN"
-|| user.role! == "ROLE_OPERATOR">
+<#if currentUser.role! == "ROLE_ADMIN"
+|| currentUser.role! == "ROLE_OPERATOR">
     | <a href="/storage/product/purchase">Пополнить склад</a>
 </#if>
-<#if user.role! == "ROLE_ADMIN"
-|| user.role! == "ROLE_OPERATOR">
+<#if currentUser.role! == "ROLE_ADMIN"
+|| currentUser.role! == "ROLE_OPERATOR">
     | <a href="/product">Товары</a>
 </#if>
-<#if user.role! == "ROLE_ADMIN"
-|| user.role! == "ROLE_OPERATOR">
+<#if currentUser.role! == "ROLE_ADMIN"
+|| currentUser.role! == "ROLE_OPERATOR">
     | <a href="/product/add">Новый товар</a>
 </#if>
-<#if user.role! == "ROLE_ADMIN"
-|| user.role! == "ROLE_OPERATOR"
-|| user.role! == "ROLE_SALES">
+<#if currentUser.role! == "ROLE_ADMIN"
+|| currentUser.role! == "ROLE_OPERATOR"
+|| currentUser.role! == "ROLE_SALES">
     | <a href="/order">Заказы</a>
 </#if>
-<#if user.role! == "ROLE_ADMIN"
-|| user.role! == "ROLE_OPERATOR">
+<#if currentUser.role! == "ROLE_ADMIN"
+|| currentUser.role! == "ROLE_OPERATOR">
     | <a href="/order/add">Новый заказ</a>
 </#if>
-<#if user.role! == "ROLE_ADMIN"
-|| user.role! == "ROLE_OPERATOR"
-|| user.role! == "ROLE_SALES"
-|| user.role! == "ROLE_PAINTER">
+<#if currentUser.role! == "ROLE_ADMIN"
+|| currentUser.role! == "ROLE_OPERATOR"
+|| currentUser.role! == "ROLE_SALES"
+|| currentUser.role! == "ROLE_PAINTER">
     | <a href="/kanban">KANBAN</a>
 </#if>
-<#if user.role! == "ROLE_ADMIN">
+<#if currentUser.role! == "ROLE_ADMIN">
     | <a href="/users">Пользователи</a>
 </#if>
-<#if user.role! == "ROLE_ADMIN">
+<#if currentUser.role! == "ROLE_ADMIN">
     | <a href="/teams">Бригады</a>
 </#if>
-<#if user.role! == "ROLE_ADMIN">
+<#if currentUser.role! == "ROLE_ADMIN">
     | <a href="/reports">Отчеты</a>
 </#if>
-<#if user.role! == "ROLE_ADMIN">
+<#if currentUser.role! == "ROLE_ADMIN">
     | <a href="/options">Настройки</a>
 </#if>
     |
     <br/><br/>
-    Привет, ${user.givenName}! (<a href="https://accounts.google.com/Logout">Выход</a>)
+    Привет, ${currentUser.givenName}! (<a href="https://accounts.google.com/Logout">Выход</a>)
 </header>
 <div class="container-fluid">

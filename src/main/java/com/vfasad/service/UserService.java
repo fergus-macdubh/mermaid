@@ -1,5 +1,6 @@
 package com.vfasad.service;
 
+import com.vfasad.entity.Team;
 import com.vfasad.entity.User;
 import com.vfasad.exception.NotFoundException;
 import com.vfasad.repo.UserRepository;
@@ -13,8 +14,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 public class UserService {
@@ -109,5 +112,18 @@ public class UserService {
         User user = getUser(userId);
         user.setTeam(teamService.getTeam(teamId));
         userRepository.save(user);
+    }
+
+    public Map<String, List<User>> getUsersByTeamId() {
+        Map<String, List<User>> usersByTeamId = new HashMap<>();
+        Map<Team, List<User>> usersByTeam = userRepository.findAll().stream()
+                .filter(u -> u.getTeam() != null)
+                .filter(u -> !u.isDeleted())
+                .collect(Collectors.groupingBy(User::getTeam));
+
+        usersByTeam.keySet()
+                .forEach(team -> usersByTeamId.put(team.getId().toString(), usersByTeam.get(team)));
+
+        return usersByTeamId;
     }
 }

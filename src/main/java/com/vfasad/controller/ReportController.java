@@ -1,8 +1,13 @@
 package com.vfasad.controller;
 
+import com.vfasad.entity.Option;
 import com.vfasad.entity.Order;
 import com.vfasad.entity.Team;
+import com.vfasad.entity.User;
+import com.vfasad.service.OptionService;
 import com.vfasad.service.OrderService;
+import com.vfasad.service.TeamService;
+import com.vfasad.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
@@ -17,12 +22,19 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import static com.vfasad.entity.User.ROLE_ADMIN;
+import static org.springframework.util.CollectionUtils.isEmpty;
 
 @Controller
 @Secured(ROLE_ADMIN)
 public class ReportController {
     @Autowired
     OrderService orderService;
+    @Autowired
+    OptionService optionService;
+    @Autowired
+    UserService userService;
+    @Autowired
+    TeamService teamService;
 
     @GetMapping("/reports")
     public ModelAndView reports() {
@@ -41,14 +53,52 @@ public class ReportController {
         return modelAndView;
     }
 
+    @GetMapping("/reports/month/{year}-{month}/team/{teamId}")
+    public ModelAndView monthByTeamReport(@PathVariable int year,
+                                    @PathVariable int month,
+                                    @PathVariable long teamId) {
+        ModelAndView modelAndView = new ModelAndView("report/month-by-team-report");
+        modelAndView.addObject("month", getMonthName(month));
+        modelAndView.addObject("year", year);
+        modelAndView.addObject("team", teamService.getTeam(teamId));
+
+        List<Order> orders = orderService.findByMonth(year, month).stream()
+                .filter(order -> order.getTeam() != null)
+                .filter(order -> order.getTeam().getId() == teamId)
+                .collect(Collectors.toList());
+        modelAndView.addObject("orders", orders);
+        return modelAndView;
+    }
+
+    @GetMapping("/reports/month/{year}-{month}/user/{userId}")
+    public ModelAndView monthByUserReport(@PathVariable int year,
+                                    @PathVariable int month,
+                                    @PathVariable long userId) {
+        ModelAndView modelAndView = new ModelAndView("report/month-by-user-report");
+        modelAndView.addObject("month", getMonthName(month));
+        modelAndView.addObject("year", year);
+        User user = userService.getUser(userId);
+        modelAndView.addObject("user", user);
+
+        List<Order> orders = orderService.findByMonth(year, month).stream()
+                .filter(order -> !isEmpty(order.getDoneBy()))
+                .filter(order -> order.getDoneBy().contains(user))
+                .collect(Collectors.toList());
+        modelAndView.addObject("orders", orders);
+        return modelAndView;
+    }
+
     @GetMapping("/reports/month/{year}-{month}")
     public ModelAndView monthReport(@PathVariable int year,
                                     @PathVariable int month) {
         ModelAndView modelAndView = new ModelAndView("report/month-report");
         modelAndView.addObject("month", getMonthName(month));
+        modelAndView.addObject("monthNum",month);
         modelAndView.addObject("year", year);
 
         List<Order> orders = orderService.findByMonth(year, month);
+        modelAndView.addObject("orders", orders);
+
         Map<String, Team> teams = new HashMap<>();
         Map<Long, List<Order>> ordersByTeamId = orders.stream()
                 .filter(o -> o.getTeam() != null)
@@ -65,6 +115,37 @@ public class ReportController {
         ordersByTeamIdString.keySet()
                 .forEach(teamId -> areaByTeamId.put(teamId, ordersByTeamIdString.get(teamId).stream().mapToDouble(Order::getArea).sum()));
         modelAndView.addObject("areaByTeamId", areaByTeamId);
+
+        modelAndView.addObject("usersByTeamId", userService.getUsersByTeamId());
+
+        Map<String, String> options = optionService.findAll().stream()
+                .filter(o -> o.getValue() != null)
+                .collect(Collectors.toMap(
+                        o -> o.getName().name(),
+                        Option::getValue));
+        modelAndView.addObject("options", options);
+
+        Map<String, User> usersById = new HashMap<>();
+        Map<String, List<Order>> ordersByUserId = new HashMap<>();
+        for (Order order : orders) {
+            for (User user : order.getDoneBy()) {
+                if (user.isDeleted()) continue;
+                List<Order> userOrders;
+                if ((userOrders = ordersByUserId.get(user.getId().toString())) == null) {
+                    userOrders = new ArrayList<>();
+                    ordersByUserId.put(user.getId().toString(), userOrders);
+                }
+                userOrders.add(order);
+                usersById.put(user.getId().toString(), user);
+            }
+        }
+        modelAndView.addObject("ordersByUser", ordersByUserId);
+        modelAndView.addObject("users", usersById);
+
+        Map<String, Double> areaByUserId = new HashMap<>();
+        ordersByUserId.keySet()
+                .forEach(userId -> areaByUserId.put(userId, ordersByUserId.get(userId).stream().mapToDouble(Order::getArea).sum()));
+        modelAndView.addObject("areaByUserId", areaByUserId);
         return modelAndView;
     }
 
@@ -72,7 +153,6 @@ public class ReportController {
         return Month.of(month)
                 .getDisplayName(
                         TextStyle.FULL_STANDALONE,
-                        new Locale("ru", "UA")
-                );
+                        new Locale("ru", "UA"));
     }
 }

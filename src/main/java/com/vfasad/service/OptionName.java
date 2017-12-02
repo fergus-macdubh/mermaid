@@ -11,7 +11,14 @@ public enum OptionName {
     SALARY_MANAGER("Зарплата менеджера", "грн"),
     BONUS_PAINTER("Премия маляра (коэффициент)", ""),
     BONUS_LABORER("Премия помощника (коэффициент)", ""),
-    BONUS_MANAGER("Премия менеджера (коэффициент)", "");
+    BONUS_MANAGER("Премия менеджера (коэффициент)", ""),
+    ENTERPRENUER_TAX("Налог ФЛП", "грн"),
+    ELECTRICITY("Расход электроэнергии (коэффициент)", ""),
+    BUILDING_RENT("Аренда помещения", "грн"),
+    LINE_AMORTIZATION("Амортизация линии", "грн"),
+    OTHER_CONSUMES("Расходные материалы (коэффициент)", ""),
+    OTHER_EXPENSES("Прочие расходы", "грн"),
+    ;
 
     private String desc;
     private String unit;

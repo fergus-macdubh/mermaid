@@ -9,7 +9,7 @@
             <td>
             <#assign sumPriceConsumes = 0>
             <#list orders as order><#assign sumPriceConsumes += order.consumes[0].product.price * order.consumes[0].actualUsedQuantity></#list>
-            ${sumPriceConsumes?string["0.##"]} грн
+            ${sumPriceConsumes?string[",##0.##"]} грн
             <#assign totalExpenses += sumPriceConsumes>
             </td>
         </tr>
@@ -37,7 +37,7 @@
                 </#if>
             </#list>
             <#assign sumSalary += options['SALARY_MANAGER']?eval>
-            ${sumSalary?string["0.##"]} грн
+            ${sumSalary?string[",##0.##"]} грн
             <#assign totalExpenses += sumSalary>
             </td>
         </tr>
@@ -55,28 +55,28 @@
                     </#if>
                 </#list>
             </#list>
-            ${sumBonus?string["0.##"]} грн
+            ${sumBonus?string[",##0.##"]} грн
             <#assign totalExpenses += sumBonus>
             </td>
         </tr>
         <tr>
             <th>Аренда помещения</th>
-            <td>${options['BUILDING_RENT']} грн</td>
+            <td>${options['BUILDING_RENT']?eval?string[",##0.##"]} грн</td>
         <#assign totalExpenses += options['BUILDING_RENT']?eval>
         </tr>
         <tr>
             <th>Амортизация линии</th>
-            <td>${options['LINE_AMORTIZATION']} грн</td>
+            <td>${options['LINE_AMORTIZATION']?eval?string[",##0.##"]} грн</td>
         <#assign totalExpenses += options['LINE_AMORTIZATION']?eval>
         </tr>
         <tr>
             <th>Расходные материалы</th>
-            <td>${sumArea * options['OTHER_CONSUMES']?eval} грн</td>
+            <td>${(sumArea * options['OTHER_CONSUMES']?eval)?string[",##0.##"]} грн</td>
         <#assign totalExpenses += sumArea * options['OTHER_CONSUMES']?eval>
         </tr>
         <tr>
             <th>Прочие расходы</th>
-            <td>${options['OTHER_EXPENSES']} грн</td>
+            <td>${options['OTHER_EXPENSES']?eval?string[",##0.##"]} грн</td>
         <#assign totalExpenses += options['OTHER_EXPENSES']?eval>
         </tr>
     </table>
@@ -95,7 +95,7 @@
             <td>
             <#assign sumPrice = 0>
             <#list orders as order><#assign sumPrice += order.price></#list>
-            ${sumPrice?string["0.##"]} грн
+            ${sumPrice?string[",##0.##"]} грн
             </td>
         </tr>
     </table>
@@ -118,24 +118,24 @@
 <#list teams?keys as teamId>
     <tr>
         <td><a href="/reports/month/${year?c}-${monthNum?c}/team/${teamId}">${teams[teamId].name}</a></td>
-        <td>${areaByTeamId[teamId]?string["0.##"]} м<sup>2</sup></td>
+        <td>${areaByTeamId[teamId]?string[",##0.##"]} м<sup>2</sup></td>
         <td>
             <#assign orders = ordersByTeam[teamId]>
             <#assign sumPrice = 0>
             <#list orders as order><#assign sumPrice += order.price></#list>
-        ${sumPrice?string["0.##"]} грн
+        ${sumPrice?string[",##0.##"]} грн
         </td>
         <td>
             <#assign orders = ordersByTeam[teamId]>
             <#assign sumConsumesQuantity = 0>
             <#list orders as order><#assign sumConsumesQuantity += order.consumes[0].actualUsedQuantity></#list>
-        ${sumConsumesQuantity?string["0.##"]} кг
+        ${sumConsumesQuantity?string[",##0.##"]} кг
         </td>
         <td>
             <#assign orders = ordersByTeam[teamId]>
             <#assign sumPriceConsumes = 0>
             <#list orders as order><#assign sumPriceConsumes += order.consumes[0].product.price * order.consumes[0].actualUsedQuantity></#list>
-        ${sumPriceConsumes?string["0.##"]} грн
+        ${sumPriceConsumes?string[",##0.##"]} грн
         </td>
         <td>
             <#assign sumSalary = 0>
@@ -147,7 +147,7 @@
                     <#assign sumSalary += options['SALARY_LABORER']?eval>
                 </#if>
             </#list>
-        ${sumSalary?string["0.##"]} грн
+        ${sumSalary?string[",##0.##"]} грн
         </td>
         <td>
             <#assign sumBonus = 0>
@@ -159,7 +159,7 @@
                     <#assign sumBonus += options['BONUS_LABORER']?eval * areaByTeamId[teamId]>
                 </#if>
             </#list>
-        ${sumBonus?string["0.##"]}
+        ${sumBonus?string[",##0.##"]}
             грн
         </td>
     </tr>
@@ -180,7 +180,7 @@
 <#list users?keys as userId>
     <tr>
         <td><a href="/reports/month/${year?c}-${monthNum?c}/user/${userId}">${users[userId].name}</a></td>
-        <td>${areaByUserId[userId]?string["0.##"]} м<sup>2</sup></td>
+        <td>${areaByUserId[userId]?string[",##0.##"]} м<sup>2</sup></td>
         <td>
             <#if users[userId].role == 'ROLE_PAINTER'>
             ${options['SALARY_PAINTER']}
@@ -192,19 +192,19 @@
         </td>
         <td>
             <#if users[userId].role == 'ROLE_PAINTER'>
-            ${(options['BONUS_PAINTER']?eval * areaByUserId[userId])?string["0.##"]}
+            ${(options['BONUS_PAINTER']?eval * areaByUserId[userId])?string[",##0.##"]}
             </#if>
             <#if users[userId].role == 'ROLE_LABORER'>
-            ${(options['BONUS_LABORER']?eval * areaByUserId[userId])?string["0.##"]}
+            ${(options['BONUS_LABORER']?eval * areaByUserId[userId])?string[",##0.##"]}
             </#if>
             грн
         </td>
         <td>
             <#if users[userId].role == 'ROLE_PAINTER'>
-            ${(options['BONUS_PAINTER']?eval * areaByUserId[userId] + options['SALARY_PAINTER']?eval)?string["0.##"]}
+            ${(options['BONUS_PAINTER']?eval * areaByUserId[userId] + options['SALARY_PAINTER']?eval)?string[",##0.##"]}
             </#if>
             <#if users[userId].role == 'ROLE_LABORER'>
-        ${(options['BONUS_LABORER']?eval * areaByUserId[userId] + options['SALARY_LABORER']?eval)?string["0.##"]}
+        ${(options['BONUS_LABORER']?eval * areaByUserId[userId] + options['SALARY_LABORER']?eval)?string[",##0.##"]}
         </#if>
         </td>
     </tr>

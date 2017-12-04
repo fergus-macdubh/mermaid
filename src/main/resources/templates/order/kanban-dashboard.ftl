@@ -189,15 +189,15 @@
                 <div id="not-enough-consumes-error" class="alert alert-danger"><strong>Недостаточно расходных
                     материалов!</strong></div>
                 <form id="inProgressForm" method="post">
-                <#if user.role == "ROLE_ADMIN"
-                || user.role == "ROLE_OPERATOR"
-                || user.role == "ROLE_PAINTER">
+                <#if currentUser.role == "ROLE_ADMIN"
+                || currentUser.role == "ROLE_OPERATOR"
+                || currentUser.role == "ROLE_PAINTER">
                     <div id="teamRadioContainer">
                         <div id="teamRadio" class="btn-group" data-toggle="buttons">
                             <#list teams as team>
-                                <label class="btn btn-primary <#if user.team?? && user.team.id == team.id>active</#if>">
+                                <label class="btn btn-primary <#if currentUser.team?? && currentUser.team.id == team.id>active</#if>">
                                     <input type="radio" name="teamId" value="${team.id}"
-                                           <#if user.team?? && user.team.id == team.id>checked</#if>> ${team.name}
+                                           <#if currentUser.team?? && currentUser.team.id == team.id>checked</#if>> ${team.name}
                                 </label>
                             </#list>
                         </div>
@@ -208,15 +208,15 @@
                            value="${_csrf.token}"/>
                     <input class="modal-order-id-input" type="hidden" name="orderId"/>
                     <div class="modal-footer">
-                    <#if user.role == "ROLE_ADMIN">
+                    <#if currentUser.role == "ROLE_ADMIN">
                         <div class="btn btn-large btn-danger" data-toggle="modal"
                              data-target="#modal-cancel-new-confirmation">
                             Отменить заказ
                         </div>
                     </#if>
-                    <#if user.role == "ROLE_ADMIN"
-                    || user.role == "ROLE_OPERATOR"
-                    || user.role == "ROLE_PAINTER">
+                    <#if currentUser.role == "ROLE_ADMIN"
+                    || currentUser.role == "ROLE_OPERATOR"
+                    || currentUser.role == "ROLE_PAINTER">
                         <input id="in-progress-submit-button" type="submit" class="btn btn-info" value="В работу">
                     </#if>
                         <button type="button" class="btn btn-default" data-dismiss="modal">Отмена</button>
@@ -262,15 +262,15 @@
                     <div class="alert alert-warning"><strong>Остатки материалов будут возвращены на склад</strong></div>
                     <input class="modal-order-id-input" type="hidden" name="orderId"/>
                     <div class="modal-footer">
-                    <#if user.role == "ROLE_ADMIN">
+                    <#if currentUser.role == "ROLE_ADMIN">
                         <div class="btn btn-large btn-danger" data-toggle="modal"
                              data-target="#modal-cancel-in-progress-confirmation">
                             Отменить заказ
                         </div>
                     </#if>
-                    <#if user.role == "ROLE_ADMIN"
-                    || user.role == "ROLE_OPERATOR"
-                    || user.role == "ROLE_PAINTER">
+                    <#if currentUser.role == "ROLE_ADMIN"
+                    || currentUser.role == "ROLE_OPERATOR"
+                    || currentUser.role == "ROLE_PAINTER">
                         <input type="submit" class="btn btn-info" value="Готово">
                     </#if>
                         <button type="button" class="btn btn-default" data-dismiss="modal">Отмена</button>
@@ -316,9 +316,9 @@
                     </table>
                     <input class="modal-order-id-input" type="hidden" name="orderId"/>
                     <div class="modal-footer">
-                    <#if user.role == "ROLE_ADMIN"
-                    || user.role == "ROLE_OPERATOR"
-                    || user.role == "ROLE_PAINTER">
+                    <#if currentUser.role == "ROLE_ADMIN"
+                    || currentUser.role == "ROLE_OPERATOR"
+                    || currentUser.role == "ROLE_PAINTER">
                         <input type="submit" class="btn btn-info" value="Закрыть заказ">
                     </#if>
                         <button type="button" class="btn btn-default" data-dismiss="modal">Отмена</button>

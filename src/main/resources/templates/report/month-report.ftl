@@ -18,7 +18,7 @@
         <#assign sumArea = 0>
         <#list orders as order><#assign sumArea += order.area></#list>
         <#assign totalExpenses += options['ELECTRICITY']?eval>
-            <td>${sumArea * options['ELECTRICITY']?eval?string[",##0.##"]} грн</td>
+            <td>${(sumArea * options['ELECTRICITY']?eval)?string[",##0.##"]} грн</td>
         </tr>
         <tr>
             <th>Налог ФЛП</th>

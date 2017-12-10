@@ -48,9 +48,10 @@ public class TeamService {
         teamRepository.delete(team);
     }
 
-    public void createTeam(String name) {
+    public void createTeam(String name, String color) {
         Team team = new Team();
         team.setName(name);
+        team.setColor(color);
         teamRepository.save(team);
     }
 

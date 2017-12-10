@@ -45,8 +45,9 @@ public class TeamController {
     @PostMapping("/teams/add")
     @Secured(ROLE_ADMIN)
     public String addTeam(
-            @RequestParam String name) {
-        teamService.createTeam(name);
+            @RequestParam String name,
+            @RequestParam String color) {
+        teamService.createTeam(name, color);
         return "redirect:/teams";
     }
 
@@ -62,9 +63,11 @@ public class TeamController {
     @Secured(ROLE_ADMIN)
     public String updateTeam(
             @PathVariable Long id,
-            @RequestParam String name) {
+            @RequestParam String name,
+            @RequestParam String color) {
         Team team = teamService.getTeam(id);
         team.setName(name);
+        team.setColor(color);
         teamService.updateTeam(team);
         return "redirect:/teams";
     }

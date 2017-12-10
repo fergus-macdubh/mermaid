@@ -8,14 +8,16 @@
     <tr>
         <th>ID</th>
         <th>Название</th>
+        <th>Цвет</th>
         <th>Состав</th>
         <th></th>
     </tr>
     </thead>
 <#list teams as team>
     <tr>
-        <td>${team.id}</a></td>
-        <td>${team.name}</a></td>
+        <td>${team.id}</td>
+        <td>${team.name}</td>
+        <td><span style="background-color: #${team.color!}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> #${team.color!}</td>
         <td>
             |<#list users[team.id?string] as user>
         ${user.name}

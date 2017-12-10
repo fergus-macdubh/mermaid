@@ -67,7 +67,7 @@
     margin-right: 2px;
 }
 
-.btn-circle {
+.btn-circle, .btn-circle:hover {
     width: 30px;
     height: 30px;
     text-align: center;
@@ -76,4 +76,6 @@
     font-weight: bold;
     line-height: 1.428571429;
     border-radius: 15px;
+    cursor: default;
 }
+

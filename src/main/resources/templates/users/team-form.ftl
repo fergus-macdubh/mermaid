@@ -44,6 +44,18 @@
             <input name="name" value="${(team.name)!}"/>
             </td>
         </tr>
+        <tr>
+            <th>Цвет</th>
+            <td>
+                <select name="color">
+                <#assign colors = ['6495ED', 'B0171F', '32CD32', 'EE7600', '388E8E']>
+                    <#list colors as color>
+                        <option value="${color}" style="color: #${color}" <#if team?? && team.color! == '${color}'>selected</#if>>
+                            <span >&#9632;</span> #${color}</option>
+                    </#list>
+                </select>
+            </td>
+        </tr>
     </table>
     <#if team??>
     <div class="btn btn-danger" data-toggle="modal"

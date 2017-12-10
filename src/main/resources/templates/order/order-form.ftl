@@ -134,6 +134,13 @@
         </tr>
     </#if>
         <tr>
+            <th>Площадь</th>
+            <td>
+                <input id="area-input" name="area" value="${(order.area?c)!}" onchange="calculatePriceAndConsumes()"/>
+            </td>
+            <td></td>
+        </tr>
+        <tr>
             <th>Кляймеры</th>
             <td>
                 <input id="clip-input" name="clipCount" value="${(order.clipCount?c)!}"
@@ -142,7 +149,7 @@
             <td id="clipsTd"></td>
         </tr>
         <tr>
-            <th>Фурнтитура мелкая</th>
+            <th>Фурнитура мелкая</th>
             <td>
                 <input id="furniture-small-input" name="furnitureSmallCount" value="${(order.furnitureSmallCount?c)!}"
                        onchange="calculatePriceAndConsumes()"/>
@@ -150,19 +157,12 @@
             <td id="furnitureSmallTd"></td>
         </tr>
         <tr>
-            <th>Фурнтитура крупная</th>
+            <th>Фурнитура крупная</th>
             <td>
                 <input id="furniture-big-input" name="furnitureBigCount" value="${(order.furnitureBigCount?c)!}"
                        onchange="calculatePriceAndConsumes()"/>
             </td>
             <td id="furnitureBigTd"></td>
-        </tr>
-        <tr>
-            <th>Площадь</th>
-            <td>
-                <input id="area-input" name="area" value="${(order.area?c)!}" onchange="calculatePriceAndConsumes()"/>
-            </td>
-            <td></td>
         </tr>
         <tr>
             <th>Суммарная площадь</th>

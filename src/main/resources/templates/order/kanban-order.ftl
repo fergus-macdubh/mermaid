@@ -1,5 +1,7 @@
 <div id="order_${order.id}" class="kanban-order" onclick="selectOrder(${order.id}, '${order.status}')"
-     style="background-image: url(${order.manager.picture}); ">
+     style="background-image: url(${order.manager.picture});
+<#if order.status=='IN_PROGRESS'>border: 3px solid #${(order.team.color)!}</#if>
+             ">
 <#if order.status=='BLOCKED'><img src="/img/warning.png" class="warning-icon"
                                   title="Недостаточно материалов"/></#if>
     <div class="kanban-order-id-doc">

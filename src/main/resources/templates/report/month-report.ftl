@@ -1,8 +1,16 @@
 <#include "../header.ftl">
 <h1>Отчет за ${month} ${year?c} года</h1>
 <div style="float: left">
+<#assign sumArea = 0, totalExpenses = 0>
+<#list orders as order>
+    <#assign sumArea += (order.area
+    + order.clipCount * options['CLIP_TO_AREA']?eval
+    + order.furnitureSmallCount * options['FURNITURE_SMALL_TO_AREA']?eval
+    + order.furnitureBigCount * options['FURNITURE_BIG_TO_AREA']?eval)>
+</#list>
+<#assign totalExpenses += options['ELECTRICITY']?eval>
+
     <h3>Расходы</h3>
-<#assign totalExpenses = 0>
     <table class="responsive-table" style="width: 30em">
         <tr>
             <th>Сумма затрат на краску</th>
@@ -15,9 +23,6 @@
         </tr>
         <tr>
             <th>Электроэнергия</th>
-        <#assign sumArea = 0>
-        <#list orders as order><#assign sumArea += order.area></#list>
-        <#assign totalExpenses += options['ELECTRICITY']?eval>
             <td>${(sumArea * options['ELECTRICITY']?eval)?string[",##0.##"]} грн</td>
         </tr>
         <tr>

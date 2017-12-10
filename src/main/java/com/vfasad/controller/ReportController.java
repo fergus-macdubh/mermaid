@@ -1,13 +1,9 @@
 package com.vfasad.controller;
 
-import com.vfasad.entity.Option;
 import com.vfasad.entity.Order;
 import com.vfasad.entity.Team;
 import com.vfasad.entity.User;
-import com.vfasad.service.OptionService;
-import com.vfasad.service.OrderService;
-import com.vfasad.service.TeamService;
-import com.vfasad.service.UserService;
+import com.vfasad.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
@@ -22,6 +18,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import static com.vfasad.entity.User.ROLE_ADMIN;
+import static java.lang.Double.parseDouble;
 import static org.springframework.util.CollectionUtils.isEmpty;
 
 @Controller
@@ -113,17 +110,12 @@ public class ReportController {
 
         Map<String, Double> areaByTeamId = new HashMap<>();
         ordersByTeamIdString.keySet()
-                .forEach(teamId -> areaByTeamId.put(teamId, ordersByTeamIdString.get(teamId).stream().mapToDouble(Order::getArea).sum()));
+                .forEach(teamId -> areaByTeamId.put(teamId, ordersByTeamIdString.get(teamId).stream().mapToDouble(this::getSumArea).sum()));
         modelAndView.addObject("areaByTeamId", areaByTeamId);
 
         modelAndView.addObject("usersByTeamId", userService.getUsersByTeamId());
 
-        Map<String, String> options = optionService.findAll().stream()
-                .filter(o -> o.getValue() != null)
-                .collect(Collectors.toMap(
-                        o -> o.getName().name(),
-                        Option::getValue));
-        modelAndView.addObject("options", options);
+        modelAndView.addObject("options", optionService.getOptionsMap());
 
         Map<String, User> usersById = new HashMap<>();
         Map<String, List<Order>> ordersByUserId = new HashMap<>();
@@ -144,7 +136,7 @@ public class ReportController {
 
         Map<String, Double> areaByUserId = new HashMap<>();
         ordersByUserId.keySet()
-                .forEach(userId -> areaByUserId.put(userId, ordersByUserId.get(userId).stream().mapToDouble(Order::getArea).sum()));
+                .forEach(userId -> areaByUserId.put(userId, ordersByUserId.get(userId).stream().mapToDouble(this::getSumArea).sum()));
         modelAndView.addObject("areaByUserId", areaByUserId);
         return modelAndView;
     }
@@ -154,5 +146,14 @@ public class ReportController {
                 .getDisplayName(
                         TextStyle.FULL_STANDALONE,
                         new Locale("ru", "UA"));
+    }
+
+    private double getSumArea(Order order) {
+        Map<String, String> options = optionService.getOptionsMap();
+
+        return order.getArea() +
+                order.getClipCount() * parseDouble(options.get(OptionName.CLIP_TO_AREA.name())) +
+                order.getFurnitureSmallCount() * parseDouble(options.get(OptionName.FURNITURE_SMALL_TO_AREA.name())) +
+                order.getFurnitureBigCount() * parseDouble(options.get(OptionName.FURNITURE_BIG_TO_AREA.name()));
     }
 }

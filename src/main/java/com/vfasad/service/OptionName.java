@@ -6,6 +6,7 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum OptionName {
+    // reporting
     SALARY_PAINTER("Зарплата маляра", "грн"),
     SALARY_LABORER("Зарплата помощника", "грн"),
     SALARY_MANAGER("Зарплата начцеха", "грн"),
@@ -18,6 +19,20 @@ public enum OptionName {
     LINE_AMORTIZATION("Амортизация линии", "грн"),
     OTHER_CONSUMES("Расходные материалы (коэффициент)", ""),
     OTHER_EXPENSES("Прочие расходы", "грн"),
+
+    // new order form
+    AUTO_CALC_PRICE_1("Авторасчет цены 1", "грн / м<sup>2</sup>"),
+    AUTO_CALC_PRICE_2("Авторасчет цены 2", "грн / м<sup>2</sup>"),
+    AUTO_CALC_PRICE_3("Авторасчет цены 3", "грн / м<sup>2</sup>"),
+
+    CLIP_PRICE("Цена покраски кляймера", "грн / шт"),
+    FURNITURE_SMALL_PRICE("Цена покраски мелкой фурнитуры", "грн / шт"),
+    FURNITURE_BIG_PRICE("Цена покраски крупной фурнитуры", "грн / шт"),
+    CLIP_TO_AREA("Пересчет кляймеров в м<sup>2</sup>", ""),
+    FURNITURE_SMALL_TO_AREA("Пересчет мелкой фурнитуры в м<sup>2</sup>", ""),
+    FURNITURE_BIG_TO_AREA("Пересчет крупной фурнитуры в м<sup>2</sup>", ""),
+
+    PAINT_CONSUME("Расчетный расход краски", "кг / м<sup>2</sup>")
     ;
 
     private String desc;

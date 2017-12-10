@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -27,5 +28,13 @@ public class OptionService {
 
     public void save(List<Option> options) {
         optionRepository.save(options);
+    }
+
+    public Map<String, String> getOptionsMap() {
+        return findAll().stream()
+                .filter(o -> o.getValue() != null)
+                .collect(Collectors.toMap(
+                        o -> o.getName().name(),
+                        Option::getValue));
     }
 }

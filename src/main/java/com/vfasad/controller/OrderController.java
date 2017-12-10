@@ -3,6 +3,7 @@ package com.vfasad.controller;
 import com.vfasad.entity.OrderConsume;
 import com.vfasad.entity.Product;
 import com.vfasad.entity.User;
+import com.vfasad.service.OptionService;
 import com.vfasad.service.OrderService;
 import com.vfasad.service.ProductService;
 import com.vfasad.service.UserService;
@@ -37,6 +38,9 @@ public class OrderController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private OptionService optionService;
+
     @RequestMapping(value = "/order", method = RequestMethod.GET)
     @Secured({ROLE_ADMIN, ROLE_OPERATOR, ROLE_SALES})
     public ModelAndView orders() {
@@ -52,13 +56,23 @@ public class OrderController {
         model.addObject("orders", orderService.findAll());
         model.addObject("products", productService.findAllProducts());
         model.addObject("managers", userService.getManagers());
+        model.addObject("options", optionService.getOptionsMap());
         return model;
     }
 
     @RequestMapping(value = "/order/add", method = RequestMethod.POST)
     @Secured({ROLE_ADMIN, ROLE_OPERATOR})
     public String addOrder(
-            @RequestParam @Min(value = 0, message = "Area cannot be zero or negative.")
+            @RequestParam(required = false, defaultValue = "0")
+            @Min(value = 0, message = "Clips count cannot be negative.")
+                    int clipCount,
+            @RequestParam(required = false, defaultValue = "0")
+            @Min(value = 0, message = "Furniture (small) count cannot be negative.")
+                    int furnitureSmallCount,
+            @RequestParam(required = false, defaultValue = "0")
+            @Min(value = 0, message = "Furniture (big) count cannot be negative.")
+                    int furnitureBigCount,
+            @RequestParam @Min(value = 0, message = "Area cannot be negative.")
                     double area,
             @RequestParam(required = false)
                     String document,
@@ -76,7 +90,8 @@ public class OrderController {
             consumes.add(new OrderConsume(product, quantities.get(i)));
         }
 
-        orderService.addOrder(area, document, price, consumes, userService.getUser(managerId));
+        orderService.addOrder(area, clipCount, furnitureSmallCount, furnitureBigCount, document, price,
+                consumes, userService.getUser(managerId));
         return "redirect:/kanban";
     }
 
@@ -87,6 +102,7 @@ public class OrderController {
         model.addObject("order", orderService.getOrder(id));
         model.addObject("products", productService.findAllProducts());
         model.addObject("managers", userService.getManagers());
+        model.addObject("options", optionService.getOptionsMap());
         return model;
     }
 
@@ -94,6 +110,15 @@ public class OrderController {
     @Secured({ROLE_ADMIN, ROLE_OPERATOR})
     public String updateOrder(
             @PathVariable Long id,
+            @RequestParam(required = false, defaultValue = "0")
+            @Min(value = 0, message = "Clips count cannot be negative.")
+                    int clipCount,
+            @RequestParam(required = false, defaultValue = "0")
+            @Min(value = 0, message = "Furniture (small) count cannot be negative.")
+                    int furnitureSmallCount,
+            @RequestParam(required = false, defaultValue = "0")
+            @Min(value = 0, message = "Furniture (big) count cannot be negative.")
+                    int furnitureBigCount,
             @RequestParam double area,
             @RequestParam String document,
             @RequestParam @Min(value = 0, message = "Price cannot be negative.")
@@ -110,7 +135,7 @@ public class OrderController {
             consumes.add(new OrderConsume(product, quantities.get(i)));
         }
         User manager = userService.getUser(managerId);
-        orderService.updateOrder(id, area, document, price, consumes, manager);
+        orderService.updateOrder(id, area, clipCount, furnitureSmallCount, furnitureBigCount, document, price, consumes, manager);
         return "redirect:/order";
     }
 }

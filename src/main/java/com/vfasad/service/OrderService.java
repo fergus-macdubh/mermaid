@@ -44,10 +44,13 @@ public class OrderService {
         return orderRepository.findAll(new Sort(new Sort.Order(Sort.Direction.DESC, "created")));
     }
 
-    public void addOrder(double area, String document, double price, Set<OrderConsume> consumes, User manager) {
+    public void addOrder(double area, int clipCount, int furnitureSmallCount, int furnitureBigCount, String document, double price, Set<OrderConsume> consumes, User manager) {
         orderRepository.save(new Order(
                 manager,
                 area,
+                clipCount,
+                furnitureSmallCount,
+                furnitureBigCount,
                 document,
                 price,
                 consumes,
@@ -59,13 +62,16 @@ public class OrderService {
         return orderRepository.findById(id).orElseThrow(() -> new NotFoundException("Order with provided id is not found"));
     }
 
-    public void updateOrder(Long id, double area, String document, double price, Set<OrderConsume> consumes, User manager) {
+    public void updateOrder(Long id, double area, int clipCount, int furnitureSmallCount, int furnitureBigCount, String document, double price, Set<OrderConsume> consumes, User manager) {
         Order order = getOrder(id);
         order.setArea(area);
         order.setDocument(document);
         order.setPrice(price);
         order.setConsumes(consumes);
         order.setManager(manager);
+        order.setClipCount(clipCount);
+        order.setFurnitureSmallCount(furnitureSmallCount);
+        order.setFurnitureBigCount(furnitureBigCount);
         orderRepository.save(order);
     }
 

@@ -55,13 +55,29 @@
     });
 
     function calculatePriceAndConsumes() {
-        var coeff = $('input[name=price-coeff]:checked').val();
-        var area = $('#area-input').val();
+        var coeff = parseInt($('input[name=price-coeff]:checked').val()) || 0;
+        var area = parseFloat($('#area-input').val()) || 0;
+        var clips = parseInt($('#clip-input').val()) || 0;
+        var furnSmall = parseInt($('#furniture-small-input').val()) || 0;
+        var furnBig = parseInt($('#furniture-big-input').val()) || 0;
+        var sumArea = clips * ${options['CLIP_TO_AREA']} + furnSmall * ${options['FURNITURE_SMALL_TO_AREA']} + furnBig * ${options['FURNITURE_BIG_TO_AREA']} + area;
 
-        $('input[name=quantities]').val((area * 0.2).toFixed(2));
+        $('#clipsTd').empty().append(clips * ${options['CLIP_PRICE']} +' грн / '
+                + clips * ${options['CLIP_TO_AREA']} +' м<sup>2</sup>');
+        $('#furnitureSmallTd').empty().append(furnSmall * ${options['FURNITURE_SMALL_PRICE']} +' грн / '
+                + furnSmall * ${options['FURNITURE_SMALL_TO_AREA']} +' м<sup>2</sup>');
+        $('#furnitureBigTd').empty().append(furnBig * ${options['FURNITURE_BIG_PRICE']} +' грн / '
+                + furnBig * ${options['FURNITURE_BIG_TO_AREA']} +' м<sup>2</sup>');
+        $('#areaSumTd').empty().append(sumArea + ' м<sup>2</sup>');
+
+        $('input[name=quantities]').val((sumArea * ${options['PAINT_CONSUME']}).toFixed(2));
 
         if (coeff != 0) {
-            $('#price-input').val((coeff * area).toFixed(2));
+            var price = coeff * area;
+            price += clips * ${options['CLIP_PRICE']};
+            price += furnSmall * ${options['FURNITURE_SMALL_PRICE']};
+            price += furnBig * ${options['FURNITURE_BIG_PRICE']};
+            $('#price-input').val(price.toFixed(2));
         }
     }
 </script>
@@ -83,51 +99,90 @@
             <td>
             ${(order.id)!}
             </td>
+            <td></td>
         </tr>
         <tr>
             <th>Статус</th>
             <td>
             ${(order.status)!}
             </td>
+            <td></td>
         </tr>
     <#else>
         <tr>
-            <th>Авторасчет цены</th>
-            <td>
+            <th style="min-width: 15em">Авторасчет цены</th>
+            <td style="min-width: 20em">
                 <div id="priceRadio" class="btn-group" data-toggle="buttons" onchange="calculatePriceAndConsumes()">
                     <label class="btn btn-primary active">
                         <input type="radio" name="price-coeff" checked value="0"> X
                     </label>
                     <label class="btn btn-primary">
-                        <input type="radio" name="price-coeff" value="120"> 120
+                        <input type="radio" name="price-coeff"
+                               value="${options['AUTO_CALC_PRICE_1']}"> ${options['AUTO_CALC_PRICE_1']}
                     </label>
                     <label class="btn btn-primary">
-                        <input type="radio" name="price-coeff" value="150"> 150
+                        <input type="radio" name="price-coeff"
+                               value="${options['AUTO_CALC_PRICE_2']}"> ${options['AUTO_CALC_PRICE_2']}
                     </label>
                     <label class="btn btn-primary">
-                        <input type="radio" name="price-coeff" value="180"> 180
+                        <input type="radio" name="price-coeff"
+                               value="${options['AUTO_CALC_PRICE_3']}"> ${options['AUTO_CALC_PRICE_3']}
                     </label>
                 </div>
             </td>
+            <td style="min-width: 10em"></td>
         </tr>
     </#if>
+        <tr>
+            <th>Кляймеры</th>
+            <td>
+                <input id="clip-input" name="clipCount" value="${(order.clipCount?c)!}"
+                       onchange="calculatePriceAndConsumes()"/>
+            </td>
+            <td id="clipsTd"></td>
+        </tr>
+        <tr>
+            <th>Фурнтитура мелкая</th>
+            <td>
+                <input id="furniture-small-input" name="furnitureSmallCount" value="${(order.furnitureSmallCount?c)!}"
+                       onchange="calculatePriceAndConsumes()"/>
+            </td>
+            <td id="furnitureSmallTd"></td>
+        </tr>
+        <tr>
+            <th>Фурнтитура крупная</th>
+            <td>
+                <input id="furniture-big-input" name="furnitureBigCount" value="${(order.furnitureBigCount?c)!}"
+                       onchange="calculatePriceAndConsumes()"/>
+            </td>
+            <td id="furnitureBigTd"></td>
+        </tr>
         <tr>
             <th>Площадь</th>
             <td>
                 <input id="area-input" name="area" value="${(order.area?c)!}" onchange="calculatePriceAndConsumes()"/>
             </td>
+            <td></td>
+        </tr>
+        <tr>
+            <th>Суммарная площадь</th>
+            <td id="areaSumTd">
+            </td>
+            <td></td>
         </tr>
         <tr>
             <th>Документ</th>
             <td>
                 <input name="document" value="${(order.document)!}"/>
             </td>
+            <td></td>
         </tr>
         <tr>
             <th>Цена</th>
             <td>
                 <input id="price-input" name="price" value="${(order.price?c)!}" onblur="replaceComma(event.target)"/>
             </td>
+            <td></td>
         </tr>
         <tr>
             <th>Менеджер</th>
@@ -139,6 +194,7 @@
                 </#list>
                 </select>
             </td>
+            <td></td>
         </tr>
     </table>
 

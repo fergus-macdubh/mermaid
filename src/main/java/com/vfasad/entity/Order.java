@@ -1,7 +1,9 @@
 package com.vfasad.entity;
 
+import lombok.AccessLevel;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.FieldDefaults;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -12,23 +14,27 @@ import java.util.Set;
 @Data
 @Entity(name = "paint_order")
 @NoArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class Order {
     public enum Status {
         CREATED, IN_PROGRESS, SHIPPING, CLOSED, BLOCKED, CANCELLED
     }
 
     @Id
-    @GeneratedValue(generator="optimized-sequence")
-    private Long id;
+    @GeneratedValue(generator = "optimized-sequence")
+    Long id;
     @ManyToOne
-    private User manager;
-    private double area;
+    User manager;
+    int clipCount;
+    int furnitureSmallCount;
+    int furnitureBigCount;
+    double area;
     @Column(name = "document_column")
-    private String document;
-    private double price;
-    private LocalDateTime created = LocalDateTime.now();
-    private LocalDate planned;
-    private LocalDateTime completed;
+    String document;
+    double price;
+    LocalDateTime created = LocalDateTime.now();
+    LocalDate planned;
+    LocalDateTime completed;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "order_fk")
@@ -44,12 +50,16 @@ public class Order {
     @ManyToMany(fetch = FetchType.EAGER)
     private List<User> doneBy;
 
-    public Order(User manager, double area, String document, double price, Set<OrderConsume> consumes, LocalDate planned) {
+    public Order(User manager, double area, int clipCount, int furnitureSmallCount, int furnitureBigCount,
+                 String document, double price, Set<OrderConsume> consumes, LocalDate planned) {
         this.manager = manager;
         this.area = area;
         this.document = document;
         this.price = price;
         this.consumes = consumes;
         this.planned = planned;
+        this.clipCount = clipCount;
+        this.furnitureSmallCount = furnitureSmallCount;
+        this.furnitureBigCount = furnitureBigCount;
     }
 }

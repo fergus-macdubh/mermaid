@@ -9,9 +9,9 @@
     <table class="responsive-table" style="width:30em">
        <#list options as option>
            <tr>
-               <th>${option.name.desc}<input type="hidden" name="optionNames" value="${option.name}"/></th>
+               <th style="min-width: 15em">${option.name.desc}<input type="hidden" name="optionNames" value="${option.name}"/></th>
                <td><input name="values" value="${option.value!}"></td>
-               <td>${option.name.unit}</td>
+               <td style="min-width: 5em">${option.name.unit}</td>
            </tr>
        </#list>
     </table>

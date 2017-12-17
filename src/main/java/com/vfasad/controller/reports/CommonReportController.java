@@ -1,4 +1,4 @@
-package com.vfasad.controller;
+package com.vfasad.controller.reports;
 
 import com.vfasad.entity.Order;
 import com.vfasad.entity.Team;
@@ -11,9 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.time.Month;
 import java.time.YearMonth;
-import java.time.format.TextStyle;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -23,7 +21,7 @@ import static org.springframework.util.CollectionUtils.isEmpty;
 
 @Controller
 @Secured(ROLE_ADMIN)
-public class ReportController {
+public class CommonReportController extends AbstractReportController {
     @Autowired
     OrderService orderService;
     @Autowired
@@ -139,13 +137,6 @@ public class ReportController {
                 .forEach(userId -> areaByUserId.put(userId, ordersByUserId.get(userId).stream().mapToDouble(this::getSumArea).sum()));
         modelAndView.addObject("areaByUserId", areaByUserId);
         return modelAndView;
-    }
-
-    private String getMonthName(int month) {
-        return Month.of(month)
-                .getDisplayName(
-                        TextStyle.FULL_STANDALONE,
-                        new Locale("ru", "UA"));
     }
 
     private double getSumArea(Order order) {

@@ -95,7 +95,7 @@ public class UserController {
         user.setFamilyName(familyName);
         user.setTeam(teamService.getTeam(teamId));
 
-        if (!user.getRole().equals(ROLE_ADMIN)) {
+        if (user.getRole() != null && !user.getRole().equals(ROLE_ADMIN)) {
             user.setEmail(email);
             user.setRole(role);
         }

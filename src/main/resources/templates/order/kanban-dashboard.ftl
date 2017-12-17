@@ -19,7 +19,7 @@
             submitHandler: function (form) {
                 form.submit();
             },
-            errorPlacement: function(error, element) {
+            errorPlacement: function (error, element) {
                 error.appendTo('#teamRadioContainer');
             }
         });
@@ -82,6 +82,7 @@
                 $('#not-enough-consumes-error').removeClass('hidden');
         }
 
+        $('.edit-order-link').attr('href', '/order/' + selectedOrderId + '/edit').removeClass('disabled');
         $('.cancel-link').attr('href', '/order/' + selectedOrderId + '/cancel');
         $('.modal-order-id').text(selectedOrderId);
         $('.modal-order-area').text(orders[selectedOrderId].area);
@@ -119,6 +120,11 @@
     <div class="col-sm-12">
         <button id="moveSubmit" class="btn btn-info disabled" data-toggle="modal" data-target="#modal">Заказ не выбран
         </button>
+    <#if currentUser.role == "ROLE_ADMIN"
+    || currentUser.role == "ROLE_OPERATOR"
+    || currentUser.role == "ROLE_PAINTER">
+        <a class="btn btn-success disabled edit-order-link">Редактировать</a>
+    </#if>
     </div>
 </div>
 <br/>
@@ -217,6 +223,7 @@
                     <#if currentUser.role == "ROLE_ADMIN"
                     || currentUser.role == "ROLE_OPERATOR"
                     || currentUser.role == "ROLE_PAINTER">
+                        <a class="btn btn-success edit-order-link">Редактировать</a>
                         <input id="in-progress-submit-button" type="submit" class="btn btn-info" value="В работу">
                     </#if>
                         <button type="button" class="btn btn-default" data-dismiss="modal">Отмена</button>
@@ -271,6 +278,7 @@
                     <#if currentUser.role == "ROLE_ADMIN"
                     || currentUser.role == "ROLE_OPERATOR"
                     || currentUser.role == "ROLE_PAINTER">
+                        <a class="btn btn-success edit-order-link">Редактировать</a>
                         <input type="submit" class="btn btn-info" value="Готово">
                     </#if>
                         <button type="button" class="btn btn-default" data-dismiss="modal">Отмена</button>

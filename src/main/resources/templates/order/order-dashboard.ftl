@@ -11,6 +11,7 @@
         <th>Документ</th>
         <th>Цена</th>
         <th>Бригада</th>
+        <th>Готово</th>
     <#if currentUser.role == "ROLE_ADMIN"
     || currentUser.role == "ROLE_OPERATOR"
     || currentUser.role == "ROLE_PAINTER">
@@ -27,6 +28,7 @@
         <td>${order.document!}</td>
         <td>${order.price}</td>
         <td>${(order.team.name)!'-'}</td>
+        <td>${(order.completed.format('dd MMM yyyy'))!'-'}</td>
         <#if currentUser.role == "ROLE_ADMIN"
         || currentUser.role == "ROLE_OPERATOR"
         || currentUser.role == "ROLE_PAINTER">

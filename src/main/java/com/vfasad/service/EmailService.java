@@ -42,5 +42,12 @@ public class EmailService {
                 subject,
                 "email/order-flow.ftl",
                 model);
+
+        // send copy to storage
+        emailSender.send(
+                "sklad@vfasad.com.ua",
+                subject,
+                "email/order-flow.ftl",
+                model);
     }
 }

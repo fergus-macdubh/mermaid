@@ -24,6 +24,7 @@
         <tr>
             <th>Электроэнергия</th>
             <td>${(sumArea * options['ELECTRICITY']?eval)?string[",##0.##"]} грн</td>
+        <#assign totalExpenses += sumArea * options['ELECTRICITY']?eval>
         </tr>
         <tr>
             <th>Налог ФЛП</th>

@@ -71,7 +71,7 @@ public class UserService {
     }
 
     public List<User> getManagers() {
-        return userRepository.getByRoleIn("ROLE_SALES", "ROLE_OPERATOR");
+        return userRepository.getByRoleIn("ROLE_SALES", "ROLE_OPERATOR", "ROLE_ADMIN");
     }
 
     public List<User> findAll() {

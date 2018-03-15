@@ -6,7 +6,9 @@ import com.vfasad.exception.NotFoundException;
 import com.vfasad.repo.TeamRepository;
 import com.vfasad.repo.UserRepository;
 import com.vfasad.service.TeamService;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -21,8 +23,8 @@ import static org.junit.Assert.*;
 
 @RunWith(MockitoJUnitRunner.class)
 public class TeamServiceTest {
-    private final String name = "team";
-    private final String color = "color";
+    private final String TEAM_NAME = "team";
+    private final String TEAM_COLOR = "color";
 
     @Mock
     private TeamRepository teamRepository;
@@ -32,6 +34,9 @@ public class TeamServiceTest {
 
     @InjectMocks
     private TeamService teamService;
+
+    @Rule
+    public ExpectedException expectedException = ExpectedException.none();
 
     @Test
     public void testFindAll() {
@@ -45,26 +50,25 @@ public class TeamServiceTest {
 
     @Test
     public void testGetTeam() {
-        Team team = generateTeam(name,color);
+        Team team = generateTeam(TEAM_NAME, TEAM_COLOR);
         when(teamRepository.findById(anyLong())).thenReturn(Optional.of(team));
 
         Team teamResult = teamService.getTeam(1L);
         assertNotNull("Team shouldn't be null", teamResult);
-        assertEquals("Incorrect team name", teamResult.getName(), name);
-        assertEquals("Incorrect team color", teamResult.getColor(), color);
+        assertEquals("Incorrect team name", teamResult.getName(), TEAM_NAME);
+        assertEquals("Incorrect team color", teamResult.getColor(), TEAM_COLOR);
 
         teamResult = teamService.getTeam(null);
         assertNull("For null input id returned value should be null", teamResult);
     }
 
-    @Test//(expected = NotFoundException.class)
+    @Test
     public void testGetTeamNotFound() {
+        expectedException.expect(NotFoundException.class);
+        expectedException.expectMessage("Team with provided id is not found.");
+
         when(teamRepository.findById(anyLong())).thenReturn(Optional.empty());
-        try {
-            teamService.getTeam(1L);
-        } catch (NotFoundException ex) {
-            assertEquals("Exception message is wrong.", "Team with provided id is not found.", ex.getMessage());
-        }
+        teamService.getTeam(1L);
     }
 
     @Test
@@ -80,7 +84,7 @@ public class TeamServiceTest {
 
     @Test
     public void testDeleteTeam() {
-        Team team = generateTeam(name,color);
+        Team team = generateTeam(TEAM_NAME, TEAM_COLOR);
         List<User> userList = generateUserList();
 
         when(userRepository.findAllByTeam(any(Team.class))).thenReturn(userList);
@@ -95,15 +99,15 @@ public class TeamServiceTest {
 
     @Test
     public void testUpdateTeam() {
-        Team team = generateTeam("team","color");
+        Team team = generateTeam(TEAM_NAME, TEAM_COLOR);
         teamService.updateTeam(team);
         verify(teamRepository, times(1)).save(team);
     }
 
     @Test
     public void testCreateTeam() {
-        Team team = generateTeam(name,color);
-        teamService.createTeam(name,color);
+        Team team = generateTeam(TEAM_NAME, TEAM_COLOR);
+        teamService.createTeam(TEAM_NAME, TEAM_COLOR);
         verify(teamRepository, times(1)).save(team);
     }
 
@@ -116,7 +120,7 @@ public class TeamServiceTest {
     }
 
     private List<User> generateUserList() {
-        Team team = generateTeam(name,color);
+        Team team = generateTeam(TEAM_NAME, TEAM_COLOR);
         List<User> userList = new ArrayList<>();
         userList.add(new User("test@gmail.com","Name","GivenName","FamilyName",null,"female","en"));
         userList.add(new User("test2@gmail.com","Name2","GivenName2","FamilyName2",null,"female","en"));

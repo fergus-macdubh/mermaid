@@ -23,8 +23,8 @@ import static org.junit.Assert.*;
 
 @RunWith(MockitoJUnitRunner.class)
 public class TeamServiceTest {
-    private final String TEAM_NAME = "team";
-    private final String TEAM_COLOR = "color";
+    private static final String TEAM_NAME = "team";
+    private static final String TEAM_COLOR = "color";
 
     @Mock
     private TeamRepository teamRepository;

@@ -24,7 +24,7 @@
         <td>${(product.quantity * product.price)?string[",##0.00"]} грн</td>
         <#if currentUser.role == "ROLE_ADMIN">
             <td>
-                <a href="/storage/product/${product.id}/inventorying" class="btn btn-info">Инвентаризация</a>
+                <a href="/storage/product/${product.id?c}/inventorying" class="btn btn-info">Инвентаризация</a>
             </td>
         </#if>
     </tr>

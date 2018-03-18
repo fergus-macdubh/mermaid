@@ -44,7 +44,7 @@
             </#if>
         </td>
         <td>
-            <a href="/users/${user.id}/edit" class="btn btn-info">Редактировать</a>
+            <a href="/users/${user.id?c}/edit" class="btn btn-info">Редактировать</a>
         </td>
     </tr>
 </#list>

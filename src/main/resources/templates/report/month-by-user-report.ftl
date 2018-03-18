@@ -14,7 +14,7 @@
     </thead>
 <#list orders?sort_by('completed') as order>
     <tr>
-        <td>${order.id}</td>
+        <td>${order.id?c}</td>
         <td>${order.manager.name}</td>
         <td>${order.area} м<sup>2</sup></td>
         <td>${order.document!}</td>

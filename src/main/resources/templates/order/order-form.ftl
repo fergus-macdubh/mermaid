@@ -97,7 +97,7 @@
         <tr>
             <th>ID</th>
             <td>
-            ${(order.id)!}
+            ${(order.id?c)!}
             </td>
             <td></td>
         </tr>
@@ -189,7 +189,7 @@
             <td>
                 <select name="managerId">
                 <#list managers as manager>
-                    <option value="${manager.id}"
+                    <option value="${manager.id?c}"
                             <#if order?? && order.manager.id! == manager.id>selected</#if>>${manager.name}</option>
                 </#list>
                 </select>

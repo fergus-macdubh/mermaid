@@ -67,11 +67,12 @@ public class UserService {
     }
 
     public List<User> getAdmins() {
-        return userRepository.getByRoleIn("ROLE_ADMIN");
+        return userRepository.getByRoleInOrderByName("ROLE_ADMIN");
     }
 
     public List<User> getManagers() {
-        return userRepository.getByRoleIn("ROLE_SALES", "ROLE_OPERATOR", "ROLE_ADMIN");
+        return userRepository.getByRoleInOrderByName("ROLE_SALES", "ROLE_OPERATOR", "ROLE_ADMIN")
+                .stream().filter(u -> !u.isDeleted()).collect(Collectors.toList());
     }
 
     public List<User> findAll() {

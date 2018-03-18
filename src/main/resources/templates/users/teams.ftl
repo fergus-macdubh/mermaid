@@ -19,8 +19,8 @@
         <td>${team.name}</td>
         <td><span style="background-color: #${team.color!}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> #${team.color!}</td>
         <td>
-            |<#list users[team.id?string] as user>
-        ${user.name}
+            |<#list users[team.id?string("0")] as user>
+                ${user.name}
             |</#list>
         </td>
         <td><a class="btn btn-info" href="/teams/${team.id?c}/edit">Редактировать</a></td>

@@ -15,7 +15,7 @@
     </tr>
 <#list paints?sort_by('sumQuantity')?reverse as paint>
     <tr>
-        <td><a href="/storage/product/${paint.productId}/action">${paint.name} ${paint.producer}</a></td>
+        <td><a href="/storage/product/${paint.productId?c}/action">${paint.name} ${paint.producer}</a></td>
         <td>${paint.orderCount}</td>
         <td>${paint.sumArea}</td>
         <td>${paint.sumClips}</td>

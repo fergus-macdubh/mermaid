@@ -18,7 +18,7 @@
 <table style="border: 1px solid black;">
     <tr>
         <th style="150px;">ID</th>
-        <td style="150px;">${order.id}</td>
+        <td style="150px;">${order.id?c}</td>
     </tr>
     <tr>
         <th>Статус</th>

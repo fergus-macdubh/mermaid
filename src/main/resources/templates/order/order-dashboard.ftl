@@ -21,7 +21,7 @@
     </thead>
 <#list orders as order>
     <tr>
-        <td>${order.id}</td>
+        <td>${order.id?c}</td>
         <td>${order.status}</td>
         <td>${order.manager.name}</td>
         <td>${order.area}</td>

@@ -120,7 +120,7 @@
                 <select name="teamId">
                     <option value="">Не назначена</option>
                 <#list teams as team>
-                    <option value="${team.id}"
+                    <option value="${team.id?c}"
                             <#if targetUser?? && targetUser.team?? && targetUser.team.id! == team.id>selected</#if>>${team.name}</option>
                 </#list>
                 </select>

@@ -21,7 +21,7 @@
         <td>
             <#switch action.type>
                 <#case 'SPEND'>
-                    <a href="/order/${action.order.id}/edit">Списано по заказу #${action.order.id}</a>
+                    <a href="/order/${action.order.id?c}/edit">Списано по заказу #${action.order.id?c}</a>
                     <#break>
                 <#case 'PURCHASE'>
                     Покупка
@@ -30,7 +30,7 @@
                     Инвентаризация
                     <#break>
                 <#case 'RETURN'>
-            <a href="/order/${action.order.id}/edit">Возврат по заказу #${action.order.id}</a>
+            <a href="/order/${action.order.id?c}/edit">Возврат по заказу #${action.order.id?c}</a>
                     <#break>
             </#switch>
         </td>

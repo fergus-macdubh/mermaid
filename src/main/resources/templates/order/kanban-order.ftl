@@ -1,11 +1,11 @@
-<div id="order_${order.id}" class="kanban-order" onclick="selectOrder(${order.id}, '${order.status}')"
+<div id="order_${order.id?c}" class="kanban-order" onclick="selectOrder(${order.id?c}, '${order.status}')"
      style="background-image: url(<#if order.manager.picture??>${order.manager.picture}</#if>);
      <#if order.status=='IN_PROGRESS'>border: 3px solid #${(order.team.color)!}</#if>
              ">
 <#if order.status=='BLOCKED'><img src="/img/warning.png" class="warning-icon"
                                   title="Недостаточно материалов"/></#if>
     <div class="kanban-order-id-doc">
-        <span class="kanban-order-id">${order.id}</span>&nbsp;&nbsp;<span
+        <span class="kanban-order-id">${order.id?c}</span>&nbsp;&nbsp;<span
             class="kanban-order-document">${order.document!}</span>
     </div>
     <div class="kanban-order-manager">${order.manager.familyName}</div>
@@ -31,7 +31,7 @@
         готов ${order.completed.format('dd MMM')}
     <#else>
         план на ${order.planned.format('dd MMM')}
-        <button id="order_${order.id}_days_left" class="btn-circle"></button>
+        <button id="order_${order.id?c}_days_left" class="btn-circle"></button>
     </#if>
     </div>
 </div>

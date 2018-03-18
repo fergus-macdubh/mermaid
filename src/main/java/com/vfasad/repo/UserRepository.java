@@ -14,7 +14,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     Optional<User> getById(Long id);
 
-    List<User> getByRoleIn(String ...role);
+    List<User> getByRoleInOrderByName(String ...role);
 
     default List<User> findAllByOrderByEmail() {
         return findAllByDeletedOrderByEmail(false);

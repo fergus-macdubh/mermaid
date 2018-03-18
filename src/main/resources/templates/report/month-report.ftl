@@ -53,14 +53,16 @@
             <td>
             <#assign sumBonus = 0>
             <#list teams?keys as teamId>
-                <#list usersByTeamId[teamId] as user>
-                    <#if user.role == 'ROLE_PAINTER'>
-                        <#assign sumBonus += options['BONUS_PAINTER']?eval * areaByTeamId[teamId]>
-                    </#if>
-                    <#if user.role == 'ROLE_LABORER'>
-                        <#assign sumBonus += options['BONUS_LABORER']?eval * areaByTeamId[teamId]>
-                    </#if>
-                </#list>
+                <#if usersByTeamId[teamId]??>
+                    <#list usersByTeamId[teamId] as user>
+                        <#if user.role == 'ROLE_PAINTER'>
+                            <#assign sumBonus += options['BONUS_PAINTER']?eval * areaByTeamId[teamId]>
+                        </#if>
+                        <#if user.role == 'ROLE_LABORER'>
+                            <#assign sumBonus += options['BONUS_LABORER']?eval * areaByTeamId[teamId]>
+                        </#if>
+                    </#list>
+                </#if>
             </#list>
             ${sumBonus?string[",##0.##"]} грн
             <#assign totalExpenses += sumBonus>
@@ -146,26 +148,30 @@
         </td>
         <td>
             <#assign sumSalary = 0>
-            <#list usersByTeamId[teamId] as user>
-                <#if user.role == 'ROLE_PAINTER'>
-                    <#assign sumSalary += options['SALARY_PAINTER']?eval>
-                </#if>
-                <#if user.role == 'ROLE_LABORER'>
-                    <#assign sumSalary += options['SALARY_LABORER']?eval>
-                </#if>
-            </#list>
+            <#if usersByTeamId[teamId]??>
+                <#list usersByTeamId[teamId] as user>
+                    <#if user.role == 'ROLE_PAINTER'>
+                        <#assign sumSalary += options['SALARY_PAINTER']?eval>
+                    </#if>
+                    <#if user.role == 'ROLE_LABORER'>
+                        <#assign sumSalary += options['SALARY_LABORER']?eval>
+                    </#if>
+                </#list>
+            </#if>
         ${sumSalary?string[",##0.##"]} грн
         </td>
         <td>
             <#assign sumBonus = 0>
-            <#list usersByTeamId[teamId] as user>
-                <#if user.role == 'ROLE_PAINTER'>
-                    <#assign sumBonus += options['BONUS_PAINTER']?eval * areaByTeamId[teamId]>
-                </#if>
-                <#if user.role == 'ROLE_LABORER'>
-                    <#assign sumBonus += options['BONUS_LABORER']?eval * areaByTeamId[teamId]>
-                </#if>
-            </#list>
+            <#if usersByTeamId[teamId]??>
+                <#list usersByTeamId[teamId] as user>
+                    <#if user.role == 'ROLE_PAINTER'>
+                        <#assign sumBonus += options['BONUS_PAINTER']?eval * areaByTeamId[teamId]>
+                    </#if>
+                    <#if user.role == 'ROLE_LABORER'>
+                        <#assign sumBonus += options['BONUS_LABORER']?eval * areaByTeamId[teamId]>
+                    </#if>
+                </#list>
+            </#if>
         ${sumBonus?string[",##0.##"]}
             грн
         </td>

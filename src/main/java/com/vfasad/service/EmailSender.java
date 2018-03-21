@@ -21,8 +21,8 @@ public class EmailSender {
     @Value("${spring.mail.properties.from}")
     private String from;
 
-    @Value("${mail.send.enable}")
-    private boolean mailSendEnable;
+    @Value("${mail.send.enabled}")
+    private boolean mailSendEnabled;
 
     @Autowired
     Configuration freemarkerConfiguration;
@@ -31,7 +31,7 @@ public class EmailSender {
     public JavaMailSender mailSender;
 
     public void send(String to, String subject, String template, Map<String, Object> model) {
-        if (!mailSendEnable) return;
+        if (!mailSendEnabled) return;
 
         try {
             log.info("Trying to send email to [{}] with subject [{}]", to, subject);

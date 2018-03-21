@@ -286,7 +286,7 @@ public class ProductServiceTest {
 
         product = new Product("name2", Product.Unit.LITER,"producer2", "supplier2");
         user = new User("email2","name2","givenName2","familyName2",null,"male","en");
-        Order order = new Order(user, 6.8, 5, 3, 4, "abc", 54.8, new HashSet<>(), LocalDate.now());
+        Order order = generateOrder(user);
 
         productActionList.add(ProductAction.createReturnAction(3, product, user, order));
 

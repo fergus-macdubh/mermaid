@@ -239,11 +239,12 @@ public class UserServiceTest {
 
     @Test
     public void testUpdateUserTeam() {
+        Long teamId = 1L;
         User user = generateUser();
-        Team team = generateTeam("name", "color");
+        Team team = generateTeam(teamId,"name", "color");
         when(userRepository.getById(anyLong())).thenReturn(Optional.of(user));
         when(teamService.getTeam(anyLong())).thenReturn(team);
-        userService.updateUserTeam(USER_ID, 1L);
+        userService.updateUserTeam(USER_ID, teamId);
         assertEquals("Incorrect user team", team, user.getTeam());
         verify(userRepository, times(1)).save(user);
     }
@@ -293,18 +294,17 @@ public class UserServiceTest {
         userList.add(new User("test4@gmail.com","Name4","GivenName4","FamilyName4",null,"male","uk"));
         userList.add(new User("test5@gmail.com","Name5","GivenName5","FamilyName5",null,"female","en"));
         userList.add(new User("test6@gmail.com","Name6","GivenName6","FamilyName6",null,"male","en"));
-        Team team1 = generateTeam("name1", "color1");
-        team1.setId(1L);
-        Team team2 = generateTeam("name2", "color2");
-        team2.setId(2L);
+        Team team1 = generateTeam(1L,"name1", "color1");
+        Team team2 = generateTeam(2L,"name2", "color2");
         userList.forEach(user -> user.setTeam(userList.indexOf(user)%2 == 0 ? team1 : team2));
         userList.get(DELETED_INDEX).setDeleted(true);
         userList.get(TEAM_NULL_INDEX).setTeam(null);
         return userList;
     }
 
-    private Team generateTeam(String name, String color) {
+    private Team generateTeam(Long id, String name, String color) {
         Team team = new Team();
+        team.setId(id);
         team.setName(name);
         team.setColor(color);
 

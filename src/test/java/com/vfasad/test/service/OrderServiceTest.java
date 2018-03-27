@@ -35,7 +35,7 @@ public class OrderServiceTest {
     private static final double PRICE = 4566.78;
     private static final Long USER_ID = 1L;
     private static final Long TEAM_ID = 1L;
-    private static final long[] CONSUME_IDS = new long[] {1L, 2L, 3L};
+    private static final long[] CONSUME_IDS = {1L, 2L, 3L};
 
     @Mock
     private OrderRepository orderRepository;

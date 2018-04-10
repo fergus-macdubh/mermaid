@@ -48,7 +48,7 @@ public class UserControllerTest {
     }
 
     @Test
-    public void products() throws Exception {
+    public void testUsers() throws Exception {
         List<User> userList = generateUserList();
         List<Team> teamList = generateTeamList();
         when(userService.findAll()).thenReturn(userList);
@@ -91,7 +91,7 @@ public class UserControllerTest {
     }
 
     @Test
-    public void testAddOrderForm() throws Exception {
+    public void testAddUserForm() throws Exception {
         List<Team> teamList = generateTeamList();
         when(teamService.findAll()).thenReturn(teamList);
 
@@ -103,7 +103,7 @@ public class UserControllerTest {
     }
 
     @Test
-    public void testAddOrder() throws Exception {
+    public void testAddUser() throws Exception {
         when(teamService.getTeam(anyLong())).thenReturn(new Team());
 
         mockMvc.perform(post("/users/add")
@@ -120,7 +120,7 @@ public class UserControllerTest {
     }
 
     @Test
-    public void testEditProductForm() throws Exception {
+    public void testEditUserForm() throws Exception {
         User user = generateUser();
         List<Team> teamList = generateTeamList();
         when(userService.getUser(anyLong())).thenReturn(user);
@@ -136,32 +136,32 @@ public class UserControllerTest {
     }
 
     @Test
-    public void testUpdateOrderAdmin() throws Exception {
+    public void testUpdateUserAdmin() throws Exception {
         User user = generateUser();
         user.setRole("ROLE_ADMIN");
         Team team = generateTeam("name", "color");
         when(userService.getUser(anyLong())).thenReturn(user);
         when(teamService.getTeam(anyLong())).thenReturn(team);
 
-        testUpdateOrder(user, team);
+        testUpdateUser(user, team);
         assertNotEquals("User email shouldn't be updated for ROLE_ADMIN", "newEmail", user.getEmail());
         assertNotEquals("User role shouldn't be updated for ROLE_ADMIN", "ROLE_NEW", user.getRole());
     }
 
     @Test
-    public void testUpdateOrderNotAdmin() throws Exception {
+    public void testUpdateUserNotAdmin() throws Exception {
         User user = generateUser();
         user.setRole("ROLE_USER");
         Team team = generateTeam("name", "color");
         when(userService.getUser(anyLong())).thenReturn(user);
         when(teamService.getTeam(anyLong())).thenReturn(team);
 
-        testUpdateOrder(user, team);
+        testUpdateUser(user, team);
         assertEquals("Invalid user email", "newEmail", user.getEmail());
         assertEquals("Invalid user role", "ROLE_NEW", user.getRole());
     }
 
-    private void testUpdateOrder(User user, Team team) throws Exception {
+    private void testUpdateUser(User user, Team team) throws Exception {
         mockMvc.perform(post("/users/{id}/edit", 1)
                 .param("name", "newName")
                 .param("email", "newEmail")
@@ -180,7 +180,7 @@ public class UserControllerTest {
     }
 
     @Test
-    public void testDeleteOrder() throws Exception {
+    public void testDeleteUser() throws Exception {
         Long userId = 1L;
         User user = generateUser();
         user.setRole("ROLE_USER");
@@ -195,7 +195,7 @@ public class UserControllerTest {
     }
 
     @Test
-    public void testDeleteOrderException() {
+    public void testDeleteUserException() {
         Long userId = 1L;
         expectedException.expect(IllegalArgumentException.class);
         expectedException.expectMessage("User with role ROLE_ADMIN cannot be deleted. Id [" + userId + "]");
@@ -203,7 +203,7 @@ public class UserControllerTest {
         user.setRole("ROLE_ADMIN");
         when(userService.getUser(anyLong())).thenReturn(user);
 
-        userController.deleteOrder(userId);
+        userController.deleteUser(userId);
     }
 
     private Team generateTeam(String name, String color) {

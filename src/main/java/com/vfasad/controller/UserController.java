@@ -20,7 +20,7 @@ public class UserController {
 
     @GetMapping("/users")
     @Secured(ROLE_ADMIN)
-    public ModelAndView products() {
+    public ModelAndView users() {
         ModelAndView model = new ModelAndView("users/users");
         model.addObject("users", userService.findAll());
         model.addObject("teams", teamService.findAll());
@@ -48,7 +48,7 @@ public class UserController {
 
     @GetMapping("/users/add")
     @Secured(ROLE_ADMIN)
-    public ModelAndView addOrderForm() {
+    public ModelAndView addUserForm() {
         ModelAndView modelAndView = new ModelAndView("users/user-form");
         modelAndView.addObject("teams", teamService.findAll());
         return modelAndView;
@@ -56,7 +56,7 @@ public class UserController {
 
     @PostMapping("/users/add")
     @Secured(ROLE_ADMIN)
-    public String addOrder(
+    public String addUser(
             @RequestParam String name,
             @RequestParam String email,
             @RequestParam String givenName,
@@ -72,7 +72,7 @@ public class UserController {
 
     @RequestMapping(value = "/users/{id}/edit", method = RequestMethod.GET)
     @Secured(ROLE_ADMIN)
-    public ModelAndView editProductForm(@PathVariable Long id) {
+    public ModelAndView editUserForm(@PathVariable Long id) {
         ModelAndView modelAndView = new ModelAndView("users/user-form");
         modelAndView.addObject("targetUser", userService.getUser(id));
         modelAndView.addObject("teams", teamService.findAll());
@@ -81,7 +81,7 @@ public class UserController {
 
     @RequestMapping(value = "/users/{id}/edit", method = RequestMethod.POST)
     @Secured(ROLE_ADMIN)
-    public String updateOrder(
+    public String updateUser(
             @PathVariable Long id,
             @RequestParam String name,
             @RequestParam String email,
@@ -105,7 +105,7 @@ public class UserController {
 
     @GetMapping("/users/{id}/delete")
     @Secured(ROLE_ADMIN)
-    public String deleteOrder(
+    public String deleteUser(
             @PathVariable Long id) {
         User user = userService.getUser(id);
 

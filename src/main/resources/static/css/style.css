@@ -33,7 +33,8 @@ body {
 }
 
 a {
-  color: #337aa8;
+  color: #397482;
+  font-weight: bold;
 }
 a:hover, a:focus {
   color: #4b8ab2;

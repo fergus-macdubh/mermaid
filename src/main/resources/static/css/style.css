@@ -1,9 +1,5 @@
 h4.storage-price {
-  float: right;
-}
-
-h1.storage-title {
-  float: left;
+  align-self: flex-end;
 }
 
 label.error {
@@ -42,6 +38,10 @@ a:hover, a:focus {
 
 .container {
   margin: 5% 3%;
+}
+.table-info {
+  display: flex;
+  justify-content: space-between;
 }
 @media (min-width: 48em) {
   .container {

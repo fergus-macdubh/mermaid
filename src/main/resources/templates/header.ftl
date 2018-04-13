@@ -20,7 +20,7 @@
                 "commaDotNumber",
                 function (value, element) {
                     element.value = value.replace(',', '.');
-                    return this.optional(element) || /^(\d+|\d*\.\d{1,2})$/.test(element.value);
+                    return this.optional(element) || /^-?(\d+|\d*\.\d{1,2})$/.test(element.value);
                 },
                 "Please specify the correct number format");
     </script>

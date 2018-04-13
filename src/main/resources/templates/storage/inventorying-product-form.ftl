@@ -6,7 +6,7 @@
                 quantity: {
                     required: true,
                     commaDotNumber: true,
-                    min: true
+                    min: 0
                 },
                 price: {
                     required: true,
@@ -23,7 +23,7 @@
                 price: {
                     required: "Поле 'Цена' должно быть заполнено.",
                     commaDotNumber: "'Цена' должна быть числом.",
-                    min: "'Цена' должна быть положительным."
+                    min: "'Цена' должна быть положительной."
                 }
             },
             submitHandler: function(form) {

@@ -35,10 +35,6 @@
 </#if>
 <#if currentUser.role! == "ROLE_ADMIN"
 || currentUser.role! == "ROLE_OPERATOR">
-    | <a href="/storage/product/purchase">Пополнить склад</a>
-</#if>
-<#if currentUser.role! == "ROLE_ADMIN"
-|| currentUser.role! == "ROLE_OPERATOR">
     | <a href="/product">Товары</a>
 </#if>
 <#if currentUser.role! == "ROLE_ADMIN"

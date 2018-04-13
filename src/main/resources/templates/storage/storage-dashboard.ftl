@@ -1,6 +1,13 @@
 <#include "../header.ftl">
-<h1 class="storage-title">Склад</h1>
-<h4 class="storage-price">Товара на сумму ${storagePrice?string[",##0.00"]} грн</h4>
+<div class="table-info">
+    <h1 class="storage-title">Склад</h1>
+    <h4 class="storage-price">Товара на сумму ${storagePrice?string[",##0.00"]} грн</h4>
+</div>
+
+<#if currentUser.role! == "ROLE_ADMIN"
+|| currentUser.role! == "ROLE_OPERATOR">
+    <a href="/storage/product/purchase" class="btn btn-success">Пополнить склад</a>
+</#if>
 
 <table class="responsive-table">
     <thead>

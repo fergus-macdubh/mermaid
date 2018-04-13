@@ -38,10 +38,6 @@
     | <a href="/product">Товары</a>
 </#if>
 <#if currentUser.role! == "ROLE_ADMIN"
-|| currentUser.role! == "ROLE_OPERATOR">
-    | <a href="/product/add">Новый товар</a>
-</#if>
-<#if currentUser.role! == "ROLE_ADMIN"
 || currentUser.role! == "ROLE_OPERATOR"
 || currentUser.role! == "ROLE_SALES">
     | <a href="/order">Заказы</a>

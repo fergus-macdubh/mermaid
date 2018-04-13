@@ -1,5 +1,6 @@
 <#include "../header.ftl">
 <h1>Товары</h1>
+<a href="/product/add" class="btn btn-success">Новый товар</a>
 
 <table class="responsive-table">
     <thead>

@@ -22,6 +22,9 @@ public class Product {
     private String supplier;
     private double price;
 
+    @Column(name = "deleted", nullable = false, columnDefinition = "boolean default false")
+    private boolean deleted;
+
     public Product(String name, Unit unit, String producer, String supplier) {
         this.name = name;
         this.unit = unit;

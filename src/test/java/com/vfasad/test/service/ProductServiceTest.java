@@ -66,7 +66,7 @@ public class ProductServiceTest {
     public void testFindAllProductsInStorage() {
         List<Product> productList = generateProductList();
 
-        when(productRepository.findByQuantityGreaterThanOrderByName(0)).thenReturn(productList);
+        when(productRepository.findByQuantityGreaterThanAndDeletedIsFalseOrderByName(0)).thenReturn(productList);
 
         List<Product> resultProductList = productService.findAllProductsInStorage();
         assertEquals("Product lists should be equal", productList, resultProductList);
@@ -145,7 +145,7 @@ public class ProductServiceTest {
     @Test
     public void testGetProducts() {
         List<Product> productList = generateProductList();
-        when(productRepository.findAllByOrderById()).thenReturn(productList);
+        when(productRepository.findByDeletedIsFalseOrderById()).thenReturn(productList);
 
         List<Product> resultProductList = productService.getProducts();
         assertEquals("Product lists should be equal", productList, resultProductList);
@@ -266,6 +266,15 @@ public class ProductServiceTest {
         assertEquals("Incorrect supplier", SUPPLIER, resultProduct.getSupplier());
         assertEquals("Incorrect quantity", QUANTITY, resultProduct.getQuantity(), 0.00);
         assertEquals("Incorrect price", PRICE, resultProduct.getPrice(), 0.00);
+    }
+
+    @Test
+    public void testDeleteProduct() {
+        Product product = generateProduct();
+        when(productRepository.findById(anyLong())).thenReturn(Optional.of(product));
+        productService.deleteProduct(PRODUCT_ID);
+        assertTrue("Product should be marked as deleted", product.isDeleted());
+        verify(productRepository, times(1)).save(product);
     }
 
     private List<Product> generateProductList() {

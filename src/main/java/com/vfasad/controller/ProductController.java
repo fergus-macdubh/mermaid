@@ -7,10 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import static com.vfasad.entity.User.ROLE_ADMIN;
@@ -70,6 +67,14 @@ public class ProductController {
             @RequestParam String supplier,
             @RequestParam Product.Unit unit) {
         productService.updateProduct(id, name, producer, supplier, unit);
+        return "redirect:/product";
+    }
+
+    @PostMapping("/product/{id}/deleting")
+    @Secured(ROLE_ADMIN)
+    public String deleteProduct(
+            @PathVariable Long id) {
+        productService.deleteProduct(id);
         return "redirect:/product";
     }
 }

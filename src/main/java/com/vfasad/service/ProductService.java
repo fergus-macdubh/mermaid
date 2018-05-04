@@ -30,7 +30,7 @@ public class ProductService {
     }
 
     public List<Product> findAllProductsInStorage() {
-        return productRepository.findByQuantityGreaterThanOrderByName(0);
+        return productRepository.findByQuantityGreaterThanAndDeletedIsFalseOrderByName(0);
     }
 
     public List<ProductAction> findAllProductActions(Long id) {
@@ -69,7 +69,7 @@ public class ProductService {
     }
 
     public List<Product> getProducts() {
-        return productRepository.findAllByOrderById();
+        return productRepository.findByDeletedIsFalseOrderById();
     }
 
     public void add(Product product) {
@@ -124,5 +124,11 @@ public class ProductService {
 
     public Product findProduct(Long id) {
         return productRepository.findOne(id);
+    }
+
+    public void deleteProduct(Long id) {
+        Product product = getProduct(id);
+        product.setDeleted(true);
+        productRepository.save(product);
     }
 }

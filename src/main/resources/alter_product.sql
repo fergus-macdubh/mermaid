@@ -1,0 +1,1 @@
+alter table product add COLUMN deleted BOOLEAN DEFAULT false;

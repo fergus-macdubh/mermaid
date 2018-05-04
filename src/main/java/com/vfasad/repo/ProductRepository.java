@@ -10,9 +10,9 @@ import java.util.Optional;
 
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Long> {
-    List<Product> findByQuantityGreaterThanOrderByName(double quantityGraterThan);
+    List<Product> findByQuantityGreaterThanAndDeletedIsFalseOrderByName(double quantityGraterThan);
 
-    List<Product> findAllByOrderById();
+    List<Product> findByDeletedIsFalseOrderById();
 
     Optional<Product> findById(Long id);
 

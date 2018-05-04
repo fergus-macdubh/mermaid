@@ -10,7 +10,9 @@
         <th>Производитель</th>
         <th>Поставщик</th>
         <th>Единицы измерения</th>
-        <th>Удалить</th>
+        <#if currentUser.role == "ROLE_ADMIN">
+            <th>Удалить</th>
+        </#if>
     </tr>
     </thead>
 <#list products as product>
@@ -22,7 +24,7 @@
         <td>${product.unit.abbr}</td>
         <#if currentUser.role == "ROLE_ADMIN">
             <td>
-                <form action="/product/${product.id?c}/deleting" method="post">
+                <form action="/product/${product.id?c}/delete" method="post">
                     <input type="hidden"
                            name="${_csrf.parameterName}"
                            value="${_csrf.token}"/>

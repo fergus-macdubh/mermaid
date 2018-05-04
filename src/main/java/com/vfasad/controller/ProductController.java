@@ -70,7 +70,7 @@ public class ProductController {
         return "redirect:/product";
     }
 
-    @PostMapping("/product/{id}/deleting")
+    @PostMapping("/product/{id}/delete")
     @Secured(ROLE_ADMIN)
     public String deleteProduct(
             @PathVariable Long id) {

@@ -18,13 +18,14 @@ public class EmailService {
     @Autowired
     private EmailSender emailSender;
 
-    public void notifyManagerOrderInProgress(Order order) {
+    public void notifyManagerOrderInProgress(Order order, String url) {
         String subject = "Заказ №$" + order.getId() + " взят в работу";
         String message = subject + ". Детали заказа:";
 
         Map<String, Object> model = new HashMap<>();
         model.put("message", message);
         model.put("order", order);
+        model.put("url", url);
 
         emailSender.send(
                 order.getManager().getEmail(),
@@ -33,13 +34,14 @@ public class EmailService {
                 model);
     }
 
-    public void notifyManagerOrderCompleted(Order order) {
+    public void notifyManagerOrderCompleted(Order order, String url) {
         String subject = "Заказ №$" + order.getId() + " завершен";
         String message = subject + ". Детали заказа:";
 
         Map<String, Object> model = new HashMap<>();
         model.put("message", message);
         model.put("order", order);
+        model.put("url", url);
 
         emailSender.send(
                 order.getManager().getEmail(),

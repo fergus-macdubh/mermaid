@@ -84,7 +84,7 @@ public class OrderService {
         return orders;
     }
 
-    public void moveOrderInProgress(Order order, long teamId) {
+    public void moveOrderInProgress(Order order, long teamId, String url) {
         order.getConsumes().forEach(c ->
                 productService.spend(c.getProduct(), c.getCalculatedQuantity(), order)
         );
@@ -93,10 +93,10 @@ public class OrderService {
         order.setDoneBy(teamService.getTeamUsers(teamId));
         orderRepository.save(order);
 
-        emailService.notifyManagerOrderInProgress(order);
+        emailService.notifyManagerOrderInProgress(order, url);
     }
 
-    public void moveOrderToShipping(Order order, long[] consumeIds, List<Double> actualQuantities) {
+    public void moveOrderToShipping(Order order, long[] consumeIds, List<Double> actualQuantities, String url) {
         Map<Long, OrderConsume> consumeMap = order.getConsumes().stream().collect(toMap(OrderConsume::getId, Function.identity()));
 
         for (int i = 0; i < consumeIds.length; i++) {
@@ -111,7 +111,7 @@ public class OrderService {
         order.setCompleted(now());
         orderRepository.save(order);
 
-        emailService.notifyManagerOrderCompleted(order);
+        emailService.notifyManagerOrderCompleted(order, url);
     }
 
     public void closeOrder(Order order) {

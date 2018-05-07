@@ -20,6 +20,7 @@ import java.util.HashSet;
 public class EmailServiceTest {
     private static final String MANAGER_EMAIL = "manager@gmail.com";
     private static final String MAIL_STORAGE = "test@gmail.com";
+    private static final String url = "/kanban";
 
     @Mock
     private EmailSender emailSender;
@@ -35,14 +36,14 @@ public class EmailServiceTest {
     @Test
     public void testNotifyManagerOrderInProgress() {
         Order order = generateOrder();
-        emailService.notifyManagerOrderInProgress(order);
+        emailService.notifyManagerOrderInProgress(order, url);
         verify(emailSender, times(1)).send(eq(MANAGER_EMAIL), anyString(),eq("email/order-flow.ftl"), anyMap());
     }
 
     @Test
     public void testNotifyManagerOrderCompleted() {
         Order order = generateOrder();
-        emailService.notifyManagerOrderCompleted(order);
+        emailService.notifyManagerOrderCompleted(order, url);
         verify(emailSender, times(1)).send(eq(MANAGER_EMAIL), anyString(),eq("email/order-flow.ftl"), anyMap());
         verify(emailSender, times(1)).send(eq(MAIL_STORAGE), anyString(),eq("email/order-flow.ftl"), anyMap());
     }

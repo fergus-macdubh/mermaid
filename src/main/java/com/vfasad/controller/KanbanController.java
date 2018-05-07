@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.function.Function;
 
@@ -60,13 +61,15 @@ public class KanbanController {
             @RequestParam(required = false)
             @ElementMin(value = 0, message = "Quantities cannot be zero or negative.")
                     List<Double> actualQuantities,
-            @RequestParam(required = false) Long teamId) {
+            @RequestParam(required = false) Long teamId,
+            HttpServletRequest request) {
 
+        String url = request.getRequestURL().toString();
         Order order = orderService.getOrder(orderId);
         if (order.getStatus() == Order.Status.CREATED) {
-            orderService.moveOrderInProgress(order, teamId);
+            orderService.moveOrderInProgress(order, teamId, url);
         } else if (order.getStatus() == Order.Status.IN_PROGRESS) {
-            orderService.moveOrderToShipping(order, consumeIds, actualQuantities);
+            orderService.moveOrderToShipping(order, consumeIds, actualQuantities,url);
         } else if (order.getStatus() == Order.Status.SHIPPING) {
             orderService.closeOrder(order);
         }

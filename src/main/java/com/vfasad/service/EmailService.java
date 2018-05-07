@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -18,14 +20,14 @@ public class EmailService {
     @Autowired
     private EmailSender emailSender;
 
-    public void notifyManagerOrderInProgress(Order order, String url) {
+    public void notifyManagerOrderInProgress(Order order, URL url) throws MalformedURLException {
         String subject = "Заказ №$" + order.getId() + " взят в работу";
         String message = subject + ". Детали заказа:";
 
         Map<String, Object> model = new HashMap<>();
         model.put("message", message);
         model.put("order", order);
-        model.put("url", url);
+        model.put("url", getHost(url) + "/kanban");
 
         emailSender.send(
                 order.getManager().getEmail(),
@@ -34,14 +36,14 @@ public class EmailService {
                 model);
     }
 
-    public void notifyManagerOrderCompleted(Order order, String url) {
+    public void notifyManagerOrderCompleted(Order order, URL url) throws MalformedURLException {
         String subject = "Заказ №$" + order.getId() + " завершен";
         String message = subject + ". Детали заказа:";
 
         Map<String, Object> model = new HashMap<>();
         model.put("message", message);
         model.put("order", order);
-        model.put("url", url);
+        model.put("url", getHost(url) + "/kanban");
 
         emailSender.send(
                 order.getManager().getEmail(),
@@ -55,5 +57,11 @@ public class EmailService {
                 subject,
                 "email/order-flow.ftl",
                 model);
+    }
+
+    private URL getHost(URL url) throws MalformedURLException {
+        int index = url.toString().indexOf("//");
+        String host = url.toString().substring(0, url.toString().indexOf("/",index + "//".length()));
+        return new URL(host);
     }
 }

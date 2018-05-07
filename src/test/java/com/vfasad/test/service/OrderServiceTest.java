@@ -17,6 +17,8 @@ import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.data.domain.Sort;
 
 import java.math.BigInteger;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
@@ -36,7 +38,6 @@ public class OrderServiceTest {
     private static final Long USER_ID = 1L;
     private static final Long TEAM_ID = 1L;
     private static final long[] CONSUME_IDS = {1L, 2L, 3L};
-    private static final String url = "/kanban";
 
     @Mock
     private OrderRepository orderRepository;
@@ -114,7 +115,7 @@ public class OrderServiceTest {
     }
 
     @Test
-    public void testMoveOrderInProgress() {
+    public void testMoveOrderInProgress() throws MalformedURLException {
         Order order = generateOrder();
         Set<OrderConsume> orderConsumes = generateOrderConsumeList();
         order.setConsumes(orderConsumes);
@@ -123,37 +124,37 @@ public class OrderServiceTest {
         when(teamService.getTeam(TEAM_ID)).thenReturn(team);
         when(teamService.getTeamUsers(TEAM_ID)).thenReturn(userList);
 
-        orderService.moveOrderInProgress(order, TEAM_ID, url);
+        orderService.moveOrderInProgress(order, TEAM_ID, new URL("/kanban"));
 
         assertEquals("Invalid order status. Status should be IN_PROGRESS", Order.Status.IN_PROGRESS, order.getStatus());
         assertEquals("Invalid order team", team, order.getTeam());
         assertEquals("Invalid user list", userList, order.getDoneBy());
         orderConsumes.forEach(c -> verify(productService, times(1)).spend(c.getProduct(), c.getCalculatedQuantity(), order));
         verify(orderRepository, times(1)).save(order);
-        verify(emailService, times(1)).notifyManagerOrderInProgress(order, url);
+        verify(emailService, times(1)).notifyManagerOrderInProgress(order, new URL("/kanban"));
     }
 
     @Test
-    public void testMoveOrderToShipping() {
+    public void testMoveOrderToShipping() throws MalformedURLException {
         Order order = generateOrder();
         Set<OrderConsume> orderConsumeList = generateOrderConsumeList();
         order.setConsumes(orderConsumeList);
         List<Double> actualQuantities = new ArrayList<Double>(){{ add(5262.33); add(28884.92); add(8395.39); }};
 
-        orderService.moveOrderToShipping(order, CONSUME_IDS, actualQuantities, url);
+        orderService.moveOrderToShipping(order, CONSUME_IDS, actualQuantities, new URL("/kanban"));
         assertEquals("Invalid order status. Status should be SHIPPING", Order.Status.SHIPPING, order.getStatus());
         verify(productService, times(CONSUME_IDS.length)).returnProduct(any(Product.class), anyDouble(), eq(order));
         verify(orderRepository, times(1)).save(order);
-        verify(emailService, times(1)).notifyManagerOrderCompleted(order, url);
+        verify(emailService, times(1)).notifyManagerOrderCompleted(order, new URL("/kanban"));
     }
 
     @Test
-    public void testMoveOrderToShippingException() {
+    public void testMoveOrderToShippingException() throws MalformedURLException {
         expectedException.expect(NotFoundException.class);
         expectedException.expectMessage("Order consume with provided id is not found.");
         Order order = generateOrder();
         List<Double> actualQuantities = new ArrayList<Double>(){{ add(5262.33); add(28884.92); add(8395.39); }};
-        orderService.moveOrderToShipping(order, CONSUME_IDS, actualQuantities,  url);
+        orderService.moveOrderToShipping(order, CONSUME_IDS, actualQuantities,  new URL("/kanban"));
     }
 
     @Test

@@ -27,7 +27,7 @@ public class EmailService {
         Map<String, Object> model = new HashMap<>();
         model.put("message", message);
         model.put("order", order);
-        model.put("url", getLink(url));
+        model.put("url", getLink(url, "kanban"));
 
         emailSender.send(
                 order.getManager().getEmail(),
@@ -43,7 +43,7 @@ public class EmailService {
         Map<String, Object> model = new HashMap<>();
         model.put("message", message);
         model.put("order", order);
-        model.put("url", getLink(url));
+        model.put("url", getLink(url, "kanban"));
 
         emailSender.send(
                 order.getManager().getEmail(),
@@ -59,13 +59,13 @@ public class EmailService {
                 model);
     }
 
-    private String getLink(String url) {
+    private String getLink(String url, String pageName) {
         String link = "";
         try {
             URL u = new URL(url);
-            String port = ((Integer)u.getPort()).toString();
-            port = port.length() > 0 ? ":".concat(port) : "";
-            link = u.getProtocol().concat("://").concat(u.getHost()).concat(port).concat("/kanban");
+            String port = ((Integer) u.getPort()).toString();
+            port = port.length() > 0 ? (":" + port) : "";
+            link = u.getProtocol() + "://" + u.getHost() + port + "/" + pageName;
         } catch (MalformedURLException e) {
             log.warn("Link for message was not generated", e);
         }

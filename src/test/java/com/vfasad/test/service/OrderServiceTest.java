@@ -17,7 +17,6 @@ import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.data.domain.Sort;
 
 import java.math.BigInteger;
-import java.net.MalformedURLException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
@@ -114,7 +113,7 @@ public class OrderServiceTest {
     }
 
     @Test
-    public void testMoveOrderInProgress() throws MalformedURLException {
+    public void testMoveOrderInProgress() {
         Order order = generateOrder();
         Set<OrderConsume> orderConsumes = generateOrderConsumeList();
         order.setConsumes(orderConsumes);
@@ -134,7 +133,7 @@ public class OrderServiceTest {
     }
 
     @Test
-    public void testMoveOrderToShipping() throws MalformedURLException {
+    public void testMoveOrderToShipping() {
         Order order = generateOrder();
         Set<OrderConsume> orderConsumeList = generateOrderConsumeList();
         order.setConsumes(orderConsumeList);
@@ -148,7 +147,7 @@ public class OrderServiceTest {
     }
 
     @Test
-    public void testMoveOrderToShippingException() throws MalformedURLException {
+    public void testMoveOrderToShippingException() {
         expectedException.expect(NotFoundException.class);
         expectedException.expectMessage("Order consume with provided id is not found.");
         Order order = generateOrder();

@@ -16,8 +16,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.List;
 import java.util.function.Function;
 
@@ -64,13 +62,13 @@ public class KanbanController {
             @ElementMin(value = 0, message = "Quantities cannot be zero or negative.")
                     List<Double> actualQuantities,
             @RequestParam(required = false) Long teamId,
-            HttpServletRequest request) throws MalformedURLException {
+            HttpServletRequest request) {
 
         Order order = orderService.getOrder(orderId);
         if (order.getStatus() == Order.Status.CREATED) {
-            orderService.moveOrderInProgress(order, teamId, new URL(request.getRequestURL().toString()));
+            orderService.moveOrderInProgress(order, teamId, request.getRequestURL().toString());
         } else if (order.getStatus() == Order.Status.IN_PROGRESS) {
-            orderService.moveOrderToShipping(order, consumeIds, actualQuantities, new URL(request.getRequestURL().toString()));
+            orderService.moveOrderToShipping(order, consumeIds, actualQuantities, request.getRequestURL().toString());
         } else if (order.getStatus() == Order.Status.SHIPPING) {
             orderService.closeOrder(order);
         }

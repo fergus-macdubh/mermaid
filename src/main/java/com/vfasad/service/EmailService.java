@@ -20,14 +20,14 @@ public class EmailService {
     @Autowired
     private EmailSender emailSender;
 
-    public void notifyManagerOrderInProgress(Order order, URL url) throws MalformedURLException {
+    public void notifyManagerOrderInProgress(Order order, String url) {
         String subject = "Заказ №$" + order.getId() + " взят в работу";
         String message = subject + ". Детали заказа:";
 
         Map<String, Object> model = new HashMap<>();
         model.put("message", message);
         model.put("order", order);
-        model.put("url", getHost(url) + "/kanban");
+        model.put("url", getLink(url));
 
         emailSender.send(
                 order.getManager().getEmail(),
@@ -36,14 +36,14 @@ public class EmailService {
                 model);
     }
 
-    public void notifyManagerOrderCompleted(Order order, URL url) throws MalformedURLException {
+    public void notifyManagerOrderCompleted(Order order, String url) {
         String subject = "Заказ №$" + order.getId() + " завершен";
         String message = subject + ". Детали заказа:";
 
         Map<String, Object> model = new HashMap<>();
         model.put("message", message);
         model.put("order", order);
-        model.put("url", getHost(url) + "/kanban");
+        model.put("url", getLink(url));
 
         emailSender.send(
                 order.getManager().getEmail(),
@@ -59,9 +59,16 @@ public class EmailService {
                 model);
     }
 
-    private URL getHost(URL url) throws MalformedURLException {
-        int index = url.toString().indexOf("//");
-        String host = url.toString().substring(0, url.toString().indexOf("/",index + "//".length()));
-        return new URL(host);
+    private String getLink(String url) {
+        String link = "";
+        try {
+            URL u = new URL(url);
+            String port = ((Integer)u.getPort()).toString();
+            port = port.length() > 0 ? ":".concat(port) : "";
+            link = u.getProtocol().concat("://").concat(u.getHost()).concat(port).concat("/kanban");
+        } catch (MalformedURLException e) {
+            log.warn("Link for message was not generated", e);
+        }
+        return link;
     }
 }

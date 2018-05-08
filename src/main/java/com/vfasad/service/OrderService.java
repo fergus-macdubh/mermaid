@@ -12,8 +12,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.math.BigInteger;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.YearMonth;
@@ -86,7 +84,7 @@ public class OrderService {
         return orders;
     }
 
-    public void moveOrderInProgress(Order order, long teamId, URL url) throws MalformedURLException {
+    public void moveOrderInProgress(Order order, long teamId, String url) {
         order.getConsumes().forEach(c ->
                 productService.spend(c.getProduct(), c.getCalculatedQuantity(), order)
         );
@@ -98,7 +96,7 @@ public class OrderService {
         emailService.notifyManagerOrderInProgress(order, url);
     }
 
-    public void moveOrderToShipping(Order order, long[] consumeIds, List<Double> actualQuantities, URL url) throws MalformedURLException {
+    public void moveOrderToShipping(Order order, long[] consumeIds, List<Double> actualQuantities, String url) {
         Map<Long, OrderConsume> consumeMap = order.getConsumes().stream().collect(toMap(OrderConsume::getId, Function.identity()));
 
         for (int i = 0; i < consumeIds.length; i++) {

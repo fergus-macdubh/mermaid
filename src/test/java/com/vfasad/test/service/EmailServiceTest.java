@@ -14,7 +14,6 @@ import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.test.util.ReflectionTestUtils;
 
 import java.net.MalformedURLException;
-import java.net.URL;
 import java.time.LocalDate;
 import java.util.HashSet;
 
@@ -37,14 +36,14 @@ public class EmailServiceTest {
     @Test
     public void testNotifyManagerOrderInProgress() throws MalformedURLException {
         Order order = generateOrder();
-        emailService.notifyManagerOrderInProgress(order, new URL("/kanban"));
+        emailService.notifyManagerOrderInProgress(order, "/kanban");
         verify(emailSender, times(1)).send(eq(MANAGER_EMAIL), anyString(),eq("email/order-flow.ftl"), anyMap());
     }
 
     @Test
     public void testNotifyManagerOrderCompleted() throws MalformedURLException {
         Order order = generateOrder();
-        emailService.notifyManagerOrderCompleted(order, new URL("/kanban"));
+        emailService.notifyManagerOrderCompleted(order, "/kanban");
         verify(emailSender, times(1)).send(eq(MANAGER_EMAIL), anyString(),eq("email/order-flow.ftl"), anyMap());
         verify(emailSender, times(1)).send(eq(MAIL_STORAGE), anyString(),eq("email/order-flow.ftl"), anyMap());
     }

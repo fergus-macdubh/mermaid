@@ -29,11 +29,11 @@
             if (!orders.hasOwnProperty(orderId)) continue;
             var order = orders[orderId];
             var planned = new Date(order.planned.year, order.planned.month - 1, order.planned.day);
-            var timeDiff = Math.abs(planned.getTime() - current.getTime());
+            var timeDiff = planned.getTime() - current.getTime();
             var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
             $('#order_' + order.id + '_days_left')
                     .addClass(getClassForDaysLeft(diffDays))
-                    .text(diffDays);
+                    .text(Math.abs(diffDays));
         }
     });
 

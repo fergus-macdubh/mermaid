@@ -37,6 +37,7 @@
         <td>${order.price!} грн</td>
     </tr>
 </table>
+<p>Перейти на KANBAN: <a href="${url}" target="_blank">${url}</a></p>
 <br/>
 Твоя Русалочка<br/>
 </body>

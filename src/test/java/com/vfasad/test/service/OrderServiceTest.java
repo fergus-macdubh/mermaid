@@ -122,14 +122,14 @@ public class OrderServiceTest {
         when(teamService.getTeam(TEAM_ID)).thenReturn(team);
         when(teamService.getTeamUsers(TEAM_ID)).thenReturn(userList);
 
-        orderService.moveOrderInProgress(order, TEAM_ID);
+        orderService.moveOrderInProgress(order, TEAM_ID, "/kanban");
 
         assertEquals("Invalid order status. Status should be IN_PROGRESS", Order.Status.IN_PROGRESS, order.getStatus());
         assertEquals("Invalid order team", team, order.getTeam());
         assertEquals("Invalid user list", userList, order.getDoneBy());
         orderConsumes.forEach(c -> verify(productService, times(1)).spend(c.getProduct(), c.getCalculatedQuantity(), order));
         verify(orderRepository, times(1)).save(order);
-        verify(emailService, times(1)).notifyManagerOrderInProgress(order);
+        verify(emailService, times(1)).notifyManagerOrderInProgress(order, "/kanban");
     }
 
     @Test
@@ -139,11 +139,11 @@ public class OrderServiceTest {
         order.setConsumes(orderConsumeList);
         List<Double> actualQuantities = new ArrayList<Double>(){{ add(5262.33); add(28884.92); add(8395.39); }};
 
-        orderService.moveOrderToShipping(order, CONSUME_IDS, actualQuantities);
+        orderService.moveOrderToShipping(order, CONSUME_IDS, actualQuantities, "/kanban");
         assertEquals("Invalid order status. Status should be SHIPPING", Order.Status.SHIPPING, order.getStatus());
         verify(productService, times(CONSUME_IDS.length)).returnProduct(any(Product.class), anyDouble(), eq(order));
         verify(orderRepository, times(1)).save(order);
-        verify(emailService, times(1)).notifyManagerOrderCompleted(order);
+        verify(emailService, times(1)).notifyManagerOrderCompleted(order, "/kanban");
     }
 
     @Test
@@ -152,7 +152,7 @@ public class OrderServiceTest {
         expectedException.expectMessage("Order consume with provided id is not found.");
         Order order = generateOrder();
         List<Double> actualQuantities = new ArrayList<Double>(){{ add(5262.33); add(28884.92); add(8395.39); }};
-        orderService.moveOrderToShipping(order, CONSUME_IDS, actualQuantities);
+        orderService.moveOrderToShipping(order, CONSUME_IDS, actualQuantities,  "/kanban");
     }
 
     @Test

@@ -8,6 +8,7 @@
         <th>Количество заказов</th>
         <th>Площадь</th>
         <th>Цена</th>
+        <th>Отчет закрыт</th>
     </tr>
     </thead>
 <#list ordersByMonth?keys?reverse as month>
@@ -23,6 +24,9 @@
             <#assign sumPrice = 0>
             <#list ordersByMonth[month] as order><#assign sumPrice += order.price></#list>
             ${sumPrice} грн
+        </td>
+        <td>
+            <#if monthReportIsOpened[month]>Нет<#else>Да</#if>
         </td>
     </tr>
 </#list>

@@ -1,6 +1,10 @@
 package com.vfasad.controller.reports;
 
-import com.vfasad.entity.*;
+import com.vfasad.entity.Option;
+import com.vfasad.entity.Order;
+import com.vfasad.entity.Team;
+import com.vfasad.entity.User;
+import com.vfasad.entity.reports.ReportMonthCommon;
 import com.vfasad.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
@@ -49,12 +53,12 @@ public class CommonReportController extends AbstractReportController {
                 .filter(o -> o.getCompleted() != null)
                 .collect(Collectors.groupingBy(o -> YearMonth.from(o.getCompleted()).toString()));
         SortedMap<String, List<Order>> ordersByMonthSorted = new TreeMap<>(ordersByMonth);
-        Map<String,Boolean> monthReportIsOpened = ordersByMonthSorted.entrySet().stream()
-                .collect(Collectors.toMap(m -> m.getKey()
-                        , m -> reportService.findByYearAndMonthReportCommon(
+        Map<String, Boolean> monthReportIsOpened = ordersByMonthSorted.entrySet().stream()
+                .collect(Collectors.toMap(Map.Entry::getKey,
+                        m -> !reportService.findByYearAndMonthReportCommon(
                                 Year.from(m.getValue().get(0).getCompleted()).getValue(),
                                 Month.from(m.getValue().get(0).getCompleted()).getValue()
-                        ).equals(Optional.empty())));
+                        ).isPresent()));
         SortedMap<String, Boolean> monthReportIsOpenedSorted = new TreeMap<>(monthReportIsOpened);
         modelAndView.addObject("ordersByMonth", ordersByMonthSorted);
         modelAndView.addObject("monthReportIsOpened", monthReportIsOpenedSorted);
@@ -63,8 +67,8 @@ public class CommonReportController extends AbstractReportController {
 
     @GetMapping("/reports/month/{year}-{month}/team/{teamId}")
     public ModelAndView monthByTeamReport(@PathVariable int year,
-                                    @PathVariable int month,
-                                    @PathVariable long teamId) {
+                                          @PathVariable int month,
+                                          @PathVariable long teamId) {
         ModelAndView modelAndView = new ModelAndView("report/month-by-team-report");
         modelAndView.addObject("month", getMonthName(month));
         modelAndView.addObject("year", year);
@@ -80,8 +84,8 @@ public class CommonReportController extends AbstractReportController {
 
     @GetMapping("/reports/month/{year}-{month}/user/{userId}")
     public ModelAndView monthByUserReport(@PathVariable int year,
-                                    @PathVariable int month,
-                                    @PathVariable long userId) {
+                                          @PathVariable int month,
+                                          @PathVariable long userId) {
         ModelAndView modelAndView = new ModelAndView("report/month-by-user-report");
         modelAndView.addObject("month", getMonthName(month));
         modelAndView.addObject("year", year);
@@ -101,7 +105,7 @@ public class CommonReportController extends AbstractReportController {
                                     @PathVariable int month) {
         ModelAndView modelAndView = new ModelAndView("report/month-report");
         modelAndView.addObject("month", getMonthName(month));
-        modelAndView.addObject("monthNum",month);
+        modelAndView.addObject("monthNum", month);
         modelAndView.addObject("year", year);
 
         List<Order> orders = orderService.findByMonth(year, month);
@@ -126,7 +130,7 @@ public class CommonReportController extends AbstractReportController {
 
         modelAndView.addObject("usersByTeamId", userService.getUsersByTeamId());
         Map<String, String> options = reportService.findByYearAndMonthReportOptions(year, month);
-        modelAndView.addObject("options",  options.size() ==0 ? optionService.getOptionsMap() : options);
+        modelAndView.addObject("options", options.isEmpty() ? optionService.getOptionsMap() : options);
 
         Map<String, User> usersById = new HashMap<>();
         Map<String, List<Order>> ordersByUserId = new HashMap<>();
@@ -149,9 +153,10 @@ public class CommonReportController extends AbstractReportController {
         ordersByUserId.keySet()
                 .forEach(userId -> areaByUserId.put(userId, ordersByUserId.get(userId).stream().mapToDouble(this::getSumArea).sum()));
         modelAndView.addObject("areaByUserId", areaByUserId);
-        boolean reportIsOpened = (reportService.findByYearAndMonthReportCommon(year, month)).equals(Optional.empty());
-        modelAndView.addObject("reportIsOpened", reportIsOpened);
-        modelAndView.addObject("reportCommon", reportService.findByYearAndMonthReportCommon(year, month).orElse(null));
+
+        Optional<ReportMonthCommon> closedReport = reportService.findByYearAndMonthReportCommon(year, month);
+        modelAndView.addObject("reportIsOpened", !closedReport.isPresent());
+        modelAndView.addObject("reportCommon", closedReport.orElse(null));
         modelAndView.addObject("reportTeamList", reportService.findByYearAndMonthReportTeam(year, month));
         modelAndView.addObject("reportEmployeeList", reportService.findByYearAndMonthReportEmployee(year, month));
         return modelAndView;
@@ -178,12 +183,12 @@ public class CommonReportController extends AbstractReportController {
                                      @RequestParam String[] values,
                                      @PathVariable int year,
                                      @PathVariable int month) {
-            Map<String, Option> options = IntStream.range(0, optionNames.length)
-                    .collect(HashMap::new
-                            ,(m,i) -> m.put(optionNames[i], new Option(OptionName.valueOf(optionNames[i]), values[i]))
-                            ,Map::putAll);
-            reportService.saveReport(options, year, month, userService.getCurrentUser());
-            return "redirect:/reports/month/" + year + "-" + String.format("%02d", month);
+        Map<String, Option> options = IntStream.range(0, optionNames.length)
+                .collect(HashMap::new,
+                        (m, i) -> m.put(optionNames[i], new Option(OptionName.valueOf(optionNames[i]), values[i])),
+                        Map::putAll);
+        reportService.saveReport(options, year, month, userService.getCurrentUser());
+        return "redirect:/reports/month/" + year + "-" + String.format("%02d", month);
     }
 
     private double getSumArea(Order order) {

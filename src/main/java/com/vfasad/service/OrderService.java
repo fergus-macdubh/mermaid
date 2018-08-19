@@ -149,4 +149,8 @@ public class OrderService {
                 LocalDateTime.of(year, month, 1, 0, 0),
                 LocalDateTime.of(year, month, YearMonth.of(year, month).lengthOfMonth(), 23, 59, 59));
     }
+
+    public List<Order> findByProduct(long productId, LocalDate start, LocalDate end) {
+        return orderRepository.findByProductStartedBetween(productId, start, end);
+    }
 }

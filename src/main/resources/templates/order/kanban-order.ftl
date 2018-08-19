@@ -9,7 +9,7 @@
             class="kanban-order-document">${order.document!}</span>
     </div>
     <div class="kanban-order-manager">${order.manager.familyName}</div>
-    <div class="kanban-order-consumes">|<#list order.consumes as consume> ${consume.product.name!?replace("\\(.*\\)", "", "r")} ${consume.product.producer}
+    <div class="kanban-order-consumes">|<#list order.consumes as consume> ${consume.product.name!} ${consume.product.producer}
         |</#list></div>
     <div class="kanban-order-area">
     <#if order.area gt 0>

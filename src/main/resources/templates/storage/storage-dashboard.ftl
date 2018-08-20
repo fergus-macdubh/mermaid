@@ -4,7 +4,6 @@
         $("#name-filter-input").on("keyup", function() {
             var value = $(this).val().toLowerCase();
             $("#products-table tr td.product-name").filter(function() {
-                console.debug($(this).parent);
                 $(this).parent().toggle($(this).text().toLowerCase().indexOf(value) > -1)
             });
         });

@@ -111,7 +111,7 @@
     <#else>
         <tr>
             <th style="min-width: 15em">Авторасчет цены</th>
-            <td style="min-width: 20em">
+            <td style="min-width: 22em">
                 <div id="priceRadio" class="btn-group" data-toggle="buttons" onchange="calculatePriceAndConsumes()">
                     <label class="btn btn-primary active">
                         <input type="radio" name="price-coeff" checked value="0"> X

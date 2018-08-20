@@ -116,50 +116,47 @@
     }
 </script>
 <h1>Заказы</h1>
-<div class="container-fluid">
-    <div class="col-sm-12">
-        <button id="moveSubmit" class="btn btn-info disabled" data-toggle="modal" data-target="#modal">Заказ не выбран
-        </button>
-    <#if currentUser.role == "ROLE_ADMIN"
-    || currentUser.role == "ROLE_OPERATOR"
-    || currentUser.role == "ROLE_PAINTER">
-        <a class="btn btn-success disabled edit-order-link">Редактировать</a>
-    </#if>
+<div class="col-sm-12" style="padding-left: 0; padding-bottom: .5em">
+    <button id="moveSubmit" class="btn btn-info disabled" data-toggle="modal" data-target="#modal">Заказ не выбран
+    </button>
+<#if currentUser.role == "ROLE_ADMIN"
+|| currentUser.role == "ROLE_OPERATOR"
+|| currentUser.role == "ROLE_PAINTER">
+    <a class="btn btn-success disabled edit-order-link">Редактировать</a>
+</#if>
+</div>
+
+<div class="col-sm-4" style="padding-left: 0; padding-right: 0">
+    <div class="kanban-column">
+        <div class="kanban-column-head">Новые</div>
+    <#list orders as order>
+        <#if order.status == 'CREATED' || order.status == 'BLOCKED'>
+            <#include 'kanban-order.ftl'/>
+        </#if>
+    </#list>
     </div>
 </div>
-<br/>
-<div class="container-fluid">
-    <div class="col-sm-4">
-        <div class="kanban-column">
-            <div class="kanban-column-head">Новые</div>
-        <#list orders as order>
-            <#if order.status == 'CREATED' || order.status == 'BLOCKED'>
-                <#include 'kanban-order.ftl'/>
-            </#if>
-        </#list>
-        </div>
-    </div>
-    <div class="col-sm-4">
-        <div class="kanban-column">
-            <div class="kanban-column-head">В работе</div>
-        <#list orders as order>
-            <#if order.status == 'IN_PROGRESS'>
-                <#include 'kanban-order.ftl'/>
-            </#if>
-        </#list>
-        </div>
-    </div>
-    <div class="col-sm-4">
-        <div class="kanban-column">
-            <div class="kanban-column-head">К отгрузке</div>
-        <#list orders as order>
-            <#if order.status == 'SHIPPING'>
-                <#include 'kanban-order.ftl'/>
-            </#if>
-        </#list>
-        </div>
+<div class="col-sm-4">
+    <div class="kanban-column">
+        <div class="kanban-column-head">В работе</div>
+    <#list orders as order>
+        <#if order.status == 'IN_PROGRESS'>
+            <#include 'kanban-order.ftl'/>
+        </#if>
+    </#list>
     </div>
 </div>
+<div class="col-sm-4" style="padding-left: 0; padding-right: 0">
+    <div class="kanban-column">
+        <div class="kanban-column-head">К отгрузке</div>
+    <#list orders as order>
+        <#if order.status == 'SHIPPING'>
+            <#include 'kanban-order.ftl'/>
+        </#if>
+    </#list>
+    </div>
+</div>
+
 <div id="modal-inProgress" class="modal fade" role="dialog">
     <div class="modal-dialog">
         <div class="modal-content">

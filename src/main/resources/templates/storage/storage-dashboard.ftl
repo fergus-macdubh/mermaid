@@ -8,7 +8,6 @@
 || currentUser.role! == "ROLE_OPERATOR">
     <a href="/storage/product/purchase" class="btn btn-success">Пополнить склад</a>
 </#if>
-
 <table class="responsive-table">
     <thead>
     <tr>

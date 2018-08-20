@@ -28,7 +28,7 @@
     </script>
 </head>
 <body>
-<header class="container-fluid">
+<header class="container-fluid blue-gradient">
     <img id="logo" src="/img/mermaid.png"/>
 <#if currentUser.role! == "ROLE_ADMIN"
 || currentUser.role! == "ROLE_OPERATOR"
@@ -43,10 +43,6 @@
 || currentUser.role! == "ROLE_OPERATOR"
 || currentUser.role! == "ROLE_SALES">
     | <a href="/order">Заказы</a>
-</#if>
-<#if currentUser.role! == "ROLE_ADMIN"
-|| currentUser.role! == "ROLE_OPERATOR">
-    | <a href="/order/add">Новый заказ</a>
 </#if>
 <#if currentUser.role! == "ROLE_ADMIN"
 || currentUser.role! == "ROLE_OPERATOR"
@@ -67,6 +63,10 @@
     | <a href="/options">Настройки</a>
 </#if>
     |
+<#if currentUser.role! == "ROLE_ADMIN"
+|| currentUser.role! == "ROLE_OPERATOR">
+    <a class="btn btn-info" style="color: white; font-weight: bold; height: 1.5em;padding-top: 0" href="/order/add">Новый заказ</a>
+</#if>
     <br/><br/>
     Привет, ${currentUser.givenName}! (<a href="https://accounts.google.com/Logout">Выход</a>)
 </header>

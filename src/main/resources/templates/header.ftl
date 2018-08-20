@@ -59,13 +59,13 @@
 <#if currentUser.role! == "ROLE_ADMIN">
     | <a href="/reports">Отчеты</a>
 </#if>
-<#if currentUser.role! == "ROLE_ADMIN">
-    | <a href="/options">Настройки</a>
-</#if>
     |
 <#if currentUser.role! == "ROLE_ADMIN"
 || currentUser.role! == "ROLE_OPERATOR">
     <a class="btn btn-info" style="color: white; font-weight: bold; height: 1.5em;padding-top: 0" href="/order/add">Новый заказ</a>
+</#if>
+<#if currentUser.role! == "ROLE_ADMIN">
+    <a href="/options" style="float: right; margin-top: 0.5em"><img src="/img/options.png" style="height: 2em"/></a>
 </#if>
     <br/><br/>
     Привет, ${currentUser.givenName}! (<a href="https://accounts.google.com/Logout">Выход</a>)

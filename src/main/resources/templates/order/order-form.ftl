@@ -128,6 +128,14 @@
                         <input type="radio" name="price-coeff"
                                value="${options['AUTO_CALC_PRICE_3']}"> ${options['AUTO_CALC_PRICE_3']}
                     </label>
+                    <label class="btn btn-primary">
+                        <input type="radio" name="price-coeff"
+                               value="${options['AUTO_CALC_PRICE_4']}"> ${options['AUTO_CALC_PRICE_4']}
+                    </label>
+                    <label class="btn btn-primary">
+                        <input type="radio" name="price-coeff"
+                               value="${options['AUTO_CALC_PRICE_5']}"> ${options['AUTO_CALC_PRICE_5']}
+                    </label>
                 </div>
             </td>
             <td style="min-width: 10em"></td>

@@ -26,7 +26,11 @@
             ${sumPrice} грн
         </td>
         <td>
-            <#if monthReportIsOpened[month]>Нет<#else>Да</#if>
+            <#if monthReportIsOpened[month]>
+                <img src="/img/no.png" style="height: 1em"/>
+            <#else>
+                <img src="/img/yes.png" style="height: 1em"/>
+            </#if>
         </td>
     </tr>
 </#list>

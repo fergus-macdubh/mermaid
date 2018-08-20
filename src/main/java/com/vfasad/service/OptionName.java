@@ -24,6 +24,8 @@ public enum OptionName {
     AUTO_CALC_PRICE_1("Авторасчет цены 1", "грн / м<sup>2</sup>"),
     AUTO_CALC_PRICE_2("Авторасчет цены 2", "грн / м<sup>2</sup>"),
     AUTO_CALC_PRICE_3("Авторасчет цены 3", "грн / м<sup>2</sup>"),
+    AUTO_CALC_PRICE_4("Авторасчет цены 4", "грн / м<sup>2</sup>"),
+    AUTO_CALC_PRICE_5("Авторасчет цены 5", "грн / м<sup>2</sup>"),
 
     CLIP_PRICE("Цена покраски кляймера", "грн / шт"),
     FURNITURE_SMALL_PRICE("Цена покраски мелкой фурнитуры", "грн / шт"),

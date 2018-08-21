@@ -14,15 +14,15 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
-import org.springframework.data.domain.Sort;
 
 import java.math.BigInteger;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 import static org.mockito.Mockito.*;
-import static org.junit.Assert.*;
 
 @RunWith(MockitoJUnitRunner.class)
 public class OrderServiceTest {
@@ -58,7 +58,7 @@ public class OrderServiceTest {
     @Test
     public void testFindAll() {
         List<Order> orderList = generateOrderList();
-        when(orderRepository.findAll(any(Sort.class))).thenReturn(orderList);
+        when(orderRepository.findAll()).thenReturn(orderList);
         List<Order> resultOrderList = orderService.findAll();
         assertEquals("findAll returned incorrect order list", orderList, resultOrderList);
     }

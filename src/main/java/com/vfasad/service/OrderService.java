@@ -8,12 +8,12 @@ import com.vfasad.exception.NotFoundException;
 import com.vfasad.repo.OrderRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.math.BigInteger;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.YearMonth;
 import java.util.Collections;
 import java.util.List;
@@ -41,7 +41,7 @@ public class OrderService {
     private TeamService teamService;
 
     public List<Order> findAll() {
-        return orderRepository.findAll(new Sort(new Sort.Order(Sort.Direction.DESC, "created")));
+        return orderRepository.findAll();
     }
 
     public void addOrder(double area, int clipCount, int furnitureSmallCount, int furnitureBigCount, String document, double price, Set<OrderConsume> consumes, User manager) {
@@ -152,5 +152,12 @@ public class OrderService {
 
     public List<Order> findByProduct(long productId, LocalDate start, LocalDate end) {
         return orderRepository.findByProductStartedBetween(productId, start, end);
+    }
+
+    public List<Order> findCurrentMonthOrders() {
+        YearMonth month = YearMonth.now();
+        LocalDateTime start = month.atDay(1).atStartOfDay();
+        LocalDateTime end = month.atDay(month.lengthOfMonth()).atTime(LocalTime.MAX);
+        return orderRepository.findByCreatedBetween(start, end);
     }
 }

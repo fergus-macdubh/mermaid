@@ -43,9 +43,19 @@ public class OrderController {
 
     @RequestMapping(value = "/order", method = RequestMethod.GET)
     @Secured({ROLE_ADMIN, ROLE_OPERATOR, ROLE_SALES})
-    public ModelAndView orders() {
+    public ModelAndView ordersLastMonth() {
+        ModelAndView model = new ModelAndView("order/order-dashboard");
+        model.addObject("orders", orderService.findCurrentMonthOrders());
+        model.addObject("isFullList", false);
+        return model;
+    }
+
+    @RequestMapping(value = "/order/archive", method = RequestMethod.GET)
+    @Secured({ROLE_ADMIN, ROLE_OPERATOR, ROLE_SALES})
+    public ModelAndView ordersFullList() {
         ModelAndView model = new ModelAndView("order/order-dashboard");
         model.addObject("orders", orderService.findAll());
+        model.addObject("isFullList", true);
         return model;
     }
 

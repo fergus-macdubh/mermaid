@@ -15,6 +15,12 @@
     <a href="/storage/product/purchase" class="btn btn-success">Новый заказ</a>
 </#if>
 
+<#if isFullList>
+<a href="/order" class="btn btn-info">Текущий месяц</a>
+<#else>
+<a href="/order/archive" class="btn btn-info">Архив</a>
+</#if>
+
 <span style="margin-left: 1em">Документ: <input id="document-filter-input"/></span>
 
 <table id="order-table" class="responsive-table">
@@ -35,7 +41,7 @@
     </#if>
     </tr>
     </thead>
-<#list orders as order>
+<#list orders?sort_by('created')?reverse as order>
     <tr>
         <td>${order.id?c}</td>
         <td>${order.status}</td>

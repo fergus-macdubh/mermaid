@@ -37,4 +37,6 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
             @Param("productId") long productId,
             @Param("from") LocalDate from,
             @Param("to") LocalDate to);
+
+    List<Order> findByCreatedBetween(LocalDateTime start, LocalDateTime end);
 }

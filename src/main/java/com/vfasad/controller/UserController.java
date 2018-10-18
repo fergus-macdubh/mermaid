@@ -109,7 +109,7 @@ public class UserController {
             @PathVariable Long id) {
         User user = userService.getUser(id);
 
-        if (user.getRole().equals(ROLE_ADMIN)) {
+        if (user.getRole() != null && user.getRole().equals(ROLE_ADMIN)) {
             throw new IllegalArgumentException("User with role ROLE_ADMIN cannot be deleted. Id [" + id + "]");
         }
 

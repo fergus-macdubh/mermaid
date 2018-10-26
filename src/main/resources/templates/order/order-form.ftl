@@ -80,6 +80,17 @@
             $('#price-input').val(price.toFixed(2));
         }
     }
+    $(function () {
+        $.datepicker.setDefaults({
+            regional: "ru",
+            dateFormat: "dd.mm.y",
+            minDate: new Date()
+        });
+        $("#datepickerCompleteDate").datepicker();
+        var complete = new Date();
+        complete.setDate(complete.getDate() + 7);
+        $("#datepickerCompleteDate").datepicker('setDate', complete);
+    });
 </script>
 <#if order??>
 <h1>Изменение заказа</h1>
@@ -186,12 +197,19 @@
             <td></td>
         </tr>
         <tr>
-            <th>Цена</th>
-            <td>
-                <input id="price-input" name="price" value="${(order.price?c)!}" onblur="replaceComma(event.target)"/>
-            </td>
-            <td></td>
-        </tr>
+        <th>Цена</th>
+        <td>
+            <input id="price-input" name="price" value="${(order.price?c)!}" onblur="replaceComma(event.target)"/>
+        </td>
+        <td></td>
+    </tr>
+    <tr>
+        <th><label for="datepickerCompleteDate">Дата завершения</label></th>
+        <td>
+            <input id="datepickerCompleteDate" name="complete" type="text" value="<#if complete??>${complete.format('dd.MM.yy')}</#if>">
+        </td>
+        <td></td>
+    </tr>
         <tr>
             <th>Менеджер</th>
             <td>

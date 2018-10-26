@@ -65,7 +65,7 @@ public class OrderServiceTest {
 
     @Test
     public void testAddOrder() {
-        orderService.addOrder(2.3, 5, 6, 7, "test", 798.87, Collections.emptySet(),new User());
+        orderService.addOrder(2.3, 5, 6, 7, "test", 798.87, Collections.emptySet(),new User(), LocalDate.now());
         verify(orderRepository, times(1)).save(any(Order.class));
     }
 

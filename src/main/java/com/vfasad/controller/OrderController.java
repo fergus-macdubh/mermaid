@@ -10,6 +10,7 @@ import com.vfasad.service.UserService;
 import com.vfasad.validation.constraints.ElementMin;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.constraints.Min;
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -92,7 +94,9 @@ public class OrderController {
                     long[] productIds,
             @RequestParam @NotEmpty @ElementMin(value = 0, message = "Quantities cannot be zero or negative.")
                     List<Double> quantities,
-            @RequestParam long managerId) {
+            @RequestParam long managerId,
+            @RequestParam
+            @DateTimeFormat(pattern = "dd.MM.yy")LocalDate complete) {
         Set<OrderConsume> consumes = new HashSet<>();
 
         for (int i = 0; i < productIds.length; i++) {
@@ -101,7 +105,7 @@ public class OrderController {
         }
 
         orderService.addOrder(area, clipCount, furnitureSmallCount, furnitureBigCount, document, price,
-                consumes, userService.getUser(managerId));
+                consumes, userService.getUser(managerId), complete);
         return "redirect:/kanban";
     }
 

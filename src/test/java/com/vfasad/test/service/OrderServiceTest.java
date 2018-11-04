@@ -65,7 +65,7 @@ public class OrderServiceTest {
 
     @Test
     public void testAddOrder() {
-        orderService.addOrder(2.3, 5, 6, 7, "test", 798.87, Collections.emptySet(),new User());
+        orderService.addOrder(2.3, 5, 6, 7, "test", 798.87, Collections.emptySet(),new User(), LocalDate.now());
         verify(orderRepository, times(1)).save(any(Order.class));
     }
 
@@ -93,7 +93,7 @@ public class OrderServiceTest {
 
         when(orderRepository.findById(anyLong())).thenReturn(Optional.of(order));
 
-        orderService.updateOrder(ORDER_ID,AREA*2, CLIP_COUNT*2, FURNITURE_SMALL_COUNT*2, FURNITURE_BIG_COUNT*2, DOCUMENT+DOCUMENT, PRICE*2, orderConsumeSet, manager);
+        orderService.updateOrder(ORDER_ID,AREA*2, CLIP_COUNT*2, FURNITURE_SMALL_COUNT*2, FURNITURE_BIG_COUNT*2, DOCUMENT+DOCUMENT, PRICE*2, orderConsumeSet, manager, LocalDate.now());
         checkOrderDetails(null, order);
         verify(orderRepository, times(1)).save(order);
     }

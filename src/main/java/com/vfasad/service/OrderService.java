@@ -27,7 +27,6 @@ import static java.util.stream.Collectors.toMap;
 @Slf4j
 @Service
 public class OrderService {
-    public static final int PLANNED_COMPLETION_DATE = 7;
     @Autowired
     private OrderRepository orderRepository;
 
@@ -44,7 +43,7 @@ public class OrderService {
         return orderRepository.findAll();
     }
 
-    public void addOrder(double area, int clipCount, int furnitureSmallCount, int furnitureBigCount, String document, double price, Set<OrderConsume> consumes, User manager) {
+    public void addOrder(double area, int clipCount, int furnitureSmallCount, int furnitureBigCount, String document, double price, Set<OrderConsume> consumes, User manager, LocalDate complete) {
         orderRepository.save(new Order(
                 manager,
                 area,
@@ -54,7 +53,7 @@ public class OrderService {
                 document,
                 price,
                 consumes,
-                LocalDate.now().plusDays(PLANNED_COMPLETION_DATE)
+                complete
         ));
     }
 
@@ -62,7 +61,7 @@ public class OrderService {
         return orderRepository.findById(id).orElseThrow(() -> new NotFoundException("Order with provided id is not found"));
     }
 
-    public void updateOrder(Long id, double area, int clipCount, int furnitureSmallCount, int furnitureBigCount, String document, double price, Set<OrderConsume> consumes, User manager) {
+    public void updateOrder(Long id, double area, int clipCount, int furnitureSmallCount, int furnitureBigCount, String document, double price, Set<OrderConsume> consumes, User manager, LocalDate complete) {
         Order order = getOrder(id);
         order.setArea(area);
         order.setDocument(document);
@@ -72,6 +71,7 @@ public class OrderService {
         order.setClipCount(clipCount);
         order.setFurnitureSmallCount(furnitureSmallCount);
         order.setFurnitureBigCount(furnitureBigCount);
+        order.setPlanned(complete);
         orderRepository.save(order);
     }
 

@@ -80,17 +80,22 @@
             $('#price-input').val(price.toFixed(2));
         }
     }
-    $(function () {
+
+    $(document).ready(function() {
         $.datepicker.setDefaults({
             regional: "ru",
-            dateFormat: "dd.mm.y",
+            dateFormat: "dd.mm.yy",
             minDate: new Date()
         });
         $("#datepickerCompleteDate").datepicker();
-        var complete = new Date();
-        complete.setDate(complete.getDate() + 7);
-        $("#datepickerCompleteDate").datepicker('setDate', complete);
+        var defaultDate = new Date();
+        defaultDate.setDate(defaultDate.getDate() + 7);
+    $("#datepickerCompleteDate").datepicker('setDate',
+            <#if order??>new Date(${order.planned.format('yyyy')}, ${order.planned.format('MM')} - 1, ${order.planned.format('dd')})
+        <#else>defaultDate
+    </#if>);
     });
+
 </script>
 <#if order??>
 <h1>Изменение заказа</h1>
@@ -108,14 +113,14 @@
         <tr>
             <th>ID</th>
             <td>
-            ${(order.id?c)!}
+                ${(order.id?c)!}
             </td>
             <td></td>
         </tr>
         <tr>
             <th>Статус</th>
             <td>
-            ${(order.status)!}
+                ${(order.status)!}
             </td>
             <td></td>
         </tr>
@@ -197,19 +202,19 @@
             <td></td>
         </tr>
         <tr>
-        <th>Цена</th>
-        <td>
-            <input id="price-input" name="price" value="${(order.price?c)!}" onblur="replaceComma(event.target)"/>
-        </td>
-        <td></td>
-    </tr>
-    <tr>
-        <th><label for="datepickerCompleteDate">Дата завершения</label></th>
-        <td>
-            <input id="datepickerCompleteDate" name="complete" type="text" value="<#if complete??>${complete.format('dd.MM.yy')}</#if>">
-        </td>
-        <td></td>
-    </tr>
+            <th>Цена</th>
+            <td>
+                <input id="price-input" name="price" value="${(order.price?c)!}" onblur="replaceComma(event.target)"/>
+            </td>
+            <td></td>
+        </tr>
+        <tr>
+            <th><label for="datepickerCompleteDate">Дата завершения</label></th>
+            <td>
+                <input id="datepickerCompleteDate" name="complete" type="text">
+            </td>
+            <td></td>
+        </tr>
         <tr>
             <th>Менеджер</th>
             <td>

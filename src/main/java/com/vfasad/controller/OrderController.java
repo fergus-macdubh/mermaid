@@ -96,7 +96,7 @@ public class OrderController {
             @RequestParam @NotEmpty @ElementMin(value = 0, message = "Quantities cannot be zero or negative.")
                     List<Double> quantities,
             @RequestParam long managerId,
-            @RequestParam @TodayAndAfterToday(message = "Planned date should be more than today.")
+            @RequestParam @TodayAndAfterToday(message = "Planned date should be more or equal to today.")
             @DateTimeFormat(pattern = "dd.MM.yyyy")LocalDate complete) {
         Set<OrderConsume> consumes = new HashSet<>();
 
@@ -143,7 +143,7 @@ public class OrderController {
             @ElementMin(value = 0, message = "Quantities cannot be zero or negative.")
                     List<Double> quantities,
             @RequestParam Long managerId,
-            @RequestParam @TodayAndAfterToday(message = "Planned date should be more than today.")
+            @RequestParam @TodayAndAfterToday(message = "Planned date should be more or equal to today.")
             @DateTimeFormat(pattern = "dd.MM.yyyy") LocalDate complete) {
         Set<OrderConsume> consumes = new HashSet<>();
 

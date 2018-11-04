@@ -8,6 +8,7 @@ import com.vfasad.service.OrderService;
 import com.vfasad.service.ProductService;
 import com.vfasad.service.UserService;
 import com.vfasad.validation.constraints.ElementMin;
+import com.vfasad.validation.constraints.TodayAndAfterToday;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -95,8 +96,8 @@ public class OrderController {
             @RequestParam @NotEmpty @ElementMin(value = 0, message = "Quantities cannot be zero or negative.")
                     List<Double> quantities,
             @RequestParam long managerId,
-            @RequestParam
-            @DateTimeFormat(pattern = "dd.MM.yy")LocalDate complete) {
+            @RequestParam @TodayAndAfterToday(message = "Planned date should be more than today.")
+            @DateTimeFormat(pattern = "dd.MM.yyyy")LocalDate complete) {
         Set<OrderConsume> consumes = new HashSet<>();
 
         for (int i = 0; i < productIds.length; i++) {
@@ -141,7 +142,9 @@ public class OrderController {
             @RequestParam @NotEmpty
             @ElementMin(value = 0, message = "Quantities cannot be zero or negative.")
                     List<Double> quantities,
-            @RequestParam Long managerId) {
+            @RequestParam Long managerId,
+            @RequestParam @TodayAndAfterToday(message = "Planned date should be more than today.")
+            @DateTimeFormat(pattern = "dd.MM.yyyy") LocalDate complete) {
         Set<OrderConsume> consumes = new HashSet<>();
 
         for (int i = 0; i < productIds.length; i++) {
@@ -149,7 +152,7 @@ public class OrderController {
             consumes.add(new OrderConsume(product, quantities.get(i)));
         }
         User manager = userService.getUser(managerId);
-        orderService.updateOrder(id, area, clipCount, furnitureSmallCount, furnitureBigCount, document, price, consumes, manager);
+        orderService.updateOrder(id, area, clipCount, furnitureSmallCount, furnitureBigCount, document, price, consumes, manager,complete);
         return "redirect:/order";
     }
 }

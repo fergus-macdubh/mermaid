@@ -61,7 +61,7 @@ public class OrderService {
         return orderRepository.findById(id).orElseThrow(() -> new NotFoundException("Order with provided id is not found"));
     }
 
-    public void updateOrder(Long id, double area, int clipCount, int furnitureSmallCount, int furnitureBigCount, String document, double price, Set<OrderConsume> consumes, User manager) {
+    public void updateOrder(Long id, double area, int clipCount, int furnitureSmallCount, int furnitureBigCount, String document, double price, Set<OrderConsume> consumes, User manager, LocalDate complete) {
         Order order = getOrder(id);
         order.setArea(area);
         order.setDocument(document);
@@ -71,6 +71,7 @@ public class OrderService {
         order.setClipCount(clipCount);
         order.setFurnitureSmallCount(furnitureSmallCount);
         order.setFurnitureBigCount(furnitureBigCount);
+        order.setPlanned(complete);
         orderRepository.save(order);
     }
 

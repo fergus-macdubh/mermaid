@@ -1,4 +1,5 @@
 <div style="float: left">
+    <div><a href="/reports/month/${year?c}-${monthNum?string["00"]}/options" class="btn btn-success">Настройки</a></div>
     <h3>Расходы</h3>
     <table class="responsive-table" style="width: 30em">
         <tr>

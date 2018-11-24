@@ -1,5 +1,6 @@
 package com.vfasad.test.service;
 
+import com.vfasad.entity.Client;
 import com.vfasad.entity.Order;
 import com.vfasad.entity.Product;
 import com.vfasad.entity.ProductAction;
@@ -181,8 +182,7 @@ public class ProductServiceTest {
     public void testSpendPositive() {
         double spendQuantity = 5.6;
         Product product = generateProduct();
-        User user = generateUser();
-        Order order = generateOrder(user);
+        Order order = generateOrder();
 
         productService.spend(product, spendQuantity, order);
 
@@ -204,8 +204,7 @@ public class ProductServiceTest {
 
     private void testSpendNegative(double spendQuantity) {
         Product product = generateProduct();
-        User user = generateUser();
-        Order order = generateOrder(user);
+        Order order = generateOrder();
 
         productService.spend(product, spendQuantity, order);
 
@@ -218,8 +217,7 @@ public class ProductServiceTest {
     public void testReturnProduct() {
         double remain = QUANTITY;
         Product product = generateProduct();
-        User user = generateUser();
-        Order order = generateOrder(user);
+        Order order = generateOrder();
 
         productService.returnProduct(product, remain, order);
 
@@ -232,8 +230,7 @@ public class ProductServiceTest {
     public void testReturnProductException() {
         double remain = QUANTITY - 4 * QUANTITY;
         Product product = generateProduct();
-        User user = generateUser();
-        Order order = generateOrder(user);
+        Order order = generateOrder();
 
         expectedException.expect(NotEnoughResourceException.class);
         expectedException.expectMessage(
@@ -295,7 +292,7 @@ public class ProductServiceTest {
 
         product = new Product("name2", Product.Unit.LITER,"producer2", "supplier2");
         user = new User("email2","name2","givenName2","familyName2",null,"male","en");
-        Order order = generateOrder(user);
+        Order order = generateOrder();
 
         productActionList.add(ProductAction.createReturnAction(3, product, user, order));
 
@@ -315,7 +312,7 @@ public class ProductServiceTest {
         return product;
     }
 
-    private Order generateOrder(User user) {
-        return new Order(user, 3.4, 2, 5, 6, "abc", 6.9, new HashSet<>(), LocalDate.now());
+    private Order generateOrder() {
+        return new Order(3.4, 2, 5, 6, "abc", 6.9, new HashSet<>(), LocalDate.now(), new Client());
     }
 }

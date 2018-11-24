@@ -8,7 +8,7 @@
         <span class="kanban-order-id">${order.id?c}</span>&nbsp;&nbsp;<span
             class="kanban-order-document">${order.document!}</span>
     </div>
-    <div class="kanban-order-manager">${order.client.manager.familyName}</div>
+    <div class="kanban-order-manager">${order.client.name}</div>
     <div class="kanban-order-consumes">|<#list order.consumes as consume> ${consume.product.name!} ${consume.product.producer}
         |</#list></div>
     <div class="kanban-order-area">

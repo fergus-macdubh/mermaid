@@ -47,11 +47,15 @@ public class Order {
     @JoinColumn(name = "team_fk")
     private Team team;
 
+    @ManyToOne
+    @JoinColumn(name = "client_id")
+    private Client client;
+
     @ManyToMany(fetch = FetchType.EAGER)
     private List<User> doneBy;
 
     public Order(User manager, double area, int clipCount, int furnitureSmallCount, int furnitureBigCount,
-                 String document, double price, Set<OrderConsume> consumes, LocalDate planned) {
+                 String document, double price, Set<OrderConsume> consumes, LocalDate planned, Client client) {
         this.manager = manager;
         this.area = area;
         this.document = document;
@@ -61,5 +65,6 @@ public class Order {
         this.clipCount = clipCount;
         this.furnitureSmallCount = furnitureSmallCount;
         this.furnitureBigCount = furnitureBigCount;
+        this.client = client;
     }
 }

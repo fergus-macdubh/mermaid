@@ -227,6 +227,18 @@
             </td>
             <td></td>
         </tr>
+        <tr>
+            <th>Клиент</th>
+            <td>
+                <select name="clientId">
+                <#list clients as client>
+                    <option value="${client.id?c}"
+                            <#if order?? && order.client.id! == client.id>selected</#if>>${client.name}</option>
+                </#list>
+                </select>
+            </td>
+            <td></td>
+        </tr>
     </table>
 
     <table id="consumes-table" class="responsive-table" style="width: 20em">

@@ -3,6 +3,7 @@ package com.vfasad.controller;
 import com.vfasad.entity.OrderConsume;
 import com.vfasad.entity.Product;
 import com.vfasad.entity.User;
+import com.vfasad.service.ClientService;
 import com.vfasad.service.OptionService;
 import com.vfasad.service.OrderService;
 import com.vfasad.service.ProductService;
@@ -44,6 +45,9 @@ public class OrderController {
     @Autowired
     private OptionService optionService;
 
+    @Autowired
+    private ClientService clientService;
+
     @RequestMapping(value = "/order", method = RequestMethod.GET)
     @Secured({ROLE_ADMIN, ROLE_OPERATOR, ROLE_SALES})
     public ModelAndView ordersLastMonth() {
@@ -70,6 +74,7 @@ public class OrderController {
         model.addObject("products", productService.findAllProducts());
         model.addObject("managers", userService.getManagers());
         model.addObject("options", optionService.getOptionsMap());
+        model.addObject("clients", clientService.getClients());
         return model;
     }
 
@@ -97,7 +102,8 @@ public class OrderController {
                     List<Double> quantities,
             @RequestParam long managerId,
             @RequestParam @TodayAndAfterToday(message = "Planned date should be more or equal to today.")
-            @DateTimeFormat(pattern = "dd.MM.yyyy")LocalDate complete) {
+            @DateTimeFormat(pattern = "dd.MM.yyyy")LocalDate complete,
+            @RequestParam(required = false) Long clientId) {
         Set<OrderConsume> consumes = new HashSet<>();
 
         for (int i = 0; i < productIds.length; i++) {
@@ -106,7 +112,7 @@ public class OrderController {
         }
 
         orderService.addOrder(area, clipCount, furnitureSmallCount, furnitureBigCount, document, price,
-                consumes, userService.getUser(managerId), complete);
+                consumes, userService.getUser(managerId), complete, clientService.getClient(clientId));
         return "redirect:/kanban";
     }
 
@@ -118,6 +124,7 @@ public class OrderController {
         model.addObject("products", productService.findAllProducts());
         model.addObject("managers", userService.getManagers());
         model.addObject("options", optionService.getOptionsMap());
+        model.addObject("clients", clientService.getClients());
         return model;
     }
 
@@ -144,7 +151,8 @@ public class OrderController {
                     List<Double> quantities,
             @RequestParam Long managerId,
             @RequestParam @TodayAndAfterToday(message = "Planned date should be more or equal to today.")
-            @DateTimeFormat(pattern = "dd.MM.yyyy") LocalDate complete) {
+            @DateTimeFormat(pattern = "dd.MM.yyyy") LocalDate complete,
+            @RequestParam(required = false) Long clientId) {
         Set<OrderConsume> consumes = new HashSet<>();
 
         for (int i = 0; i < productIds.length; i++) {
@@ -152,7 +160,7 @@ public class OrderController {
             consumes.add(new OrderConsume(product, quantities.get(i)));
         }
         User manager = userService.getUser(managerId);
-        orderService.updateOrder(id, area, clipCount, furnitureSmallCount, furnitureBigCount, document, price, consumes, manager,complete);
+        orderService.updateOrder(id, area, clipCount, furnitureSmallCount, furnitureBigCount, document, price, consumes, manager, complete, clientService.getClient(clientId));
         return "redirect:/order";
     }
 }

@@ -65,7 +65,7 @@ public class OrderServiceTest {
 
     @Test
     public void testAddOrder() {
-        orderService.addOrder(2.3, 5, 6, 7, "test", 798.87, Collections.emptySet(),new User(), LocalDate.now());
+        orderService.addOrder(2.3, 5, 6, 7, "test", 798.87, Collections.emptySet(),new User(), LocalDate.now(), new Client());
         verify(orderRepository, times(1)).save(any(Order.class));
     }
 
@@ -93,7 +93,7 @@ public class OrderServiceTest {
 
         when(orderRepository.findById(anyLong())).thenReturn(Optional.of(order));
 
-        orderService.updateOrder(ORDER_ID,AREA*2, CLIP_COUNT*2, FURNITURE_SMALL_COUNT*2, FURNITURE_BIG_COUNT*2, DOCUMENT+DOCUMENT, PRICE*2, orderConsumeSet, manager, LocalDate.now());
+        orderService.updateOrder(ORDER_ID,AREA*2, CLIP_COUNT*2, FURNITURE_SMALL_COUNT*2, FURNITURE_BIG_COUNT*2, DOCUMENT+DOCUMENT, PRICE*2, orderConsumeSet, manager, LocalDate.now(), new Client());
         checkOrderDetails(null, order);
         verify(orderRepository, times(1)).save(order);
     }
@@ -241,7 +241,7 @@ public class OrderServiceTest {
     }
 
     private Order generateOrder() {
-        Order order = new Order(generateUser(USER_ID), AREA, CLIP_COUNT, FURNITURE_SMALL_COUNT, FURNITURE_BIG_COUNT, DOCUMENT, PRICE, Collections.emptySet(),LocalDate.now());
+        Order order = new Order(generateUser(USER_ID), AREA, CLIP_COUNT, FURNITURE_SMALL_COUNT, FURNITURE_BIG_COUNT, DOCUMENT, PRICE, Collections.emptySet(),LocalDate.now(), new Client());
         order.setId(ORDER_ID);
         return order;
     }
@@ -249,12 +249,13 @@ public class OrderServiceTest {
     private List<Order> generateOrderList() {
         List<Order> orderList = new ArrayList<>();
         User user = generateUser(USER_ID);
-        orderList.add(new Order(user, 2.45, 5, 8, 2, "doc1", 4566.78, Collections.emptySet(),LocalDate.now()));
-        orderList.add(new Order(user, 40.87, 3, 23, 5, "doc5", 7281.33, Collections.emptySet(),LocalDate.now()));
-        orderList.add(new Order(user, 56.76, 6, 10, 4, "doc9", 9248.62, Collections.emptySet(),LocalDate.now()));
-        orderList.add(new Order(user, 10.99, 8, 1, 1, "doc8", 3374.72, Collections.emptySet(),LocalDate.now()));
-        orderList.add(new Order(user, 63.39, 12, 2, 2, "doc2", 7473.22, Collections.emptySet(),LocalDate.now()));
-        orderList.add(new Order(user, 38.56, 3, 3, 3, "doc3", 4263.94, Collections.emptySet(),LocalDate.now()));
+        Client client = generateClient(user);
+        orderList.add(new Order(user, 2.45, 5, 8, 2, "doc1", 4566.78, Collections.emptySet(),LocalDate.now(), client));
+        orderList.add(new Order(user, 40.87, 3, 23, 5, "doc5", 7281.33, Collections.emptySet(),LocalDate.now(), client));
+        orderList.add(new Order(user, 56.76, 6, 10, 4, "doc9", 9248.62, Collections.emptySet(),LocalDate.now(), client));
+        orderList.add(new Order(user, 10.99, 8, 1, 1, "doc8", 3374.72, Collections.emptySet(),LocalDate.now(), client));
+        orderList.add(new Order(user, 63.39, 12, 2, 2, "doc2", 7473.22, Collections.emptySet(),LocalDate.now(), client));
+        orderList.add(new Order(user, 38.56, 3, 3, 3, "doc3", 4263.94, Collections.emptySet(),LocalDate.now(), client));
         orderList.forEach(order -> {
             order.setStatus(orderList.indexOf(order)%3 == 0 ? Order.Status.CREATED : Order.Status.IN_PROGRESS);
             order.setId(Long.valueOf(orderList.indexOf(order)));
@@ -268,6 +269,10 @@ public class OrderServiceTest {
         User user = new User("email","name","givenName","familyName",null,"gender","en");
         user.setId(id);
         return user;
+    }
+
+    private Client generateClient(User manager) {
+        return new Client(1L, "client name", "client phone", "client contact", "client email", manager);
     }
 
     private List<User> generateUserList() {

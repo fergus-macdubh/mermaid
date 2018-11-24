@@ -1,5 +1,6 @@
 package com.vfasad.test.service;
 
+import com.vfasad.entity.Client;
 import com.vfasad.entity.Order;
 import com.vfasad.entity.Product;
 import com.vfasad.entity.ProductAction;
@@ -316,6 +317,6 @@ public class ProductServiceTest {
     }
 
     private Order generateOrder(User user) {
-        return new Order(user, 3.4, 2, 5, 6, "abc", 6.9, new HashSet<>(), LocalDate.now());
+        return new Order(user, 3.4, 2, 5, 6, "abc", 6.9, new HashSet<>(), LocalDate.now(), new Client());
     }
 }

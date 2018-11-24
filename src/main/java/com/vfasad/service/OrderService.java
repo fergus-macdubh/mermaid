@@ -1,5 +1,6 @@
 package com.vfasad.service;
 
+import com.vfasad.entity.Client;
 import com.vfasad.entity.Order;
 import com.vfasad.entity.OrderConsume;
 import com.vfasad.entity.Product;
@@ -43,7 +44,7 @@ public class OrderService {
         return orderRepository.findAll();
     }
 
-    public void addOrder(double area, int clipCount, int furnitureSmallCount, int furnitureBigCount, String document, double price, Set<OrderConsume> consumes, User manager, LocalDate complete) {
+    public void addOrder(double area, int clipCount, int furnitureSmallCount, int furnitureBigCount, String document, double price, Set<OrderConsume> consumes, User manager, LocalDate complete, Client client) {
         orderRepository.save(new Order(
                 manager,
                 area,
@@ -53,7 +54,8 @@ public class OrderService {
                 document,
                 price,
                 consumes,
-                complete
+                complete,
+                client
         ));
     }
 
@@ -61,7 +63,7 @@ public class OrderService {
         return orderRepository.findById(id).orElseThrow(() -> new NotFoundException("Order with provided id is not found"));
     }
 
-    public void updateOrder(Long id, double area, int clipCount, int furnitureSmallCount, int furnitureBigCount, String document, double price, Set<OrderConsume> consumes, User manager, LocalDate complete) {
+    public void updateOrder(Long id, double area, int clipCount, int furnitureSmallCount, int furnitureBigCount, String document, double price, Set<OrderConsume> consumes, User manager, LocalDate complete, Client client) {
         Order order = getOrder(id);
         order.setArea(area);
         order.setDocument(document);
@@ -72,6 +74,7 @@ public class OrderService {
         order.setFurnitureSmallCount(furnitureSmallCount);
         order.setFurnitureBigCount(furnitureBigCount);
         order.setPlanned(complete);
+        order.setClient(client);
         orderRepository.save(order);
     }
 

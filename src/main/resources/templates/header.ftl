@@ -54,6 +54,9 @@
     | <a href="/users">Пользователи</a>
 </#if>
 <#if currentUser.role! == "ROLE_ADMIN">
+    | <a href="/clients">Клиенты</a>
+</#if>
+<#if currentUser.role! == "ROLE_ADMIN">
     | <a href="/teams">Бригады</a>
 </#if>
 <#if currentUser.role! == "ROLE_ADMIN">

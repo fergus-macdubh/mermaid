@@ -4,7 +4,6 @@ import com.vfasad.entity.Client;
 import com.vfasad.entity.Order;
 import com.vfasad.entity.OrderConsume;
 import com.vfasad.entity.Product;
-import com.vfasad.entity.User;
 import com.vfasad.exception.NotFoundException;
 import com.vfasad.repo.OrderRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -44,9 +43,8 @@ public class OrderService {
         return orderRepository.findAll();
     }
 
-    public void addOrder(double area, int clipCount, int furnitureSmallCount, int furnitureBigCount, String document, double price, Set<OrderConsume> consumes, User manager, LocalDate complete, Client client) {
+    public void addOrder(double area, int clipCount, int furnitureSmallCount, int furnitureBigCount, String document, double price, Set<OrderConsume> consumes, LocalDate complete, Client client) {
         orderRepository.save(new Order(
-                manager,
                 area,
                 clipCount,
                 furnitureSmallCount,
@@ -63,13 +61,12 @@ public class OrderService {
         return orderRepository.findById(id).orElseThrow(() -> new NotFoundException("Order with provided id is not found"));
     }
 
-    public void updateOrder(Long id, double area, int clipCount, int furnitureSmallCount, int furnitureBigCount, String document, double price, Set<OrderConsume> consumes, User manager, LocalDate complete, Client client) {
+    public void updateOrder(Long id, double area, int clipCount, int furnitureSmallCount, int furnitureBigCount, String document, double price, Set<OrderConsume> consumes, LocalDate complete, Client client) {
         Order order = getOrder(id);
         order.setArea(area);
         order.setDocument(document);
         order.setPrice(price);
         order.setConsumes(consumes);
-        order.setManager(manager);
         order.setClipCount(clipCount);
         order.setFurnitureSmallCount(furnitureSmallCount);
         order.setFurnitureBigCount(furnitureBigCount);

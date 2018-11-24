@@ -49,10 +49,6 @@ public class EmailServiceTest {
     }
 
     private Order generateOrder() {
-        User user = new User();
-        user.setEmail(MANAGER_EMAIL);
-        Order order = new Order(user, 3.4, 2, 5, 6, "abc", 6.9, new HashSet<>(), LocalDate.now(), new Client());
-
-        return order;
+        return new Order(3.4, 2, 5, 6, "abc", 6.9, new HashSet<>(), LocalDate.now(), new Client());
     }
 }

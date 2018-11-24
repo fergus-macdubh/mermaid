@@ -23,8 +23,6 @@ public class Order {
     @Id
     @GeneratedValue(generator = "optimized-sequence")
     Long id;
-    @ManyToOne
-    User manager;
     int clipCount;
     int furnitureSmallCount;
     int furnitureBigCount;
@@ -54,9 +52,8 @@ public class Order {
     @ManyToMany(fetch = FetchType.EAGER)
     private List<User> doneBy;
 
-    public Order(User manager, double area, int clipCount, int furnitureSmallCount, int furnitureBigCount,
+    public Order(double area, int clipCount, int furnitureSmallCount, int furnitureBigCount,
                  String document, double price, Set<OrderConsume> consumes, LocalDate planned, Client client) {
-        this.manager = manager;
         this.area = area;
         this.document = document;
         this.price = price;

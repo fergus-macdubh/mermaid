@@ -12,7 +12,7 @@
     </style>
 </head>
 <body>
-<p>Привет, ${order.manager.givenName}!</p>
+<p>Привет, ${order.client.manager.givenName}!</p>
 <p>${message}</p>
 
 <table style="border: 1px solid black;">

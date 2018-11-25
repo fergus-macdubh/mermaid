@@ -9,7 +9,7 @@
         });
     });
 </script>
-<h1>Пользователи</h1>
+<h1>Клиенты</h1>
 <a href="/clients/add" class="btn btn-success">Добавить клиента</a>
 <span style="margin-left: 1em">Имя клиента: <input id="client-filter-input"/></span>
 <table id="client-table" class="responsive-table">

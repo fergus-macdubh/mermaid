@@ -48,6 +48,17 @@ public class ReportService {
                 .collect(Collectors.toMap((reportMonthOption) -> reportMonthOption.getName().toString(), ReportMonthOption::getValue));
     }
 
+    public Collection<Option> findByYearAndMonthReportOptionList(int year, int month) {
+        LinkedHashMap<OptionName, Option> optionMap = Arrays.stream(OptionName.values())
+                .collect(LinkedHashMap::new,
+                        (map, n) -> map.put(n, new Option(n)),
+                        HashMap::putAll);
+
+        reportMonthOptionRepository.findByYearAndMonth(year, month)
+                .forEach(reportOption -> optionMap.put(reportOption.getName(), new Option(reportOption.getName(), reportOption.getValue())));
+        return optionMap.values();
+    }
+
     public List<ReportMonthTeam> findByYearAndMonthReportTeam(int year, int month) {
         return reportMonthTeamRepository.findByYearAndMonthOrderByTeamId(year, month);
     }

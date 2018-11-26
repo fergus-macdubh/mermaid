@@ -170,8 +170,8 @@ public class CommonReportController extends AbstractReportController {
         modelAndView.addObject("month", getMonthName(month));
         modelAndView.addObject("monthNum", month);
         modelAndView.addObject("year", year);
-        modelAndView.addObject("options", optionService.findAll());
         boolean reportIsOpened = (reportService.findByYearAndMonthReportCommon(year, month)).equals(Optional.empty());
+        modelAndView.addObject("options", reportIsOpened ? optionService.findAll() : reportService.findByYearAndMonthReportOptionList(year, month));
         modelAndView.addObject("reportIsOpened", reportIsOpened);
 
         return modelAndView;

@@ -36,6 +36,10 @@
         <th>Сумма заказа</th>
         <td>${order.price!} грн</td>
     </tr>
+    <tr>
+        <th>Клиент</th>
+        <td>${order.client.name!}</td>
+    </tr>
 </table>
 <p>Перейти на KANBAN: <a href="${url}" target="_blank">${url}</a></p>
 <br/>

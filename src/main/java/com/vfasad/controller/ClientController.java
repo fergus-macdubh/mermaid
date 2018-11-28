@@ -1,10 +1,17 @@
 package com.vfasad.controller;
 
+import com.vfasad.entity.Client;
 import com.vfasad.service.ClientService;
+import com.vfasad.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import static com.vfasad.entity.User.ROLE_ADMIN;
@@ -14,6 +21,9 @@ public class ClientController {
     @Autowired
     private ClientService clientService;
 
+    @Autowired
+    private UserService userService;
+
     @GetMapping("/clients")
     @Secured(ROLE_ADMIN)
     public ModelAndView users() {
@@ -21,4 +31,55 @@ public class ClientController {
         model.addObject("clients", clientService.getClients());
         return model;
     }
+
+    @RequestMapping(value = "/clients/add", method = RequestMethod.GET)
+    @Secured(ROLE_ADMIN)
+    public ModelAndView addUserForm() {
+        ModelAndView modelAndView = new ModelAndView("client/client-form");
+        modelAndView.addObject("managers", userService.getManagers());
+        return modelAndView;
+    }
+
+    @PostMapping("/clients/add")
+    @Secured(ROLE_ADMIN)
+    public String addUser(
+            @RequestParam String name,
+            @RequestParam String phone,
+            @RequestParam String contact,
+            @RequestParam String email,
+            @RequestParam Long managerId) {
+        Client client = new Client(name, phone, contact, email, userService.getUser(managerId));
+        clientService.updateClient(client);
+        return "redirect:/clients";
+    }
+
+    @RequestMapping(value = "/clients/{id}/edit", method = RequestMethod.GET)
+    @Secured(ROLE_ADMIN)
+    public ModelAndView editUserForm(@PathVariable Long id) {
+        ModelAndView modelAndView = new ModelAndView("client/client-form");
+        modelAndView.addObject("targetClient", clientService.getClient(id));
+        modelAndView.addObject("managers", userService.getManagers());
+        return modelAndView;
+    }
+
+    @RequestMapping(value = "/clients/{id}/edit", method = RequestMethod.POST)
+    @Secured(ROLE_ADMIN)
+    public String updateUser(
+            @PathVariable Long id,
+            @RequestParam String name,
+            @RequestParam String phone,
+            @RequestParam String contact,
+            @RequestParam String email,
+            @RequestParam Long managerId) {
+        Client client = clientService.getClient(id);
+        client.setName(name);
+        client.setPhone(phone);
+        client.setContact(contact);
+        client.setEmail(email);
+        client.setManager(userService.getUser(managerId));
+        clientService.updateClient(client);
+        return "redirect:/clients";
+    }
+
+
 }

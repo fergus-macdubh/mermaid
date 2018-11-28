@@ -30,4 +30,12 @@ public class Client {
     private User manager;
     @Column(name = "deleted", nullable = false, columnDefinition = "boolean default false")
     private boolean deleted;
+
+    public Client(String name, String phone, String contact, String email, User manager) {
+        this.name = name;
+        this.phone = phone;
+        this.contact = contact;
+        this.email = email;
+        this.manager = manager;
+    }
 }

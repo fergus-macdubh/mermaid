@@ -16,7 +16,9 @@
     <thead>
     <tr>
         <th>ID</th>
-        <th>Имя</th>
+        <th>Имя клиента</th>
+        <th>Телефон</th>
+        <th>Контакт</th>
         <th>Email</th>
         <th>Менеджер</th>
         <th></th>
@@ -26,6 +28,8 @@
     <tr>
         <td>${client.id}</td>
         <td  class="client-name">${client.name!}</a></td>
+        <td>${client.phone!}</a></td>
+        <td>${client.contact!}</a></td>
         <td>${client.email!}</a></td>
         <td>${client.manager.name!}</a></td>
         <td>

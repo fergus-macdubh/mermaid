@@ -26,7 +26,7 @@ public class ClientController {
 
     @GetMapping("/clients")
     @Secured(ROLE_ADMIN)
-    public ModelAndView users() {
+    public ModelAndView clients() {
         ModelAndView model = new ModelAndView("client/clients");
         model.addObject("clients", clientService.getClients());
         return model;
@@ -34,7 +34,7 @@ public class ClientController {
 
     @RequestMapping(value = "/clients/add", method = RequestMethod.GET)
     @Secured(ROLE_ADMIN)
-    public ModelAndView addUserForm() {
+    public ModelAndView addClientForm() {
         ModelAndView modelAndView = new ModelAndView("client/client-form");
         modelAndView.addObject("managers", userService.getManagers());
         return modelAndView;
@@ -42,7 +42,7 @@ public class ClientController {
 
     @PostMapping("/clients/add")
     @Secured(ROLE_ADMIN)
-    public String addUser(
+    public String addClient(
             @RequestParam String name,
             @RequestParam String phone,
             @RequestParam String contact,
@@ -55,7 +55,7 @@ public class ClientController {
 
     @RequestMapping(value = "/clients/{id}/edit", method = RequestMethod.GET)
     @Secured(ROLE_ADMIN)
-    public ModelAndView editUserForm(@PathVariable Long id) {
+    public ModelAndView editClientForm(@PathVariable Long id) {
         ModelAndView modelAndView = new ModelAndView("client/client-form");
         modelAndView.addObject("targetClient", clientService.getClient(id));
         modelAndView.addObject("managers", userService.getManagers());
@@ -64,7 +64,7 @@ public class ClientController {
 
     @RequestMapping(value = "/clients/{id}/edit", method = RequestMethod.POST)
     @Secured(ROLE_ADMIN)
-    public String updateUser(
+    public String updateClient(
             @PathVariable Long id,
             @RequestParam String name,
             @RequestParam String phone,

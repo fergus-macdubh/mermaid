@@ -216,12 +216,12 @@
             <td></td>
         </tr>
         <tr>
-            <th>Менеджер</th>
+            <th>Клиент</th>
             <td>
-                <select name="managerId">
-                <#list managers as manager>
-                    <option value="${manager.id?c}"
-                            <#if order?? && order.manager.id! == manager.id>selected</#if>>${manager.name}</option>
+                <select name="clientId">
+                <#list clients as client>
+                    <option value="${client.id?c}"
+                            <#if order?? && order.client.id! == client.id>selected</#if>>${client.name}</option>
                 </#list>
                 </select>
             </td>

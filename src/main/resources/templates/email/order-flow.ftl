@@ -12,7 +12,7 @@
     </style>
 </head>
 <body>
-<p>Привет, ${order.manager.givenName}!</p>
+<p>Привет, ${order.client.manager.givenName}!</p>
 <p>${message}</p>
 
 <table style="border: 1px solid black;">
@@ -35,6 +35,10 @@
     <tr>
         <th>Сумма заказа</th>
         <td>${order.price!} грн</td>
+    </tr>
+    <tr>
+        <th>Клиент</th>
+        <td>${order.client.name!}</td>
     </tr>
 </table>
 <p>Перейти на KANBAN: <a href="${url}" target="_blank">${url}</a></p>

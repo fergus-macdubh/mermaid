@@ -45,7 +45,7 @@
     <tr>
         <td>${order.id?c}</td>
         <td>${order.status}</td>
-        <td>${order.manager.name}</td>
+        <td>${order.client.manager.name}</td>
         <td>${order.area}</td>
         <td class="order-document">${order.document!}</td>
         <td>${order.price}</td>

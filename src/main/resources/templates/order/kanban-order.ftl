@@ -1,5 +1,5 @@
 <div id="order_${order.id?c}" class="kanban-order" onclick="selectOrder(${order.id?c}, '${order.status}')"
-     style="background-image: url(<#if order.manager.picture??>${order.manager.picture}</#if>);
+     style="background-image: url(<#if order.client.manager.picture??>${order.client.manager.picture}</#if>);
      <#if order.status=='IN_PROGRESS'>border: 3px solid #${(order.team.color)!}</#if>
              ">
 <#if order.status=='BLOCKED'><img src="/img/warning.png" class="warning-icon"
@@ -8,7 +8,7 @@
         <span class="kanban-order-id">${order.id?c}</span>&nbsp;&nbsp;<span
             class="kanban-order-document">${order.document!}</span>
     </div>
-    <div class="kanban-order-manager">${order.manager.familyName}</div>
+    <div class="kanban-order-client">${order.client.name}</div>
     <div class="kanban-order-consumes">|<#list order.consumes as consume> ${consume.product.name!} ${consume.product.producer}
         |</#list></div>
     <div class="kanban-order-area">

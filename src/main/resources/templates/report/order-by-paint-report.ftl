@@ -59,7 +59,7 @@
         <td>${order.id}</td>
         <td>${order.created.format('dd MMM HH:mm')}</td>
         <td>${order.document}</td>
-        <td>${order.manager.name}</td>
+        <td>${order.client.manager.name}</td>
         <td>${order.area} м<sup>2</sup></td>
         <td>${order.clipCount}</td>
         <td>${order.furnitureBigCount}</td>

@@ -30,7 +30,7 @@ public class EmailService {
         model.put("url", getLink(url, "kanban"));
 
         emailSender.send(
-                order.getManager().getEmail(),
+                order.getClient().getManager().getEmail(),
                 subject,
                 "email/order-flow.ftl",
                 model);
@@ -46,7 +46,7 @@ public class EmailService {
         model.put("url", getLink(url, "kanban"));
 
         emailSender.send(
-                order.getManager().getEmail(),
+                order.getClient().getManager().getEmail(),
                 subject,
                 "email/order-flow.ftl",
                 model);

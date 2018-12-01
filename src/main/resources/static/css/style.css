@@ -280,3 +280,9 @@ a:hover, a:focus {
 .blue-gradient a {
     color: lightblue;
 }
+
+textarea {
+    width: 76%;
+    resize: none;
+    border-color: lightgray;
+}

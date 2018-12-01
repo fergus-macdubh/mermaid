@@ -92,7 +92,17 @@ public class OrderServiceTest {
 
         when(orderRepository.findById(anyLong())).thenReturn(Optional.of(order));
 
-        orderService.updateOrder(ORDER_ID,AREA*2, CLIP_COUNT*2, FURNITURE_SMALL_COUNT*2, FURNITURE_BIG_COUNT*2, DOCUMENT+DOCUMENT, PRICE*2, orderConsumeSet, LocalDate.now(), new Client());
+        orderService.updateOrder(
+                ORDER_ID,
+                AREA * 2,
+                CLIP_COUNT * 2,
+                FURNITURE_SMALL_COUNT * 2,
+                FURNITURE_BIG_COUNT * 2,
+                DOCUMENT + DOCUMENT,
+                PRICE * 2,
+                orderConsumeSet,
+                LocalDate.now(),
+                new Client(USER_ID * 2, "name", "phone", "contact", "email@email.com", new User(), false));
         checkOrderDetails(null, order);
         verify(orderRepository, times(1)).save(order);
     }

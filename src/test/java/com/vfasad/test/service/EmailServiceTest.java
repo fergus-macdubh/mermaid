@@ -10,12 +10,13 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import static org.mockito.Mockito.*;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.test.util.ReflectionTestUtils;
 
 import java.time.LocalDate;
 import java.util.HashSet;
+
+import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
 public class EmailServiceTest {
@@ -49,6 +50,9 @@ public class EmailServiceTest {
     }
 
     private Order generateOrder() {
-        return new Order(3.4, 2, 5, 6, "abc", 6.9, new HashSet<>(), LocalDate.now(), new Client());
+        User manager = new User();
+        manager.setEmail(MANAGER_EMAIL);
+        Client client = new Client("Client name", "phone", "contact", "email@email.com", manager);
+        return new Order(3.4, 2, 5, 6, "abc", 6.9, new HashSet<>(), LocalDate.now(), client);
     }
 }

@@ -6,7 +6,6 @@ import com.vfasad.service.ClientService;
 import com.vfasad.service.OptionService;
 import com.vfasad.service.OrderService;
 import com.vfasad.service.ProductService;
-import com.vfasad.service.UserService;
 import com.vfasad.validation.constraints.ElementMin;
 import com.vfasad.validation.constraints.TodayAndAfterToday;
 import org.hibernate.validator.constraints.NotEmpty;
@@ -37,9 +36,6 @@ public class OrderController {
 
     @Autowired
     private ProductService productService;
-
-    @Autowired
-    private UserService userService;
 
     @Autowired
     private OptionService optionService;

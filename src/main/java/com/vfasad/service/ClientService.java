@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ClientService {
@@ -14,7 +15,10 @@ public class ClientService {
     private ClientRepository clientRepository;
 
     public List<Client> getClients() {
-        return clientRepository.findAll();
+        return clientRepository.findAll()
+                .stream()
+                .filter(client -> !client.isDeleted())
+                .collect(Collectors.toList());
     }
 
     public Client getClient(Long clientId) {

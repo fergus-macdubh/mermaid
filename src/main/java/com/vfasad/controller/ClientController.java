@@ -81,5 +81,13 @@ public class ClientController {
         return "redirect:/clients";
     }
 
-
+    @GetMapping("/clients/{id}/delete")
+    @Secured(ROLE_ADMIN)
+    public String deleteClient(
+            @PathVariable Long id) {
+        Client client = clientService.getClient(id);
+        client.setDeleted(true);
+        clientService.updateClient(client);
+        return "redirect:/clients";
+    }
 }

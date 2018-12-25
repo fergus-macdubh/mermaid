@@ -87,8 +87,24 @@
                 </select>
             </td>
         </tr>
-
     </table>
+    <#if targetClient??>
+        <div class="btn btn-danger" data-toggle="modal"
+             data-target="#modal-delete-confirmation">Удалить клиента
+        </div>
+    </#if>
     <input type="submit" value="Отправить" class="btn btn-info"/>
 </form>
+
+<div id="modal-delete-confirmation" class="modal fade" role="dialog">
+    <div class="modal-dialog" style="width: 30em">
+        <div class="modal-content">
+            <div class="modal-header"><strong>Удалить клиента?</strong></div>
+            <div class="modal-body">
+                <a class="btn btn-success" href="/clients/${(targetClient.id?c)!}/delete">Удалить клиента</a>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Нееееет!</button>
+            </div>
+        </div>
+    </div>
+</div>
 <#include "../footer.ftl">

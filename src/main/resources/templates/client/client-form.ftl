@@ -31,6 +31,14 @@
             }
         });
     });
+
+    $(document).ready(function() {
+        if (${activeOrdersCount} != 0) {
+            $("#deleteButton").addClass("disabled");
+            $("#deleteButton").prop("disabled", true)
+        }
+    });
+
 </script>
 <#if targetClient??>
 <h1>Редактирование данных клиента</h1>
@@ -89,7 +97,7 @@
         </tr>
     </table>
     <#if targetClient??>
-        <div class="btn btn-danger" data-toggle="modal"
+        <div id="deleteButton" class="btn btn-danger" data-toggle="modal"
              data-target="#modal-delete-confirmation">Удалить клиента
         </div>
     </#if>

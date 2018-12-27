@@ -1,0 +1,1 @@
+alter table client drop constraint client_email_key;

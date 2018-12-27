@@ -9,9 +9,6 @@
                 },
                 phone: {
                     required: true
-                },
-                email: {
-                    required: true
                 }
             },
             messages: {
@@ -20,10 +17,6 @@
                 },
                 phone: {
                     required: "Поле 'Телефон клиента' должно быть заполнено."
-                },
-                email: {
-                    required: "Поле 'Email' должно быть заполнено.",
-                    email: "Поле 'Email' должно соответствовать email формату."
                 }
             },
             submitHandler: function (form) {

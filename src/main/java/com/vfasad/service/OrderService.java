@@ -160,4 +160,10 @@ public class OrderService {
         LocalDateTime end = month.atDay(month.lengthOfMonth()).atTime(LocalTime.MAX);
         return orderRepository.findByCreatedBetween(start, end);
     }
+
+    public int getClientActiveOrderCount(Long id) {
+        return orderRepository
+                .findByClientIdAndStatusIsNotIn(id, Order.Status.CLOSED, Order.Status.CANCELLED, Order.Status.BLOCKED)
+                .size();
+    }
 }

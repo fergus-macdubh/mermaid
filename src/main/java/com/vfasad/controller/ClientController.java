@@ -2,6 +2,7 @@ package com.vfasad.controller;
 
 import com.vfasad.entity.Client;
 import com.vfasad.service.ClientService;
+import com.vfasad.service.OrderService;
 import com.vfasad.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
@@ -24,6 +25,9 @@ public class ClientController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private OrderService orderService;
+
     @GetMapping("/clients")
     @Secured(ROLE_ADMIN)
     public ModelAndView clients() {
@@ -37,6 +41,7 @@ public class ClientController {
     public ModelAndView addClientForm() {
         ModelAndView modelAndView = new ModelAndView("client/client-form");
         modelAndView.addObject("managers", userService.getManagers());
+        modelAndView.addObject("activeOrdersCount", 0);
         return modelAndView;
     }
 
@@ -59,6 +64,7 @@ public class ClientController {
         ModelAndView modelAndView = new ModelAndView("client/client-form");
         modelAndView.addObject("targetClient", clientService.getClient(id));
         modelAndView.addObject("managers", userService.getManagers());
+        modelAndView.addObject("activeOrdersCount", orderService.getClientActiveOrderCount(id));
         return modelAndView;
     }
 
@@ -81,5 +87,13 @@ public class ClientController {
         return "redirect:/clients";
     }
 
-
+    @GetMapping("/clients/{id}/delete")
+    @Secured(ROLE_ADMIN)
+    public String deleteClient(
+            @PathVariable Long id) {
+        Client client = clientService.getClient(id);
+        client.setDeleted(true);
+        clientService.updateClient(client);
+        return "redirect:/clients";
+    }
 }

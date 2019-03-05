@@ -5,6 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <title>${title}</title>
+    <link rel="icon" href="${icon}">
     <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="/css/kanban.css">
     <link rel="stylesheet" type="text/css" href="${style}">

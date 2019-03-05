@@ -17,6 +17,8 @@ public class FreeMarkerConfig {
     String styleFileName;
     @Value("${web.page.title}")
     String title;
+    @Value("${web.page.icon}")
+    String iconFileName;
 
     @Autowired
     private freemarker.template.Configuration configuration;
@@ -28,5 +30,6 @@ public class FreeMarkerConfig {
         configuration.setSharedVariable("logo", "/img/" + logoFileName);
         configuration.setSharedVariable("style", "/css/" + styleFileName);
         configuration.setSharedVariable("title", title);
+        configuration.setSharedVariable("icon", "/img/" + iconFileName);
     }
 }

@@ -32,11 +32,11 @@
         <th>Площадь</th>
         <th>Документ</th>
         <th>Цена</th>
-        <th>Бригада</th>
         <th>Готово</th>
-        <th>Краска</th>
         <#if currentUser.role == "ROLE_ADMIN"
         || currentUser.role == "ROLE_OPERATOR">
+            <th>Бригада</th>
+            <th>Краска</th>
             <th>Клиент</th>
             <th></th>
         </#if>
@@ -50,21 +50,23 @@
             <td>${order.area}</td>
             <td class="order-document">${order.document!}</td>
             <td>${order.price}</td>
-            <td>${(order.team.name)!'-'}</td>
             <td>${(order.completed.format('dd MMM yyyy'))!'-'}</td>
-            <td>
-                <#if order.status == "SHIPPING" || order.status == "CLOSED">
-                    <#list order.consumes as consume>
-                        ${consume.product.producer} ${consume.product.name}: ${consume.actualUsedQuantity} кг<#sep><br/>
-                    </#list>
-                <#else>
-                    <#list order.consumes as consume>
-                        ${consume.product.producer} ${consume.product.name}: ~${consume.calculatedQuantity} кг<#sep><br/>
-                    </#list>
-                </#if>
-            </td>
             <#if currentUser.role == "ROLE_ADMIN"
             || currentUser.role == "ROLE_OPERATOR">
+                <td>${(order.team.name)!'-'}</td>
+                <td>
+                    <#if order.status == "SHIPPING" || order.status == "CLOSED">
+                        <#list order.consumes as consume>
+                            ${consume.product.producer} ${consume.product.name}: ${consume.actualUsedQuantity} кг<#sep>
+                            <br/>
+                        </#list>
+                    <#else>
+                        <#list order.consumes as consume>
+                            ${consume.product.producer} ${consume.product.name}: ~${consume.calculatedQuantity} кг<#sep>
+                            <br/>
+                        </#list>
+                    </#if>
+                </td>
                 <td>${order.client.name}</td>
                 <td><a href="/order/${order.id?c}/edit"><img src="/img/edit.png"/></a></td>
             </#if>

@@ -36,9 +36,9 @@
         <th>Готово</th>
         <th>Краска</th>
         <#if currentUser.role == "ROLE_ADMIN"
-        || currentUser.role == "ROLE_OPERATOR"
-        || currentUser.role == "ROLE_PAINTER">
-            <th>Редактировать</th>
+        || currentUser.role == "ROLE_OPERATOR">
+            <th>Клиент</th>
+            <th></th>
         </#if>
     </tr>
     </thead>
@@ -55,19 +55,18 @@
             <td>
                 <#if order.status == "SHIPPING" || order.status == "CLOSED">
                     <#list order.consumes as consume>
-                        ${consume.product.name}: ${consume.actualUsedQuantity} кг<#sep><br/>
+                        ${consume.product.producer} ${consume.product.name}: ${consume.actualUsedQuantity} кг<#sep><br/>
                     </#list>
                 <#else>
                     <#list order.consumes as consume>
-                        ${consume.product.name}: ~${consume.calculatedQuantity} кг<#sep><br/>
+                        ${consume.product.producer} ${consume.product.name}: ~${consume.calculatedQuantity} кг<#sep><br/>
                     </#list>
                 </#if>
-
             </td>
             <#if currentUser.role == "ROLE_ADMIN"
-            || currentUser.role == "ROLE_OPERATOR"
-            || currentUser.role == "ROLE_PAINTER">
-                <td><a class="btn btn-info" href="/order/${order.id?c}/edit">Редактировать</a></td>
+            || currentUser.role == "ROLE_OPERATOR">
+                <td>${order.client.name}</td>
+                <td><a href="/order/${order.id?c}/edit"><img src="/img/edit.png"/></a></td>
             </#if>
         </tr>
     </#list>

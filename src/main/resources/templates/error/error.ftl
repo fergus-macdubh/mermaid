@@ -2,13 +2,13 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Русалочка</title>
-    <link rel="stylesheet" type="text/css" href="/css/style.css">
+    <title>${title}</title>
+    <link rel="stylesheet" type="text/css" href="${style}">
     <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">
 </head>
 <body>
 <header class="container-fluid">
-    <img id="logo" src="/img/mermaid.png"/>
+    <img id="logo" src="${logo}"/>
 </header>
 <div class="container-fluid">
 <h1>Ошибка</h1>

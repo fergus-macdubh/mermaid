@@ -4,10 +4,10 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Русалочка</title>
+    <title>${title}</title>
     <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="/css/kanban.css">
-    <link rel="stylesheet" type="text/css" href="/css/style.css">
+    <link rel="stylesheet" type="text/css" href="${style}">
     <link rel="stylesheet" type="text/css" href="/css/jquery-ui.css">
     <script src="/js/jquery-3.2.1.min.js"></script>
     <script src="/js/jquery.validate.min.js"></script>
@@ -29,7 +29,7 @@
 </head>
 <body>
 <header class="container-fluid blue-gradient">
-    <img id="logo" src="/img/mermaid.png"/>
+    <img id="logo" src="${logo}"/>
 <#if currentUser.role! == "ROLE_ADMIN"
 || currentUser.role! == "ROLE_OPERATOR"
 || currentUser.role! == "ROLE_PAINTER">

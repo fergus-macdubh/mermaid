@@ -43,6 +43,6 @@
 </table>
 <p>Перейти на KANBAN: <a href="${url}" target="_blank">${url}</a></p>
 <br/>
-Твоя Русалочка<br/>
+${signature}<br/>
 </body>
 </html>

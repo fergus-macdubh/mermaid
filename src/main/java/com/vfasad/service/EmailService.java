@@ -16,6 +16,8 @@ import java.util.Map;
 public class EmailService {
     @Value("${mail.storage}")
     private String mailStorage;
+    @Value("${spring.mail.properties.signature}")
+    private String signature;
 
     @Autowired
     private EmailSender emailSender;
@@ -44,6 +46,7 @@ public class EmailService {
         model.put("message", message);
         model.put("order", order);
         model.put("url", getLink(url, "kanban"));
+        model.put("signature", signature);
 
         emailSender.send(
                 order.getClient().getManager().getEmail(),

@@ -119,9 +119,9 @@
 <div class="col-sm-12" style="padding-left: 0; padding-bottom: .5em">
     <button id="moveSubmit" class="btn btn-info disabled" data-toggle="modal" data-target="#modal">Заказ не выбран
     </button>
-<#if currentUser.role == "ROLE_ADMIN"
-|| currentUser.role == "ROLE_OPERATOR"
-|| currentUser.role == "ROLE_PAINTER">
+    <#if currentUser.role == "ROLE_ADMIN"
+    || currentUser.role == "ROLE_OPERATOR"
+    || currentUser.role == "ROLE_PAINTER">
     <a class="btn btn-success disabled edit-order-link">Редактировать</a>
 </#if>
 </div>
@@ -129,6 +129,20 @@
 <div class="col-sm-4" style="padding-left: 0; padding-right: 0">
     <div class="kanban-column">
         <div class="kanban-column-head">Новые</div>
+        <div class="kanban-column-sum">
+            <#if newOrderSumArea gt 0>
+                ${newOrderSumArea} м<sup>2</sup>
+            </#if>
+            <#if newOrderSumClips gt 0>
+                ${newOrderSumClips} кл
+            </#if>
+            <#if newOrderSumSmallFurn gt 0>
+                ${newOrderSumSmallFurn} сф
+            </#if>
+            <#if newOrderSumBigFurn gt 0>
+                ${newOrderSumBigFurn} бф
+            </#if>
+        </div>
     <#list orders as order>
         <#if order.status == 'CREATED' || order.status == 'BLOCKED'>
             <#include 'kanban-order.ftl'/>

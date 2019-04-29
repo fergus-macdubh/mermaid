@@ -49,6 +49,22 @@ public class KanbanController {
         model.addObject("teams", teamService.findAll());
         model.addObject("ordersJson", gson.toJson(
                 orders.stream().collect(toMap(Order::getId, Function.identity()))));
+        model.addObject("newOrderSumArea", orders.stream()
+                .filter(o -> o.getStatus() == Order.Status.CREATED || o.getStatus() == Order.Status.BLOCKED)
+                .mapToDouble(Order::getArea)
+                .sum());
+        model.addObject("newOrderSumClips", orders.stream()
+                .filter(o -> o.getStatus() == Order.Status.CREATED || o.getStatus() == Order.Status.BLOCKED)
+                .mapToDouble(Order::getClipCount)
+                .sum());
+        model.addObject("newOrderSumBigFurn", orders.stream()
+                .filter(o -> o.getStatus() == Order.Status.CREATED || o.getStatus() == Order.Status.BLOCKED)
+                .mapToDouble(Order::getFurnitureBigCount)
+                .sum());
+        model.addObject("newOrderSumSmallFurn", orders.stream()
+                .filter(o -> o.getStatus() == Order.Status.CREATED || o.getStatus() == Order.Status.BLOCKED)
+                .mapToDouble(Order::getFurnitureSmallCount)
+                .sum());
         return model;
     }
 

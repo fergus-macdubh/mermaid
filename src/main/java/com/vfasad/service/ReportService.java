@@ -1,9 +1,9 @@
 package com.vfasad.service;
 
 import com.vfasad.entity.*;
+import com.vfasad.entity.reports.ReportMonthCommon;
 import com.vfasad.entity.reports.ReportMonthEmployee;
 import com.vfasad.entity.reports.ReportMonthOption;
-import com.vfasad.entity.reports.ReportMonthCommon;
 import com.vfasad.entity.reports.ReportMonthTeam;
 import com.vfasad.repo.reports.ReportMonthCommonRepository;
 import com.vfasad.repo.reports.ReportMonthEmployeeRepository;
@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static java.lang.Double.*;
+import static java.lang.Double.parseDouble;
 
 @Service
 public class ReportService {
@@ -77,8 +77,7 @@ public class ReportService {
 
     private void saveReportMonthCommon(int year, int month, Map<String, Option> options, User doneBy) {
         double sumArea = calculateSumArea(orderService.findByMonth(year, month), options);
-        double electricity = calculateElectricity(sumArea,
-                parseDouble(options.get(OptionName.ELECTRICITY.toString()).getValue()));
+        double electricity = parseDouble(options.get(OptionName.ELECTRICITY.toString()).getValue());
         double sumPriceConsumes = calculateSumPriceConsumes(orderService.findByMonth(year, month));
         double otherConsumes = calculateOtherConsumes(sumArea,
                 parseDouble(options.get(OptionName.OTHER_CONSUMES.toString()).getValue()));
@@ -171,10 +170,6 @@ public class ReportService {
                         o.getFurnitureSmallCount() * furnitureSmallToArea +
                         o.getFurnitureBigCount() * furnitureBigToArea)
                 .sum();
-    }
-
-    private double calculateElectricity(double sumArea, double electricity) {
-        return sumArea * electricity;
     }
 
     private double calculateSumPriceConsumes(List<Order> orders) {

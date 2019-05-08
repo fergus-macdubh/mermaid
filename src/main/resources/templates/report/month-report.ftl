@@ -12,7 +12,6 @@
         + order.furnitureSmallCount * options['FURNITURE_SMALL_TO_AREA']?eval
         + order.furnitureBigCount * options['FURNITURE_BIG_TO_AREA']?eval)>
     </#list>
-    <#assign totalExpenses += options['ELECTRICITY']?eval>
 
         <h3>Расходы</h3>
         <table class="responsive-table" style="width: 30em">
@@ -31,8 +30,8 @@
             </tr>
             <tr>
                 <th>Электроэнергия</th>
-                <td>${(sumArea * options['ELECTRICITY']?eval)?string[",##0.##"]} грн</td>
-            <#assign totalExpenses += sumArea * options['ELECTRICITY']?eval>
+                <td>${options['ELECTRICITY']?eval?string[",##0.##"]} грн</td>
+            <#assign totalExpenses += options['ELECTRICITY']?eval>
             </tr>
             <tr>
                 <th>Налог ФЛП</th>

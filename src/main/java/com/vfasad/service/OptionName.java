@@ -14,7 +14,7 @@ public enum OptionName {
     BONUS_LABORER("Премия помощника (коэффициент)", ""),
     BONUS_MANAGER("Премия начцеха (коэффициент)", ""),
     ENTERPRENUER_TAX("Налог ФЛП", "грн"),
-    ELECTRICITY("Расход электроэнергии (коэффициент)", ""),
+    ELECTRICITY("Расход электроэнергии", "грн"),
     BUILDING_RENT("Аренда помещения", "грн"),
     LINE_AMORTIZATION("Амортизация линии", "грн"),
     OTHER_CONSUMES("Расходные материалы (коэффициент)", ""),

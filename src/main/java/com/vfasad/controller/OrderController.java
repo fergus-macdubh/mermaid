@@ -65,7 +65,6 @@ public class OrderController {
     @Secured({ROLE_ADMIN, ROLE_OPERATOR})
     public ModelAndView addOrderForm() {
         ModelAndView model = new ModelAndView("order/order-form");
-        model.addObject("orders", orderService.findAll());
         model.addObject("products", productService.findAllProducts());
         model.addObject("options", optionService.getOptionsMap());
         model.addObject("clients", clientService.getClients());

@@ -12,7 +12,7 @@
 <h1>Заказы</h1>
 <#if currentUser.role! == "ROLE_ADMIN"
 || currentUser.role! == "ROLE_OPERATOR">
-    <a href="/storage/product/purchase" class="btn btn-success">Новый заказ</a>
+    <a href="/order/add" class="btn btn-success">Новый заказ</a>
 </#if>
 
 <#if isFullList>

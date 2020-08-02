@@ -45,7 +45,7 @@ public class ReportService {
 
     public Map<String, String> findByYearAndMonthReportOptions(int year, int month) {
         return reportMonthOptionRepository.findByYearAndMonth(year, month).stream()
-                .collect(Collectors.toMap((reportMonthOption) -> reportMonthOption.getName().toString(), ReportMonthOption::getValue));
+                .collect(Collectors.toMap(reportMonthOption -> reportMonthOption.getName().toString(), ReportMonthOption::getValue));
     }
 
     public Collection<Option> findByYearAndMonthReportOptionList(int year, int month) {
@@ -84,7 +84,7 @@ public class ReportService {
         double sumPrice = calculateSumPrice(orderService.findByMonth(year,month));
         double sumSalary = calculateSumSalary(options, year, month);
         double sumBonuses = calculateSumBonuses(year, month);
-        double totalExpenses = calculateTotalExpenses(options, sumPriceConsumes, electricity, sumSalary, sumBonuses, otherConsumes);
+        double totalExpenses = calculateTotalExpenses(options, sumPriceConsumes, sumSalary, sumBonuses, otherConsumes);
         double totalIncome = sumPrice - totalExpenses;
         ReportMonthCommon reportMonthCommon = new ReportMonthCommon(year, month);
         reportMonthCommon.setSumArea(sumArea);
@@ -213,11 +213,10 @@ public class ReportService {
 
     private double calculateTotalExpenses(Map<String, Option> options,
                                           double sumPriceConsumes,
-                                          double electricity,
                                           double sumSalary,
                                           double sumBonuses,
                                           double otherConsumes) {
-        return  sumPriceConsumes + electricity + otherConsumes + sumSalary + sumBonuses +
+        return  sumPriceConsumes + otherConsumes + sumSalary + sumBonuses +
                 parseDouble(options.get(OptionName.ENTERPRENUER_TAX.toString()).getValue()) +
                 parseDouble(options.get(OptionName.ELECTRICITY.toString()).getValue()) +
                 parseDouble(options.get(OptionName.BUILDING_RENT.toString()).getValue()) +

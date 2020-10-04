@@ -7,6 +7,20 @@
                 $(this).parent().toggle($(this).text().toLowerCase().indexOf(value) > -1)
             });
         });
+
+        $("#manager-filter-input").on("keyup", function () {
+            var value = $(this).val().toLowerCase();
+            $("#order-table tr td.order-manager").filter(function () {
+                $(this).parent().toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            });
+        });
+
+        $("#client-filter-input").on("keyup", function () {
+            var value = $(this).val().toLowerCase();
+            $("#order-table tr td.order-client").filter(function () {
+                $(this).parent().toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            });
+        });
     });
 </script>
 <h1>Заказы</h1>
@@ -22,6 +36,10 @@
 </#if>
 
 <span style="margin-left: 1em">Документ: <input id="document-filter-input"/></span>
+<span style="margin-left: 1em">Менеджер: <input id="manager-filter-input"/></span>
+<#if currentUser.role == "ROLE_ADMIN"|| currentUser.role == "ROLE_OPERATOR">
+<span style="margin-left: 1em">Клиент: <input id="client-filter-input"/></span>
+</#if>
 
 <table id="order-table" class="responsive-table">
     <thead>
@@ -46,7 +64,7 @@
         <tr>
             <td>${order.id?c}</td>
             <td>${order.status}</td>
-            <td>${order.client.manager.name}</td>
+            <td class="order-manager">${order.client.manager.name}</td>
             <td>${order.area}</td>
             <td class="order-document">${order.document!}</td>
             <td>${order.price}</td>
@@ -67,7 +85,7 @@
                         </#list>
                     </#if>
                 </td>
-                <td>${order.client.name}</td>
+                <td class="order-client">${order.client.name}</td>
                 <td><a href="/order/${order.id?c}/edit"><img src="/img/edit.png"/></a></td>
             </#if>
         </tr>

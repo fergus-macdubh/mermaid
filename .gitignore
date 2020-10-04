@@ -1,4 +1,5 @@
 
+.run/
 .idea/
 *.iml
 target/

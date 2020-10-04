@@ -1,0 +1,35 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Mermaid PROD" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+    <module name="mermaid" />
+    <option name="SPRING_BOOT_MAIN_CLASS" value="com.vfasad.Application" />
+    <option name="ALTERNATIVE_JRE_PATH" />
+    <additionalParameters>
+      <param>
+        <option name="enabled" value="true" />
+        <option name="name" value="SPRING_DATASOURCE_URL" />
+        <option name="value" value="jdbc:postgresql://aai8ss25kwgnxk.cpq8xufmph9g.us-east-2.rds.amazonaws.com:5432/postgres" />
+      </param>
+      <param>
+        <option name="enabled" value="true" />
+        <option name="name" value="SPRING_JPA_HIBERNATE_DDL_AUTO" />
+        <option name="value" value="validate" />
+      </param>
+      <param>
+        <option name="enabled" value="true" />
+        <option name="name" value="MAIL_STORAGE" />
+        <option name="value" value="sklad@vfasad.com.ua" />
+      </param>
+      <param>
+        <option name="enabled" value="true" />
+        <option name="name" value="MAIL_SEND_ENABLED" />
+        <option name="value" value="false" />
+      </param>
+    </additionalParameters>
+    <envs>
+      <env name="SPRING_DATASOURCE_URL" value="jdbc:postgresql://aai8ss25kwgnxk.cpq8xufmph9g.us-east-2.rds.amazonaws.com:5432/postgres" />
+    </envs>
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>

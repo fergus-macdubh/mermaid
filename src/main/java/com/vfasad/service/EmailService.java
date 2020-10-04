@@ -63,15 +63,15 @@ public class EmailService {
     }
 
     private String getLink(String url, String pageName) {
-        String link = "";
         try {
             URL u = new URL(url);
             String port = ((Integer) u.getPort()).toString();
             port = port.length() > 0 ? (":" + port) : "";
-            link = u.getProtocol() + "://" + u.getHost() + port + "/" + pageName;
+            return u.getProtocol() + "://" + u.getHost() + port + "/" + pageName;
         } catch (MalformedURLException e) {
             log.warn("Link for message was not generated", e);
         }
-        return link;
+
+        return "";
     }
 }

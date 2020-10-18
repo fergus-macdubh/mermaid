@@ -26,7 +26,7 @@ public class ProductService {
     private UserService userService;
 
     public List<Product> findAllProducts() {
-        return productRepository.findAllByOrderByName();
+        return productRepository.findByDeletedIsFalseOrderByName();
     }
 
     public List<Product> findAllProductsInStorage() {

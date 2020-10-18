@@ -1,10 +1,6 @@
 package com.vfasad.test.service;
 
-import com.vfasad.entity.Client;
-import com.vfasad.entity.Order;
-import com.vfasad.entity.Product;
-import com.vfasad.entity.ProductAction;
-import com.vfasad.entity.User;
+import com.vfasad.entity.*;
 import com.vfasad.exception.NotEnoughResourceException;
 import com.vfasad.exception.NotFoundException;
 import com.vfasad.repo.ProductActionRepository;
@@ -19,7 +15,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import java.time.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -57,7 +53,7 @@ public class ProductServiceTest {
     public void testFindAllProducts() {
         List<Product> productList = generateProductList();
 
-        when(productRepository.findAllByOrderByName()).thenReturn(productList);
+        when(productRepository.findByDeletedIsFalseOrderByName()).thenReturn(productList);
 
         List<Product> resultProductList = productService.findAllProducts();
         assertEquals("Product lists should be equal", productList, resultProductList);

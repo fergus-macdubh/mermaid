@@ -23,4 +23,6 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     double getStoragePrice();
 
     List<Product> findAllByOrderByName();
+
+    List<Product> findByDeletedIsFalseOrderByName();
 }

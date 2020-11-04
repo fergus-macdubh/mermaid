@@ -153,6 +153,20 @@
 <div class="col-sm-4">
     <div class="kanban-column">
         <div class="kanban-column-head">В работе</div>
+        <div class="kanban-column-sum">
+            <#if inProgressOrderSumArea gt 0>
+                ${inProgressOrderSumArea} м<sup>2</sup>
+            </#if>
+            <#if inProgressOrderSumClips gt 0>
+                ${inProgressOrderSumClips} кл
+            </#if>
+            <#if inProgressOrderSumSmallFurn gt 0>
+                ${inProgressOrderSumSmallFurn} сф
+            </#if>
+            <#if inProgressOrderSumBigFurn gt 0>
+                ${inProgressOrderSumBigFurn} бф
+            </#if>
+        </div>
     <#list orders as order>
         <#if order.status == 'IN_PROGRESS'>
             <#include 'kanban-order.ftl'/>

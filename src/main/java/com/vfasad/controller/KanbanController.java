@@ -66,6 +66,22 @@ public class KanbanController {
                 .filter(o -> o.getStatus() == OrderStatus.CREATED || o.getStatus() == OrderStatus.BLOCKED)
                 .mapToDouble(Order::getFurnitureSmallCount)
                 .sum());
+        model.addObject("inProgressOrderSumArea", orders.stream()
+                .filter(o -> o.getStatus() == OrderStatus.IN_PROGRESS)
+                .mapToDouble(Order::getArea)
+                .sum());
+        model.addObject("inProgressOrderSumClips", orders.stream()
+                .filter(o -> o.getStatus() == OrderStatus.IN_PROGRESS)
+                .mapToDouble(Order::getClipCount)
+                .sum());
+        model.addObject("inProgressOrderSumBigFurn", orders.stream()
+                .filter(o -> o.getStatus() == OrderStatus.IN_PROGRESS)
+                .mapToDouble(Order::getFurnitureBigCount)
+                .sum());
+        model.addObject("inProgressOrderSumSmallFurn", orders.stream()
+                .filter(o -> o.getStatus() == OrderStatus.IN_PROGRESS)
+                .mapToDouble(Order::getFurnitureSmallCount)
+                .sum());
         return model;
     }
 

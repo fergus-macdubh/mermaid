@@ -21,6 +21,13 @@
                 $(this).parent().toggle($(this).text().toLowerCase().indexOf(value) > -1)
             });
         });
+
+        $("#paint-filter-input").on("keyup", function () {
+            var value = $(this).val().toLowerCase();
+            $("#order-table tr td.order-paint").filter(function () {
+                $(this).parent().toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            });
+        });
     });
 </script>
 <h1>Заказы</h1>
@@ -39,6 +46,7 @@
 <span style="margin-left: 1em">Менеджер: <input id="manager-filter-input"/></span>
 <#if currentUser.role == "ROLE_ADMIN"|| currentUser.role == "ROLE_OPERATOR">
 <span style="margin-left: 1em">Клиент: <input id="client-filter-input"/></span>
+<span style="margin-left: 1em">Краска: <input id="paint-filter-input"/></span>
 </#if>
 
 <table id="order-table" class="responsive-table">
@@ -72,7 +80,7 @@
             <#if currentUser.role == "ROLE_ADMIN"
             || currentUser.role == "ROLE_OPERATOR">
                 <td>${(order.team.name)!'-'}</td>
-                <td>
+                <td class="order-paint">
                     <#if order.status == "SHIPPING" || order.status == "CLOSED">
                         <#list order.consumes as consume>
                             ${consume.product.producer} ${consume.product.name}: ${consume.actualUsedQuantity} кг<#sep>

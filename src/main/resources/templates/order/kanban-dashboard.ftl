@@ -35,6 +35,14 @@
                     .addClass(getClassForDaysLeft(diffDays))
                     .text(Math.abs(diffDays));
         }
+
+        $("#paint-filter-input").on("keyup", function () {
+            var value = $(this).val().toLowerCase();
+            console.log($("#new-orders-column div.kanban-order div.kanban-order-consumes"));
+            $("#new-orders-column div.kanban-order div.kanban-order-consumes").filter(function () {
+                $(this).parent().toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            });
+        });
     });
 
     function getClassForDaysLeft(daysLeft) {
@@ -119,15 +127,17 @@
 <div class="col-sm-12" style="padding-left: 0; padding-bottom: .5em">
     <button id="moveSubmit" class="btn btn-info disabled" data-toggle="modal" data-target="#modal">Заказ не выбран
     </button>
-    <#if currentUser.role == "ROLE_ADMIN"
+<#if currentUser.role == "ROLE_ADMIN"
     || currentUser.role == "ROLE_OPERATOR"
     || currentUser.role == "ROLE_PAINTER">
     <a class="btn btn-success disabled edit-order-link">Редактировать</a>
 </#if>
+<span style="margin-left: 1em">Краска: <input id="paint-filter-input"/></span>
 </div>
 
+
 <div class="col-sm-4" style="padding-left: 0; padding-right: 0">
-    <div class="kanban-column">
+    <div id="new-orders-column" class="kanban-column">
         <div class="kanban-column-head">Новые</div>
         <div class="kanban-column-sum">
             <#if newOrderSumArea gt 0>

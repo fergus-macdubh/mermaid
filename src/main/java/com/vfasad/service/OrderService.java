@@ -154,11 +154,11 @@ public class OrderService {
         return orderRepository.findByProductStartedBetween(productId, start, end);
     }
 
-    public List<Order> findCurrentMonthOrders() {
+    public List<Order> findCurrentMonthAndNewOrders() {
         YearMonth month = YearMonth.now();
         LocalDateTime start = month.atDay(1).atStartOfDay();
         LocalDateTime end = month.atDay(month.lengthOfMonth()).atTime(LocalTime.MAX);
-        return orderRepository.findByCreatedBetween(start, end);
+        return orderRepository.findByCreatedBetweenOrStatus(start, end, Order.Status.CREATED);
     }
 
     public int getClientActiveOrderCount(Long id) {

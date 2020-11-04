@@ -1,9 +1,6 @@
 package com.vfasad.service;
 
-import com.vfasad.entity.Client;
-import com.vfasad.entity.Order;
-import com.vfasad.entity.OrderConsume;
-import com.vfasad.entity.Product;
+import com.vfasad.entity.*;
 import com.vfasad.exception.NotFoundException;
 import com.vfasad.repo.OrderRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -76,10 +73,10 @@ public class OrderService {
     }
 
     public List<Order> getActiveOrders() {
-        List<Order> orders = orderRepository.findByStatusIn(Order.Status.CREATED, Order.Status.IN_PROGRESS, Order.Status.SHIPPING);
+        List<Order> orders = orderRepository.findByStatusIn(OrderStatus.CREATED, OrderStatus.IN_PROGRESS, OrderStatus.SHIPPING);
         List<BigInteger> blockedIds = orderRepository.findBlockedOrdersIds();
         orders.forEach(o -> {
-            if (blockedIds.contains(new BigInteger(String.valueOf(o.getId())))) o.setStatus(Order.Status.BLOCKED);
+            if (blockedIds.contains(new BigInteger(String.valueOf(o.getId())))) o.setStatus(OrderStatus.BLOCKED);
         });
         return orders;
     }
@@ -88,7 +85,7 @@ public class OrderService {
         order.getConsumes().forEach(c ->
                 productService.spend(c.getProduct(), c.getCalculatedQuantity(), order)
         );
-        order.setStatus(Order.Status.IN_PROGRESS);
+        order.setStatus(OrderStatus.IN_PROGRESS);
         order.setTeam(teamService.getTeam(teamId));
         order.setDoneBy(teamService.getTeamUsers(teamId));
         orderRepository.save(order);
@@ -107,7 +104,7 @@ public class OrderService {
             double remain = consume.getCalculatedQuantity() - actualQuantities.get(i);
             productService.returnProduct(product, remain, order);
         }
-        order.setStatus(Order.Status.SHIPPING);
+        order.setStatus(OrderStatus.SHIPPING);
         order.setCompleted(now());
         orderRepository.save(order);
 
@@ -115,21 +112,21 @@ public class OrderService {
     }
 
     public void closeOrder(Order order) {
-        order.setStatus(Order.Status.CLOSED);
+        order.setStatus(OrderStatus.CLOSED);
         orderRepository.save(order);
     }
 
     public void cancelOrder(Long id) {
         Order order = getOrder(id);
 
-        if (order.getStatus() == Order.Status.SHIPPING
-                || order.getStatus() == Order.Status.CLOSED
-                || order.getStatus() == Order.Status.CANCELLED) {
+        if (order.getStatus() == OrderStatus.SHIPPING
+                || order.getStatus() == OrderStatus.CLOSED
+                || order.getStatus() == OrderStatus.CANCELLED) {
             throw new IllegalStateException("Unable to cancel order in status [" + order.getStatus() + "]");
         }
 
-        if (order.getStatus() == Order.Status.IN_PROGRESS) {
-            order.setStatus(Order.Status.CREATED);
+        if (order.getStatus() == OrderStatus.IN_PROGRESS) {
+            order.setStatus(OrderStatus.CREATED);
             order.getConsumes().forEach(
                     consume -> productService.returnProduct(
                             consume.getProduct(),
@@ -138,7 +135,7 @@ public class OrderService {
             order.setTeam(null);
             order.setDoneBy(Collections.emptyList());
         } else {
-            order.setStatus(Order.Status.CANCELLED);
+            order.setStatus(OrderStatus.CANCELLED);
         }
 
         orderRepository.save(order);
@@ -158,12 +155,12 @@ public class OrderService {
         YearMonth month = YearMonth.now();
         LocalDateTime start = month.atDay(1).atStartOfDay();
         LocalDateTime end = month.atDay(month.lengthOfMonth()).atTime(LocalTime.MAX);
-        return orderRepository.findByCreatedBetweenOrStatus(start, end, Order.Status.CREATED);
+        return orderRepository.findByCreatedBetweenOrStatus(start, end, OrderStatus.CREATED);
     }
 
     public int getClientActiveOrderCount(Long id) {
         return orderRepository
-                .findByClientIdAndStatusIsNotIn(id, Order.Status.CLOSED, Order.Status.CANCELLED, Order.Status.BLOCKED)
+                .findByClientIdAndStatusIsNotIn(id, OrderStatus.CLOSED, OrderStatus.CANCELLED, OrderStatus.BLOCKED)
                 .size();
     }
 }

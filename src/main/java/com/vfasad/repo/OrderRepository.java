@@ -1,6 +1,7 @@
 package com.vfasad.repo;
 
 import com.vfasad.entity.Order;
+import com.vfasad.entity.OrderStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -14,7 +15,7 @@ import java.util.Optional;
 
 @Repository
 public interface OrderRepository extends JpaRepository<Order, Long> {
-    List<Order> findByStatusIn(Order.Status ...status);
+    List<Order> findByStatusIn(OrderStatus...status);
 
     @Query(value = "SELECT DISTINCT" +
             "  o.id " +
@@ -38,7 +39,7 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
             @Param("from") LocalDate from,
             @Param("to") LocalDate to);
 
-    List<Order> findByCreatedBetweenOrStatus(LocalDateTime start, LocalDateTime end, Order.Status status);
+    List<Order> findByCreatedBetweenOrStatus(LocalDateTime start, LocalDateTime end, OrderStatus status);
 
-    List<Order> findByClientIdAndStatusIsNotIn(Long clientId, Order.Status ...status);
+    List<Order> findByClientIdAndStatusIsNotIn(Long clientId, OrderStatus...status);
 }

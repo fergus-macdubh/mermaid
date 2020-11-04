@@ -2,6 +2,7 @@ package com.vfasad.controller;
 
 import com.google.gson.Gson;
 import com.vfasad.entity.Order;
+import com.vfasad.entity.OrderStatus;
 import com.vfasad.service.OrderService;
 import com.vfasad.service.TeamService;
 import com.vfasad.validation.constraints.ElementMin;
@@ -50,19 +51,19 @@ public class KanbanController {
         model.addObject("ordersJson", gson.toJson(
                 orders.stream().collect(toMap(Order::getId, Function.identity()))));
         model.addObject("newOrderSumArea", orders.stream()
-                .filter(o -> o.getStatus() == Order.Status.CREATED || o.getStatus() == Order.Status.BLOCKED)
+                .filter(o -> o.getStatus() == OrderStatus.CREATED || o.getStatus() == OrderStatus.BLOCKED)
                 .mapToDouble(Order::getArea)
                 .sum());
         model.addObject("newOrderSumClips", orders.stream()
-                .filter(o -> o.getStatus() == Order.Status.CREATED || o.getStatus() == Order.Status.BLOCKED)
+                .filter(o -> o.getStatus() == OrderStatus.CREATED || o.getStatus() == OrderStatus.BLOCKED)
                 .mapToDouble(Order::getClipCount)
                 .sum());
         model.addObject("newOrderSumBigFurn", orders.stream()
-                .filter(o -> o.getStatus() == Order.Status.CREATED || o.getStatus() == Order.Status.BLOCKED)
+                .filter(o -> o.getStatus() == OrderStatus.CREATED || o.getStatus() == OrderStatus.BLOCKED)
                 .mapToDouble(Order::getFurnitureBigCount)
                 .sum());
         model.addObject("newOrderSumSmallFurn", orders.stream()
-                .filter(o -> o.getStatus() == Order.Status.CREATED || o.getStatus() == Order.Status.BLOCKED)
+                .filter(o -> o.getStatus() == OrderStatus.CREATED || o.getStatus() == OrderStatus.BLOCKED)
                 .mapToDouble(Order::getFurnitureSmallCount)
                 .sum());
         return model;
@@ -81,11 +82,11 @@ public class KanbanController {
             HttpServletRequest request) {
 
         Order order = orderService.getOrder(orderId);
-        if (order.getStatus() == Order.Status.CREATED) {
+        if (order.getStatus() == OrderStatus.CREATED) {
             orderService.moveOrderInProgress(order, teamId, request.getRequestURL().toString());
-        } else if (order.getStatus() == Order.Status.IN_PROGRESS) {
+        } else if (order.getStatus() == OrderStatus.IN_PROGRESS) {
             orderService.moveOrderToShipping(order, consumeIds, actualQuantities, request.getRequestURL().toString());
-        } else if (order.getStatus() == Order.Status.SHIPPING) {
+        } else if (order.getStatus() == OrderStatus.SHIPPING) {
             orderService.closeOrder(order);
         }
         return "redirect:/kanban";

@@ -16,9 +16,6 @@ import java.util.Set;
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Order {
-    public enum Status {
-        CREATED, IN_PROGRESS, SHIPPING, CLOSED, BLOCKED, CANCELLED
-    }
 
     @Id
     @GeneratedValue(generator = "optimized-sequence")
@@ -39,7 +36,7 @@ public class Order {
     private Set<OrderConsume> consumes;
 
     @Enumerated(EnumType.STRING)
-    private Status status = Status.CREATED;
+    private OrderStatus status = OrderStatus.CREATED;
 
     @ManyToOne
     @JoinColumn(name = "team_fk")

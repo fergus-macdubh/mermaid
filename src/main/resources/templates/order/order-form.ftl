@@ -120,7 +120,7 @@
         <tr>
             <th>Статус</th>
             <td>
-                ${(order.status)!}
+                ${(order.status.title)!}
             </td>
             <td></td>
         </tr>

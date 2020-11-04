@@ -22,7 +22,7 @@
     </tr>
     <tr>
         <th>Статус</th>
-        <td>${order.status}</td>
+        <td>${order.status.title}</td>
     </tr>
     <tr>
         <th>Площадь</th>

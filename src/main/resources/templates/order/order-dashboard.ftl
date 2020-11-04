@@ -63,7 +63,7 @@
     <#list orders?sort_by('created')?reverse as order>
         <tr>
             <td>${order.id?c}</td>
-            <td>${order.status}</td>
+            <td>${order.status.title}</td>
             <td class="order-manager">${order.client.manager.name}</td>
             <td>${order.area}</td>
             <td class="order-document">${order.document!}</td>

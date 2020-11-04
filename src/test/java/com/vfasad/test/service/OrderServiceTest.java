@@ -112,12 +112,12 @@ public class OrderServiceTest {
         List<Order> orderList = generateOrderList();
         List<BigInteger> blockedIds = new ArrayList<BigInteger>(){{add(BigInteger.valueOf(0)); add(BigInteger.valueOf(orderList.size()-1));}};
 
-        when(orderRepository.findByStatusIn(Order.Status.CREATED, Order.Status.IN_PROGRESS, Order.Status.SHIPPING)).thenReturn(orderList);
+        when(orderRepository.findByStatusIn(OrderStatus.CREATED, OrderStatus.IN_PROGRESS, OrderStatus.SHIPPING)).thenReturn(orderList);
         when(orderRepository.findBlockedOrdersIds()).thenReturn(blockedIds);
 
         List<Order> resultOrderList = orderService.getActiveOrders();
-        assertEquals("Order status had to be updated to BLOCKED", resultOrderList.get(0).getStatus(), Order.Status.BLOCKED);
-        assertEquals("Order status had to be updated to BLOCKED", resultOrderList.get(orderList.size()-1).getStatus(), Order.Status.BLOCKED);
+        assertEquals("Order status had to be updated to BLOCKED", resultOrderList.get(0).getStatus(), OrderStatus.BLOCKED);
+        assertEquals("Order status had to be updated to BLOCKED", resultOrderList.get(orderList.size()-1).getStatus(), OrderStatus.BLOCKED);
         resultOrderList.forEach(order -> checkOrderDetails(order, orderList.get(resultOrderList.indexOf(order))));
     }
 
@@ -133,7 +133,7 @@ public class OrderServiceTest {
 
         orderService.moveOrderInProgress(order, TEAM_ID, "/kanban");
 
-        assertEquals("Invalid order status. Status should be IN_PROGRESS", Order.Status.IN_PROGRESS, order.getStatus());
+        assertEquals("Invalid order status. Status should be IN_PROGRESS", OrderStatus.IN_PROGRESS, order.getStatus());
         assertEquals("Invalid order team", team, order.getTeam());
         assertEquals("Invalid user list", userList, order.getDoneBy());
         orderConsumes.forEach(c -> verify(productService, times(1)).spend(c.getProduct(), c.getCalculatedQuantity(), order));
@@ -149,7 +149,7 @@ public class OrderServiceTest {
         List<Double> actualQuantities = new ArrayList<Double>(){{ add(5262.33); add(28884.92); add(8395.39); }};
 
         orderService.moveOrderToShipping(order, CONSUME_IDS, actualQuantities, "/kanban");
-        assertEquals("Invalid order status. Status should be SHIPPING", Order.Status.SHIPPING, order.getStatus());
+        assertEquals("Invalid order status. Status should be SHIPPING", OrderStatus.SHIPPING, order.getStatus());
         verify(productService, times(CONSUME_IDS.length)).returnProduct(any(Product.class), anyDouble(), eq(order));
         verify(orderRepository, times(1)).save(order);
         verify(emailService, times(1)).notifyManagerOrderCompleted(order, "/kanban");
@@ -169,20 +169,20 @@ public class OrderServiceTest {
         Order order = generateOrder();
 
         orderService.closeOrder(order);
-        assertEquals("Invalid order status. Status should be CLOSED", Order.Status.CLOSED, order.getStatus());
+        assertEquals("Invalid order status. Status should be CLOSED", OrderStatus.CLOSED, order.getStatus());
         verify(orderRepository, times(1)).save(order);
     }
 
     @Test
     public void testCancelOrderInProgress() {
         Order order = generateOrder();
-        order.setStatus(Order.Status.IN_PROGRESS);
+        order.setStatus(OrderStatus.IN_PROGRESS);
         Set<OrderConsume> orderConsumes = generateOrderConsumeList();
         order.setConsumes(orderConsumes);
         when(orderRepository.findById(anyLong())).thenReturn(Optional.of(order));
 
         orderService.cancelOrder(ORDER_ID);
-        assertEquals("Invalid order status. Status should be CREATED", Order.Status.CREATED, order.getStatus());
+        assertEquals("Invalid order status. Status should be CREATED", OrderStatus.CREATED, order.getStatus());
         assertNull("Invalid order team. Team should be null", order.getTeam());
         verify(productService, times(orderConsumes.size())).returnProduct(any(Product.class), anyDouble(), eq(order));
         verify(orderRepository, times(1)).save(order);
@@ -191,18 +191,18 @@ public class OrderServiceTest {
     @Test
     public void testCancelOrderBlocked() {
         Order order = generateOrder();
-        order.setStatus(Order.Status.BLOCKED);
+        order.setStatus(OrderStatus.BLOCKED);
         when(orderRepository.findById(anyLong())).thenReturn(Optional.of(order));
 
         orderService.cancelOrder(ORDER_ID);
-        assertEquals("Invalid order status. Status should be CANCELLED", Order.Status.CANCELLED, order.getStatus());
+        assertEquals("Invalid order status. Status should be CANCELLED", OrderStatus.CANCELLED, order.getStatus());
         verify(orderRepository, times(1)).save(order);
     }
 
     @Test
     public void testCancelOrderShippingException() {
         Order order = generateOrder();
-        order.setStatus(Order.Status.SHIPPING);
+        order.setStatus(OrderStatus.SHIPPING);
         when(orderRepository.findById(anyLong())).thenReturn(Optional.of(order));
         expectedException.expect(IllegalStateException.class);
         expectedException.expectMessage("Unable to cancel order in status [" + order.getStatus() + "]");
@@ -212,7 +212,7 @@ public class OrderServiceTest {
     @Test
     public void testCancelOrderCancelledException() {
         Order order = generateOrder();
-        order.setStatus(Order.Status.CANCELLED);
+        order.setStatus(OrderStatus.CANCELLED);
         when(orderRepository.findById(anyLong())).thenReturn(Optional.of(order));
         expectedException.expect(IllegalStateException.class);
         expectedException.expectMessage("Unable to cancel order in status [" + order.getStatus() + "]");
@@ -222,7 +222,7 @@ public class OrderServiceTest {
     @Test
     public void testCancelOrderClosedException() {
         Order order = generateOrder();
-        order.setStatus(Order.Status.CLOSED);
+        order.setStatus(OrderStatus.CLOSED);
         when(orderRepository.findById(anyLong())).thenReturn(Optional.of(order));
         expectedException.expect(IllegalStateException.class);
         expectedException.expectMessage("Unable to cancel order in status [" + order.getStatus() + "]");
@@ -265,10 +265,10 @@ public class OrderServiceTest {
         orderList.add(new Order(63.39, 12, 2, 2, "doc2", 7473.22, Collections.emptySet(),LocalDate.now(), client));
         orderList.add(new Order(38.56, 3, 3, 3, "doc3", 4263.94, Collections.emptySet(),LocalDate.now(), client));
         orderList.forEach(order -> {
-            order.setStatus(orderList.indexOf(order)%3 == 0 ? Order.Status.CREATED : Order.Status.IN_PROGRESS);
+            order.setStatus(orderList.indexOf(order)%3 == 0 ? OrderStatus.CREATED : OrderStatus.IN_PROGRESS);
             order.setId(Long.valueOf(orderList.indexOf(order)));
         });
-        orderList.get(orderList.size()-1).setStatus(Order.Status.SHIPPING);
+        orderList.get(orderList.size()-1).setStatus(OrderStatus.SHIPPING);
 
         return orderList;
     }

@@ -41,6 +41,10 @@ public class OrderService {
         return orderRepository.findAll();
     }
 
+    public List<Order> findByStatus(OrderStatus ...status) {
+        return orderRepository.findByStatusIn(status);
+    }
+
     public void addOrder(double area, int clipCount, int furnitureSmallCount, int furnitureBigCount, String document, double price, Set<OrderConsume> consumes, LocalDate complete, Client client) {
         orderRepository.save(new Order(
                 area,

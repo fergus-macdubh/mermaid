@@ -131,6 +131,7 @@
     || currentUser.role == "ROLE_OPERATOR"
     || currentUser.role == "ROLE_PAINTER">
     <a class="btn btn-success disabled edit-order-link">Редактировать</a>
+    <a class="btn btn-success" download="${.now?date}_план_на_день.csv" href="/order/print/inprogress">Печать в работе</a>
 </#if>
 <span style="margin-left: 1em">Краска: <input id="paint-filter-input"/></span>
 </div>

@@ -29,6 +29,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import static com.vfasad.entity.OrderStatus.IN_PROGRESS;
 import static com.vfasad.entity.User.*;
 
 @Controller
@@ -81,6 +82,14 @@ public class OrderController {
         ModelAndView model = new ModelAndView("order/order-dashboard");
         model.addObject("orders", orderService.findByMonth(year, month));
         model.addObject("isFullList", true);
+        return model;
+    }
+
+    @RequestMapping(value = "/order/print/inprogress", method = RequestMethod.GET)
+    @Secured({ROLE_ADMIN, ROLE_OPERATOR, ROLE_SALES})
+    public ModelAndView printInProgress() {
+        ModelAndView model = new ModelAndView("order/print/inprogress");
+        model.addObject("orders", orderService.findByStatus(IN_PROGRESS));
         return model;
     }
 

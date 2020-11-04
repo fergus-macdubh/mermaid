@@ -164,4 +164,12 @@ public class OrderService {
                 .findByClientIdAndStatusIsNotIn(id, CLOSED, CANCELLED, BLOCKED)
                 .size();
     }
+
+    public Order findNewest() {
+        return orderRepository.findTop1ByOrderByCreatedDesc();
+    }
+
+    public Order findOldest() {
+        return orderRepository.findTop1ByOrderByCreatedAsc();
+    }
 }

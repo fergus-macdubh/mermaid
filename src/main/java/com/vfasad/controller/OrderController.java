@@ -22,6 +22,9 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.constraints.Min;
 import java.time.LocalDate;
+import java.time.YearMonth;
+import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -54,9 +57,29 @@ public class OrderController {
 
     @RequestMapping(value = "/order/archive", method = RequestMethod.GET)
     @Secured({ROLE_ADMIN, ROLE_OPERATOR, ROLE_SALES})
-    public ModelAndView ordersFullList() {
+    public ModelAndView archive() {
+        ModelAndView model = new ModelAndView("order/archive");
+
+        YearMonth oldest = YearMonth.from(orderService.findOldest().getCreated());
+        YearMonth newest = YearMonth.from(orderService.findNewest().getCreated());
+        YearMonth yearMonth = newest;
+
+        List<YearMonth> months = new ArrayList<>();
+        while (!yearMonth.equals(oldest)) {
+            months.add(yearMonth);
+            yearMonth = yearMonth.minus(1, ChronoUnit.MONTHS);
+        }
+        months.add(oldest);
+
+        return model.addObject("yearMonths", months);
+    }
+
+    @RequestMapping(value = "/order/archive/{year}-{month}", method = RequestMethod.GET)
+    @Secured({ROLE_ADMIN, ROLE_OPERATOR, ROLE_SALES})
+    public ModelAndView ordersFullList(@PathVariable int year,
+                                       @PathVariable int month) {
         ModelAndView model = new ModelAndView("order/order-dashboard");
-        model.addObject("orders", orderService.findAll());
+        model.addObject("orders", orderService.findByMonth(year, month));
         model.addObject("isFullList", true);
         return model;
     }

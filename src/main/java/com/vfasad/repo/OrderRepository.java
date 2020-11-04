@@ -42,4 +42,8 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
     List<Order> findByCreatedBetweenOrStatusIn(LocalDateTime start, LocalDateTime end, OrderStatus ...status);
 
     List<Order> findByClientIdAndStatusIsNotIn(Long clientId, OrderStatus...status);
+
+    Order findTop1ByOrderByCreatedAsc();
+
+    Order findTop1ByOrderByCreatedDesc();
 }

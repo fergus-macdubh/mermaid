@@ -219,7 +219,7 @@
             <th>Клиент</th>
             <td>
                 <select name="clientId">
-                <#list clients as client>
+                <#list clients?sort_by('name') as client>
                     <option value="${client.id?c}"
                             <#if order?? && order.client.id! == client.id>selected</#if>>${client.name}</option>
                 </#list>

@@ -48,6 +48,6 @@ public class InjectUserInterceptor extends HandlerInterceptorAdapter {
         User user = userService.getCurrentUser();
         modelAndView.addObject("currentUser", user);
 
-        log.info("User [{}] is added to model", user.getName());
+        log.info("User [{}] is added to model", user.getEmail());
     }
 }

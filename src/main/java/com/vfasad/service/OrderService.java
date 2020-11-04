@@ -18,6 +18,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Function;
 
+import static com.vfasad.entity.OrderStatus.*;
 import static java.time.LocalDateTime.now;
 import static java.util.stream.Collectors.toMap;
 
@@ -73,7 +74,7 @@ public class OrderService {
     }
 
     public List<Order> getActiveOrders() {
-        List<Order> orders = orderRepository.findByStatusIn(OrderStatus.CREATED, OrderStatus.IN_PROGRESS, OrderStatus.SHIPPING);
+        List<Order> orders = orderRepository.findByStatusIn(CREATED, OrderStatus.IN_PROGRESS, OrderStatus.SHIPPING);
         List<BigInteger> blockedIds = orderRepository.findBlockedOrdersIds();
         orders.forEach(o -> {
             if (blockedIds.contains(new BigInteger(String.valueOf(o.getId())))) o.setStatus(OrderStatus.BLOCKED);
@@ -126,7 +127,7 @@ public class OrderService {
         }
 
         if (order.getStatus() == OrderStatus.IN_PROGRESS) {
-            order.setStatus(OrderStatus.CREATED);
+            order.setStatus(CREATED);
             order.getConsumes().forEach(
                     consume -> productService.returnProduct(
                             consume.getProduct(),
@@ -151,16 +152,16 @@ public class OrderService {
         return orderRepository.findByProductStartedBetween(productId, start, end);
     }
 
-    public List<Order> findCurrentMonthAndNewOrders() {
+    public List<Order> findCurrentMonthAndOpenOrders() {
         YearMonth month = YearMonth.now();
         LocalDateTime start = month.atDay(1).atStartOfDay();
         LocalDateTime end = month.atDay(month.lengthOfMonth()).atTime(LocalTime.MAX);
-        return orderRepository.findByCreatedBetweenOrStatus(start, end, OrderStatus.CREATED);
+        return orderRepository.findByCreatedBetweenOrStatusIn(start, end, CREATED, BLOCKED, IN_PROGRESS, SHIPPING);
     }
 
     public int getClientActiveOrderCount(Long id) {
         return orderRepository
-                .findByClientIdAndStatusIsNotIn(id, OrderStatus.CLOSED, OrderStatus.CANCELLED, OrderStatus.BLOCKED)
+                .findByClientIdAndStatusIsNotIn(id, CLOSED, CANCELLED, BLOCKED)
                 .size();
     }
 }

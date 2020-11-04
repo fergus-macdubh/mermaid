@@ -47,7 +47,7 @@ public class OrderController {
     @Secured({ROLE_ADMIN, ROLE_OPERATOR, ROLE_SALES})
     public ModelAndView ordersLastMonth() {
         ModelAndView model = new ModelAndView("order/order-dashboard");
-        model.addObject("orders", orderService.findCurrentMonthAndNewOrders());
+        model.addObject("orders", orderService.findCurrentMonthAndOpenOrders());
         model.addObject("isFullList", false);
         return model;
     }

@@ -39,7 +39,7 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
             @Param("from") LocalDate from,
             @Param("to") LocalDate to);
 
-    List<Order> findByCreatedBetweenOrStatus(LocalDateTime start, LocalDateTime end, OrderStatus status);
+    List<Order> findByCreatedBetweenOrStatusIn(LocalDateTime start, LocalDateTime end, OrderStatus ...status);
 
     List<Order> findByClientIdAndStatusIsNotIn(Long clientId, OrderStatus...status);
 }

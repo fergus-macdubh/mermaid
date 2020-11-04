@@ -42,11 +42,11 @@
     <a href="/order/archive" class="btn btn-info">Архив</a>
 </#if>
 
-<span style="margin-left: 1em">Документ: <input id="document-filter-input"/></span>
 <span style="margin-left: 1em">Менеджер: <input id="manager-filter-input"/></span>
+<span style="margin-left: 1em">Документ: <input id="document-filter-input"/></span>
 <#if currentUser.role == "ROLE_ADMIN"|| currentUser.role == "ROLE_OPERATOR">
-<span style="margin-left: 1em">Клиент: <input id="client-filter-input"/></span>
-<span style="margin-left: 1em">Краска: <input id="paint-filter-input"/></span>
+    <span style="margin-left: 1em">Краска: <input id="paint-filter-input"/></span>
+    <span style="margin-left: 1em">Клиент: <input id="client-filter-input"/></span>
 </#if>
 
 <table id="order-table" class="responsive-table">
@@ -54,11 +54,12 @@
     <tr>
         <th>ID</th>
         <th>Статус</th>
+        <th>Готово</th>
+        <th>Дни</th>
         <th>Менеджер</th>
         <th>Площадь</th>
         <th>Документ</th>
         <th>Цена</th>
-        <th>Готово</th>
         <#if currentUser.role == "ROLE_ADMIN"
         || currentUser.role == "ROLE_OPERATOR">
             <th>Бригада</th>
@@ -72,11 +73,12 @@
         <tr>
             <td>${order.id?c}</td>
             <td>${order.status.title}</td>
+            <td>${(order.completed.format('dd MMM yyyy'))!'-'}</td>
+            <td>${((order.completed.format('dd MMM yyyy')?date('dd MMM yyyy')?long - order.created.format('dd MMM yyyy')?date('dd MMM yyyy')?long)/(1000*60*60*24))!'-'}</td>
             <td class="order-manager">${order.client.manager.name}</td>
             <td>${order.area}</td>
             <td class="order-document">${order.document!}</td>
             <td>${order.price}</td>
-            <td>${(order.completed.format('dd MMM yyyy'))!'-'}</td>
             <#if currentUser.role == "ROLE_ADMIN"
             || currentUser.role == "ROLE_OPERATOR">
                 <td>${(order.team.name)!'-'}</td>

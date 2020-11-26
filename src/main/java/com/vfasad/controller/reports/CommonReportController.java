@@ -79,6 +79,7 @@ public class CommonReportController extends AbstractReportController {
                 .filter(order -> order.getTeam().getId() == teamId)
                 .collect(Collectors.toList());
         modelAndView.addObject("orders", orders);
+        modelAndView.addObject("options", optionService.getOptionsMap());
         return modelAndView;
     }
 

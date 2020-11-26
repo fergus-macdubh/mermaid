@@ -76,7 +76,10 @@
             <td>${(order.completed.format('dd MMM yyyy'))!'-'}</td>
             <td>${((order.completed.format('dd MMM yyyy')?date('dd MMM yyyy')?long - order.created.format('dd MMM yyyy')?date('dd MMM yyyy')?long)/(1000*60*60*24))!'-'}</td>
             <td class="order-manager">${order.client.manager.name}</td>
-            <td>${order.area}</td>
+            <td>${order.area
+                + order.clipCount * options['CLIP_TO_AREA']?eval
+                + order.furnitureSmallCount * options['FURNITURE_SMALL_TO_AREA']?eval
+                + order.furnitureBigCount * options['FURNITURE_BIG_TO_AREA']?eval}</td>
             <td class="order-document">${order.document!}</td>
             <td>${order.price}</td>
             <#if currentUser.role == "ROLE_ADMIN"

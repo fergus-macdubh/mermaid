@@ -53,6 +53,7 @@ public class OrderController {
         ModelAndView model = new ModelAndView("order/order-dashboard");
         model.addObject("orders", orderService.findCurrentMonthAndOpenOrders());
         model.addObject("isFullList", false);
+        model.addObject("options", optionService.getOptionsMap());
         return model;
     }
 
@@ -82,6 +83,7 @@ public class OrderController {
         ModelAndView model = new ModelAndView("order/order-dashboard");
         model.addObject("orders", orderService.findByMonth(year, month));
         model.addObject("isFullList", true);
+        model.addObject("options", optionService.getOptionsMap());
         return model;
     }
 

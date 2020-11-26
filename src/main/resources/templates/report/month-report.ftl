@@ -114,6 +114,7 @@
     </div>
     <br style="clear: both">
     <h4><strong>Прибыль: ${sumPrice - totalExpenses}</strong></h4>
+    <a href="/order/archive/${year?c}-${monthNum?string["00"]}" class="btn btn-info">Все заказы месяца</a>
     <h3>По бригадам</h3>
     <table class="responsive-table">
         <tr>

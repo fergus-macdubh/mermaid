@@ -1,5 +1,6 @@
 package com.vfasad.service;
 
+import com.vfasad.entity.Order;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -11,7 +12,9 @@ import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Service
 public class PrintService {
@@ -34,6 +37,15 @@ public class PrintService {
             SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
             cellDate.setCellValue(format.format(new Date()));
 
+            /// templateMapping();
+            List<Order> list = templateMapping();
+            int i = 11;
+            for (Order order : list) {
+                Cell cell = sheet.getRow(i).getCell(0);
+                cell.setCellValue(order.getId());
+                i++;
+            }
+
             ByteArrayOutputStream report = new ByteArrayOutputStream();
             workbook.write(report);
             byte[] reportArray = report.toByteArray();
@@ -48,7 +60,19 @@ public class PrintService {
             System.out.println(e);
             throw new RuntimeException();
         }
+
+    }
+
+    private List<Order> templateMapping() throws IOException {
+        Order order1 = new Order();
+        order1.setId(11L);
+        Order order2 = new Order();
+        order2.setId(22L);
+        List<Order> list = new ArrayList<>();
+        list.add(order1);
+        list.add(order2);
+
+        return list;
     }
 }
-
 

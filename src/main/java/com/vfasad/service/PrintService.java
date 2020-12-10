@@ -3,6 +3,8 @@ package com.vfasad.service;
 import com.vfasad.entity.Order;
 import com.vfasad.entity.OrderConsume;
 import com.vfasad.entity.OrderStatus;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -13,15 +15,15 @@ import org.springframework.stereotype.Service;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+@Slf4j
 @Service
 public class PrintService {
-    final int FIRST_TABLE_ROW = 5;
+    final static int CURRENT_ROW_NUMBER = 5;
 
     @Value("classpath:templates/xlsx/ReportInProgress.xlsx")
     private File xlsxReportTemplate;
@@ -30,13 +32,10 @@ public class PrintService {
     private OrderService orderService;
 
     public byte[] generateInProgressXlsx() {
-
-        try {
-            FileInputStream file = new FileInputStream(xlsxReportTemplate);
-            XSSFWorkbook workbook = new XSSFWorkbook(file);
+        try (XSSFWorkbook workbook = new XSSFWorkbook(xlsxReportTemplate);
+             ByteArrayOutputStream reportInProgress = new ByteArrayOutputStream()) {
 
             Sheet sheet = workbook.getSheetAt(0);
-
             Row rowDate = sheet.getRow(1);
             Cell cellDate = rowDate.getCell(6);
             SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
@@ -44,38 +43,25 @@ public class PrintService {
 
             List<Order> list = orderService.findByStatus(OrderStatus.IN_PROGRESS);
 
-            int i = FIRST_TABLE_ROW;
+            int i = CURRENT_ROW_NUMBER;
             for (Order order : list) {
-                Cell cell0 = sheet.getRow(i).getCell(0);
-                cell0.setCellValue(order.getId());
-                Cell cell1 = sheet.getRow(i).getCell(1);
-                cell1.setCellValue(order.getDocument());
-                Cell cell2 = sheet.getRow(i).getCell(2);
-                cell2.setCellValue(order.getArea());
+                Row row = sheet.getRow(i);
+                row.getCell(0).setCellValue(order.getId());
+                row.getCell(1).setCellValue(order.getDocument());
+                row.getCell(2).setCellValue(order.getArea());
                 for (OrderConsume orderConsume : order.getConsumes()) {
-                    Cell cell3 = sheet.getRow(i).getCell(3);
-                    cell3.setCellValue(orderConsume.getProduct().getName());
-                    Cell cell4 = sheet.getRow(i).getCell(4);
-                    cell4.setCellValue(orderConsume.getProduct().getProducer());
-                    Cell cell5 = sheet.getRow(i).getCell(5);
-                    cell5.setCellValue(orderConsume.getCalculatedQuantity());
+                    row = sheet.getRow(i);
+                    row.getCell(3).setCellValue(orderConsume.getProduct().getName());
+                    row.getCell(4).setCellValue(orderConsume.getProduct().getProducer());
+                    row.getCell(5).setCellValue(orderConsume.getCalculatedQuantity());
                     i++;
                 }
             }
 
-            ByteArrayOutputStream reportInProgress = new ByteArrayOutputStream();
             workbook.write(reportInProgress);
-            byte[] reportArray = reportInProgress.toByteArray();
-
-            workbook.close();//
-            file.close();
-
-            reportInProgress.close();
-            return reportArray;
-
-        } catch (IOException e) {
-            System.out.println(e);
-            throw new RuntimeException();
+            return reportInProgress.toByteArray();
+        } catch (IOException | InvalidFormatException e) {
+            throw new RuntimeException("Error during xlsx report generating.", e);
         }
     }
 }

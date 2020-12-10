@@ -23,7 +23,7 @@ import java.util.List;
 @Slf4j
 @Service
 public class PrintService {
-    final static int CURRENT_ROW_NUMBER = 5;
+    private final static int FIRST_TABLE_ROW = 5;
 
     @Value("classpath:templates/xlsx/ReportInProgress.xlsx")
     private File xlsxReportTemplate;
@@ -43,18 +43,18 @@ public class PrintService {
 
             List<Order> list = orderService.findByStatus(OrderStatus.IN_PROGRESS);
 
-            int i = CURRENT_ROW_NUMBER;
+            int CURRENT_ROW_NUMBER = FIRST_TABLE_ROW;
             for (Order order : list) {
-                Row row = sheet.getRow(i);
+                Row row = sheet.getRow(CURRENT_ROW_NUMBER);
                 row.getCell(0).setCellValue(order.getId());
                 row.getCell(1).setCellValue(order.getDocument());
                 row.getCell(2).setCellValue(order.getArea());
                 for (OrderConsume orderConsume : order.getConsumes()) {
-                    row = sheet.getRow(i);
+                    row = sheet.getRow(CURRENT_ROW_NUMBER);
                     row.getCell(3).setCellValue(orderConsume.getProduct().getName());
                     row.getCell(4).setCellValue(orderConsume.getProduct().getProducer());
                     row.getCell(5).setCellValue(orderConsume.getCalculatedQuantity());
-                    i++;
+                    CURRENT_ROW_NUMBER++;
                 }
             }
 

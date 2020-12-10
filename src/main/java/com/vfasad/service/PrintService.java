@@ -43,18 +43,18 @@ public class PrintService {
 
             List<Order> list = orderService.findByStatus(OrderStatus.IN_PROGRESS);
 
-            int CURRENT_ROW_NUMBER = FIRST_TABLE_ROW;
+            int currentRowNumber = FIRST_TABLE_ROW;
             for (Order order : list) {
-                Row row = sheet.getRow(CURRENT_ROW_NUMBER);
+                Row row = sheet.getRow(currentRowNumber);
                 row.getCell(0).setCellValue(order.getId());
                 row.getCell(1).setCellValue(order.getDocument());
                 row.getCell(2).setCellValue(order.getArea());
                 for (OrderConsume orderConsume : order.getConsumes()) {
-                    row = sheet.getRow(CURRENT_ROW_NUMBER);
+                    row = sheet.getRow(currentRowNumber);
                     row.getCell(3).setCellValue(orderConsume.getProduct().getName());
                     row.getCell(4).setCellValue(orderConsume.getProduct().getProducer());
                     row.getCell(5).setCellValue(orderConsume.getCalculatedQuantity());
-                    CURRENT_ROW_NUMBER++;
+                    currentRowNumber++;
                 }
             }
 

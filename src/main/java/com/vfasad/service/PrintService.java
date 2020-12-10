@@ -25,7 +25,7 @@ import java.util.List;
 public class PrintService {
     private final static int FIRST_TABLE_ROW = 5;
 
-    @Value("classpath:templates/xlsx/ReportInProgress.xlsx")
+    @Value("${PRINT_INPROGRESS_TEMPLATE_PATH}")
     private File xlsxReportTemplate;
 
     @Autowired
@@ -61,6 +61,7 @@ public class PrintService {
             workbook.write(reportInProgress);
             return reportInProgress.toByteArray();
         } catch (IOException | InvalidFormatException e) {
+            log.error("Error during xlsx report generating.");
             throw new RuntimeException("Error during xlsx report generating.", e);
         }
     }

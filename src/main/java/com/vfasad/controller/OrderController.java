@@ -2,10 +2,7 @@ package com.vfasad.controller;
 
 import com.vfasad.entity.OrderConsume;
 import com.vfasad.entity.Product;
-import com.vfasad.service.ClientService;
-import com.vfasad.service.OptionService;
-import com.vfasad.service.OrderService;
-import com.vfasad.service.ProductService;
+import com.vfasad.service.*;
 import com.vfasad.validation.constraints.ElementMin;
 import com.vfasad.validation.constraints.TodayAndAfterToday;
 import org.hibernate.validator.constraints.NotEmpty;
@@ -14,10 +11,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.constraints.Min;
@@ -29,7 +23,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import static com.vfasad.entity.OrderStatus.IN_PROGRESS;
 import static com.vfasad.entity.User.*;
 
 @Controller
@@ -47,8 +40,12 @@ public class OrderController {
     @Autowired
     private ClientService clientService;
 
+    @Autowired
+    private PrintService printService;
+
     @RequestMapping(value = "/order", method = RequestMethod.GET)
     @Secured({ROLE_ADMIN, ROLE_OPERATOR, ROLE_SALES})
+
     public ModelAndView ordersLastMonth() {
         ModelAndView model = new ModelAndView("order/order-dashboard");
         model.addObject("orders", orderService.findCurrentMonthAndOpenOrders());
@@ -89,10 +86,8 @@ public class OrderController {
 
     @RequestMapping(value = "/order/print/inprogress", method = RequestMethod.GET)
     @Secured({ROLE_ADMIN, ROLE_OPERATOR, ROLE_SALES})
-    public ModelAndView printInProgress() {
-        ModelAndView model = new ModelAndView("order/print/inprogress");
-        model.addObject("orders", orderService.findByStatus(IN_PROGRESS));
-        return model;
+    public  @ResponseBody byte[] printInProgress() {
+        return printService.generateInProgressXlsx();
     }
 
     @RequestMapping(value = "/order/add", method = RequestMethod.GET)
@@ -128,7 +123,7 @@ public class OrderController {
             @RequestParam @NotEmpty @ElementMin(value = 0, message = "Quantities cannot be zero or negative.")
                     List<Double> quantities,
             @RequestParam @TodayAndAfterToday(message = "Planned date should be more or equal to today.")
-            @DateTimeFormat(pattern = "dd.MM.yyyy")LocalDate complete,
+            @DateTimeFormat(pattern = "dd.MM.yyyy") LocalDate complete,
             @RequestParam(required = false) Long clientId) {
         Set<OrderConsume> consumes = new HashSet<>();
 

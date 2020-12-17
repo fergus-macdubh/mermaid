@@ -7,12 +7,12 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum OptionName {
     // reporting
-    SALARY_PAINTER("Зарплата маляра", "грн"),
-    SALARY_LABORER("Зарплата помощника", "грн"),
-    SALARY_MANAGER("Зарплата начцеха", "грн"),
+    SALARY_PAINTER("Ставка маляра", "грн"),
+    SALARY_LABORER("Ставка подсобника", "грн"),
+    SALARY_MANAGER("Ставка мастера", "грн"),
     BONUS_PAINTER("Премия маляра (коэффициент)", ""),
-    BONUS_LABORER("Премия помощника (коэффициент)", ""),
-    BONUS_MANAGER("Премия начцеха (коэффициент)", ""),
+    BONUS_LABORER("Премия подсобника (коэффициент)", ""),
+    BONUS_MANAGER("Премия мастера (коэффициент)", ""),
     ENTERPRENUER_TAX("Налог ФЛП", "грн"),
     ELECTRICITY("Расход электроэнергии", "грн"),
     BUILDING_RENT("Аренда помещения", "грн"),
@@ -34,8 +34,7 @@ public enum OptionName {
     FURNITURE_SMALL_TO_AREA("Пересчет мелкой фурнитуры в м<sup>2</sup>", ""),
     FURNITURE_BIG_TO_AREA("Пересчет крупной фурнитуры в м<sup>2</sup>", ""),
 
-    PAINT_CONSUME("Расчетный расход краски", "кг / м<sup>2</sup>")
-    ;
+    PAINT_CONSUME("Расчетный расход краски", "кг / м<sup>2</sup>");
 
     private String desc;
     private String unit;

@@ -1,5 +1,5 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="Mermaid PROD" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+  <configuration name="Mermaid PROD" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
     <module name="mermaid" />
     <option name="SPRING_BOOT_MAIN_CLASS" value="com.vfasad.Application" />
     <option name="ALTERNATIVE_JRE_PATH" />
